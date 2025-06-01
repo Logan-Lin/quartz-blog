@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {}, serve ? false }:
+{ pkgs ? import <nixpkgs> {}, serve ? false, sync ? true }:
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
@@ -9,7 +9,7 @@ pkgs.mkShell {
 
   shellHook = ''
       rsync -avP --delete ~/Obsidian/Blog/ ./content/ --exclude ".*"
-      ${if serve then '' npx quartz build --serve'' else ''npx quartz sync''}
-      exit
+      ${if serve then '' npx quartz build --serve && exit'' else ''''}
+      ${if sync then ''npx quartz sync && exit'' else ''''}
   '';
 }

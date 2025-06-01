@@ -33,6 +33,9 @@ export const defaultContentPageLayout: PageLayout = {
           Component: Component.Search(),
           grow: true,
         },
+        {
+          Component: Component.DesktopOnly(Component.Darkmode()),
+        },
       ],
     }),
     Component.Explorer(),
@@ -52,6 +55,9 @@ export const defaultListPageLayout: PageLayout = {
         {
           Component: Component.Search(),
           grow: true,
+        },
+        {
+          Component: Component.DesktopOnly(Component.Darkmode()),
         },
       ],
     }),

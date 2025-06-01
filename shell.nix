@@ -9,7 +9,7 @@ pkgs.mkShell {
 
   shellHook = ''
       rsync -avP --delete ~/Obsidian/Blog/ ./content/ --exclude ".*"
-      ${if serve then '' npx quartz build --serve'' else ''npx quartz build''}
+      ${if serve then '' npx quartz build --serve'' else ''npx quartz sync''}
       exit
   '';
 }

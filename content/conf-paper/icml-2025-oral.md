@@ -41,7 +41,7 @@ With a similar idea to network architecture search (NAS), this paper introduces 
 
 These papers focus on enhancing LLMs' capabilities in intelligent exploration of environments and user requests, resulting in more insightful and active LLMs.
 
-#### Training a Generally Curious Agent ([Poster](https://icml.cc/virtual/2025/poster/45106), [arXiv](https://arxiv.org/abs/2502.04180))
+#### Training a Generally Curious Agent ([Poster](https://icml.cc/virtual/2025/poster/45106), [arXiv](https://arxiv.org/abs/2502.17543))
 
 A fine-tuning technique for LLMs that enhances their general decision-making capabilities, ultimately improving LLMs' generalization to entirely unseen tasks without additional training.
 
@@ -181,13 +181,6 @@ A family of generative models based on normalizing flows.
 > [!quote]
 > Normalizing Flows (NFs) are likelihood-based models for continuous inputs. They have demonstrated promising results on both density estimation and generative modeling tasks, but have received relatively little attention in recent years. In this work, we demonstrate that NFs are more powerful than previously believed. We present TarFlow: a simple and scalable architecture that enables highly performant NF models.
 
-#### DeFoG: Discrete Flow Matching for Graph Generation ([Poster](https://icml.cc/virtual/2025/poster/45644), [arXiv](https://arxiv.org/abs/2410.04263))
-
-A graph generation model based on discrete flow matching.
-
-> [!quote]
-> Graph diffusion models achieve superior performance but face inefficient sampling and limited flexibility due to the tight coupling between training and sampling stages. We introduce DeFoG, a novel graph generative framework that disentangles sampling from training, enabling a broader design space for more effective and efficient model optimization.
-
 ## Analysis
 
 #### Train for the Worst, Plan for the Best: Understanding Token Ordering in Masked Diffusions ([Poster](https://icml.cc/virtual/2025/poster/45990), [arXiv](https://arxiv.org/abs/2502.06768))
@@ -214,6 +207,15 @@ Works on (mostly self-supervised) representation learning of graphs.
 
 > [!quote]
 > Node equivalence is common in graphs, encompassing automorphic equivalence (preserving adjacency under node permutations) and attribute equivalence (nodes with identical attributes). Despite their importance for learning node representations, these equivalences are largely ignored by existing graph models. To bridge this gap, we propose a GrAph self-supervised Learning framework with Equivalence (GALE) and analyze its connections to existing techniques.
+
+## Generation
+
+#### DeFoG: Discrete Flow Matching for Graph Generation ([Poster](https://icml.cc/virtual/2025/poster/45644), [arXiv](https://arxiv.org/abs/2410.04263))
+
+A graph generation model based on discrete flow matching.
+
+> [!quote]
+> Graph diffusion models achieve superior performance but face inefficient sampling and limited flexibility due to the tight coupling between training and sampling stages. We introduce DeFoG, a novel graph generative framework that disentangles sampling from training, enabling a broader design space for more effective and efficient model optimization.
 
 # Time Series
 

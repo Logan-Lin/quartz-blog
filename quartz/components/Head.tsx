@@ -85,23 +85,7 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
-
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              var _paq = window._paq = window._paq || [];
-              _paq.push(['trackPageView']);
-              _paq.push(['enableLinkTracking']);
-              (function() {
-                var u="//matomo.yanlincs.com/";
-                _paq.push(['setTrackerUrl', u+'matomo.php']);
-                _paq.push(['setSiteId', '2']);
-                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-              })();
-            `,
-          }}
-        />
+        <script defer src="https://tracker.yanlincs.com/script.js" data-website-id="fdc3a19e-9830-4033-876c-4b5f7c120edf"></script>
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js

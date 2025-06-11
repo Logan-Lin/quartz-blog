@@ -11,7 +11,7 @@ pkgs.mkShell {
       rsync -avP --delete ~/Obsidian/Blog/ ./content/ --exclude ".*"
       ${if serve then '' npx quartz build --serve && exit'' else ''''}
       ${if sync then ''
-        npx quartz build && npx quartz sync && rsync -avP --delete ./{public,compose.yml,nginx.conf} hetzner:/root/blog/
+        npx quartz build && npx quartz sync && rsync -avP --delete ./{public,compose.yml,nginx.conf} personal-vps:/root/blog/
         exit
       '' else ''''}
   '';

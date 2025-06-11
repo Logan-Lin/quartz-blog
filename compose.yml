@@ -1,6 +1,7 @@
 services:
   blog:
     image: nginx:alpine
+    container_name: blog
     volumes:
       - ./public:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf

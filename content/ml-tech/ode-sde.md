@@ -1,11 +1,11 @@
 ---
-title: ODE, SDE, and Shortcut Vector Fields
+title: Shortcuts in ODE and SDE
 draft: false
 ---
 >[!TLDR]
 >In the context of generative modeling, we examine ODEs, SDEs, and two recent works that share the idea of learning shortcuts from a vector field perspective, and discuss the generalization of this idea to both ODE- and SDE-based models.
 
-# Differential Equations and Vector Fields
+# Differential Equations
 
 Let's start with a general scenario of **generative modeling**: suppose you want to generate data $x$ that follows a distribution $p(x)$. In many cases, the exact form of $p(x)$ is unknown. What you can do is follow the idea of *normalizing flow*[^1]: start from a very simple, closed-form distribution $p(x_0)$ (for example, a standard normal distribution), transform this distribution through time $t\in [0, 1]$ with intermediate distributions $p(x_t)$, and finally obtain the estimated distribution $p(x_1)$. By doing this, you are essentially trying to solve a *differential equation (DE)*[^2] that depends on time:
 

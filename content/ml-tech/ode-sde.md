@@ -18,7 +18,7 @@ where $\mu$ is the drift component that is deterministic, and $\sigma$ is the di
 ![[Untitled-2025-06-11-1554 1.png]]
 > Vector field between two distributions specified by a differential equation.
 
-When $\sigma(x_t,t)\equiv 0$, we get an *ordinary differential equation (ODE)*[^6] $\frac{dx_t}{dt}=\mu(x_t,t)$ where the vector field is deterministic, i.e., the movement of $x_t$ is fully determined by $\mu$ and $t$. Otherwise, we get a *stochastic differential equation (SDE)*[^7] where the movement of $x_t$ has a certain level of randomness, described by the diffusion component $\sigma(x_t,t)dW_t$. Extending the previous illustration, below we show the difference in flow of $x_t$ under ODE and SDE:
+When $\sigma(x_t,t)\equiv 0$, we get an *ordinary differential equation (ODE)*[^6] where the vector field is deterministic, i.e., the movement of $x_t$ is fully determined by $\mu$ and $t$. Otherwise, we get a *stochastic differential equation (SDE)*[^7] where the movement of $x_t$ has a certain level of randomness. Extending the previous illustration, below we show the difference in flow of $x_t$ under ODE and SDE:
 
 ![[Pasted image 20250615150129.png]]
 > Difference of movements in vector fields specified by ODE and SDE. *Source: Song, Yang, et al. "Score-based generative modeling through stochastic differential equations."* Note that their time is reversed.
@@ -110,7 +110,7 @@ $$
 > [!note]
 > Of course, in practice shortcut models face the same problem mentioned in the [[#Curvy Vector Field]]: the same data point $x_1$ corresponds to multiple shortcut velocities to different data points $x_0$, making the ground truth shortcut velocity at $x_1$ the average of all possibilities. So, shortcut models have a performance advantage with few sampling steps compared to conventional flow matching models, but typically don't have the same performance with one step versus more steps.
 
-The theory is quite straightforward. The tricky part is in the model training. First, the network expands from learning all possibilities of velocities at $(x_t,t)$ to all velocities at $(x_t,t, \Delta t)$ with $\Delta t\in [0, t]$. Essentially, the shortcut vector field has one more dimension than the instantaneous vector field, making the learning space larger. Second, calculating the ground truth shortcut $x_{t+\Delta t}-x_t$ involves calculating the integral $\int^{t+\Delta t}_t \mu(x_\tau,\tau)d\tau$, which can be computationally heavy.
+The theory is quite straightforward. The tricky part is in the model training. First, the network expands from learning all possibilities of velocities at $(x_t,t)$ to all velocities at $(x_t,t, \Delta t)$ with $\Delta t\in [0, t]$. Essentially, the shortcut vector field has one more dimension than the instantaneous vector field, making the learning space larger. Second, calculating the ground truth shortcut involves calculating integral, which can be computationally heavy.
 
 To tackle these challenges, shortcut models introduce *self-consistency shortcuts*: one shortcut vector with step size $2\Delta t$ should equal two consecutive shortcut vectors both with step size $\Delta t$:
 
@@ -161,7 +161,7 @@ $$
 \frac{d}{dt}u(x_t,r,t)=\frac{dx_t}{dt}\partial_x u+\frac{dr}{dt}\partial_r u+\frac{dt}{dt}\partial_t u
 $$
 
-From the ODE definition $\frac{dx_t}{dt}=\mu(x_t,t)$, and $\frac{dt}{dt}=1$. Since $t$ and $r$ are independent, $\frac{dr}{dt}=0$. Thus, we have:
+From the ODE definition $dx_t/dt=\mu(x_t,t)$, and $dt/dt=1$. Since $t$ and $r$ are independent, ${dr}/{dt}=0$. Thus, we have:
 
 $$
 \frac{d}{dt}u(x_t,r,t)=\mu(x_t,t)\partial_x u+\partial_t u

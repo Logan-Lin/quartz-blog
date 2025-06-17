@@ -6,8 +6,9 @@ import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
 import { pathToRoot } from "../../util/path"
-import { defaultContentPageLayout, sharedPageComponents } from "../../../quartz.layout"
-import { Content } from "../../components"
+import { defaultContentPageLayout, defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
+import { Content, FolderContent } from "../../components"
+import * as Component from "../../components"
 import { styleText } from "util"
 import { write } from "./helpers"
 import { BuildCtx } from "../../util/ctx"
@@ -45,6 +46,45 @@ async function processContent(
   })
 }
 
+async function processRootIndex(
+  ctx: BuildCtx,
+  tree: Node,
+  fileData: QuartzPluginData,
+  allFiles: QuartzPluginData[],
+  resources: StaticResources,
+) {
+  const slug = fileData.slug!
+  const cfg = ctx.cfg.configuration
+  const externalResources = pageResources(pathToRoot(slug), resources)
+  
+  // Use a custom layout for the root index - like list page layout but without breadcrumbs
+  const listOpts: FullPageLayout = {
+    ...sharedPageComponents,
+    ...defaultListPageLayout,
+    // Override beforeBody to exclude breadcrumbs for the root page
+    beforeBody: [Component.ArticleTitle(), Component.ContentMeta()],
+    pageBody: FolderContent(),
+  }
+  
+  const componentData: QuartzComponentProps = {
+    ctx,
+    fileData,
+    externalResources,
+    cfg,
+    children: [],
+    tree,
+    allFiles,
+  }
+
+  const content = renderPage(cfg, slug, componentData, listOpts, externalResources)
+  return write({
+    ctx,
+    content,
+    slug,
+    ext: ".html",
+  })
+}
+
 export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) => {
   const opts: FullPageLayout = {
     ...sharedPageComponents,
@@ -67,6 +107,7 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
         ...header,
         ...beforeBody,
         pageBody,
+        FolderContent(), // Add FolderContent for root index page
         ...afterBody,
         ...left,
         ...right,
@@ -81,6 +122,9 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
         const slug = file.data.slug!
         if (slug === "index") {
           containsIndex = true
+          // Process the root index page with folder-like behavior
+          yield processRootIndex(ctx, tree, file.data, allFiles, resources)
+          continue
         }
 
         // only process home page, non-tag pages, and non-index pages
@@ -112,6 +156,13 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         if (!changedSlugs.has(slug)) continue
+        
+        if (slug === "index") {
+          // Process the root index page with folder-like behavior
+          yield processRootIndex(ctx, tree, file.data, allFiles, resources)
+          continue
+        }
+        
         if (slug.endsWith("/index") || slug.startsWith("tags/")) continue
 
         yield processContent(ctx, tree, file.data, allFiles, opts, resources)

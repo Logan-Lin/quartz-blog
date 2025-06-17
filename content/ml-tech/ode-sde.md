@@ -121,8 +121,8 @@ $$
 The model is then trained with the combination of matching instantaneous vectors and self-consistency shortcuts as below. Notice that we don't train a separate network for matching the instantaneous vectors but leverage the fact that the shortcut $u(x_t,t,\Delta t)$ is the instantaneous velocity when $\Delta t\rightarrow 0$.
 
 $$
-\mathcal{L} = \mathbb{E}_{x_0,x_1,t,\Delta t} \left[ \underbrace{\| u_\theta(x_t, t, 0) - (x_1 - x_0)\|^2}_{\text{Flow-Matching}} +
-\underbrace{\|u_\theta(x_t, t, 2\Delta t) - \text{sg}(\mathbf{u}_{\text{target}})\|^2}_{\text{Self-Consistency}} \right],
+\mathcal{L} = \mathbb{E}_{x_0,x_1,t,\Delta t} [ \underbrace{\| u_\theta(x_t, t, 0) - (x_1 - x_0)\|^2}_{\text{Flow-Matching}} +
+\underbrace{\|u_\theta(x_t, t, 2\Delta t) - \text{sg}(\mathbf{u}_{\text{target}})\|^2}_{\text{Self-Consistency}}],
 $$
 $$
 \quad \mathbf{u}_{\text{target}} = u_\theta(x_t, t, \Delta t)/2 + u_\theta(x'_{t+\Delta t}, t + \Delta t, \Delta t)/2 \quad 
@@ -224,9 +224,7 @@ $$
 where $v(x_t,t)$ is a velocity similar to that in ODE, and $\nabla \log p(x_t)$ is the *score (a.k.a. informant)*[^19] of $x_t$. Without going too deep into the relevant theories, think of the score as a "compass" that points in the direction where $x_t$ becomes more likely to belong to the distribution $p(x_1)$. The beauty of introducing the score is that depending on the definition of ground truth $x_t$, the velocity $v$ can be derived from the score, or vice versa. Then, we only have to focus on building a learnable *score function* $s_\theta(x_t,t)$ to *match* the ground truth score using the loss function below, hence the name score matching:
 
 $$
-\mathcal L=\mathbb E_{x_t,t}\left[
-\|s_\theta(x_t,t)-\nabla \log p(x_t)\|^2
-\right]
+\mathcal L=\mathbb E_{x_t,t} \|s_\theta(x_t,t)-\nabla \log p(x_t)\|^2
 $$
 
 For example, if we have time-dependent coefficients $\alpha_t$ and $\beta_t$ (termed noise schedulers in most diffusion models), and define that $x_t$ follows the distribution given a clean data point $x_1$:
@@ -254,6 +252,8 @@ Below are some preliminary results I obtained from a set of amorphous material g
 
 ![[Untitled-2025-06-11-1554-3.png]]
 > Structural functions of generated materials, sampled in 10 steps.
+
+---
 
 > [!quote] References
 > - Holderrieth and Erives, “An Introduction to Flow Matching and Diffusion Models.”

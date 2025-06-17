@@ -1,39 +1,38 @@
 ---
 title: ODE, SDE, and Shortcut Vector Fields
-draft: true
+draft: false
 ---
 >[!TLDR]
-
-> Editor's note: This post extends my [[one-step-diffusion-models|previous blog on one-step diffusion models]]. After reading the newly published paper by Geng et al., *Mean Flows for One-Step Generative Modeling*, I decided to revisit this topic.
+>In the context of generative modeling, we examine ODEs, SDEs, and two recent works that share the idea of learning shortcuts from a vector field perspective, and discuss the generalization of this idea to both ODE- and SDE-based models.
 
 # Differential Equations and Vector Fields
 
-Let's start with a general scenario of **generative modeling**: suppose you want to generate data $x$ that follows a distribution $p(x)$. In many cases, the exact form of $p(x)$ is unknown. What you can do is follow the idea of *normalizing flow*[^1]: start from a very simple, closed-form distribution $p(x_1)$ (for example, a standard normal distribution), transform this distribution through time $t\in [0, 1]$ with intermediate distributions $p(x_t)$, and finally obtain the estimated distribution $p(x_0)$. By doing this, you are essentially trying to solve a *differential equation (DE)*[^2] that depends on time:
+Let's start with a general scenario of **generative modeling**: suppose you want to generate data $x$ that follows a distribution $p(x)$. In many cases, the exact form of $p(x)$ is unknown. What you can do is follow the idea of *normalizing flow*[^1]: start from a very simple, closed-form distribution $p(x_0)$ (for example, a standard normal distribution), transform this distribution through time $t\in [0, 1]$ with intermediate distributions $p(x_t)$, and finally obtain the estimated distribution $p(x_1)$. By doing this, you are essentially trying to solve a *differential equation (DE)*[^2] that depends on time:
 
 $$
-dx_t=\mu(x_t,t)dt+\sigma(x_t,t)dW_t
+dx_t=\mu(x_t,t)dt+\sigma(x_t,t)dW_t,\quad x_0\sim p(x_0)
 $$
 
-where $\mu$ is the drift component that is deterministic, and $\sigma$ is the diffusion term driven by Brownian motion[^3] (denoted by $W_t$) that is stochastic. This differential equation specifies a *time-dependent vector field*[^4] telling how a data point $x_t$ should be moved as time $t$ evolves from $t=1$ to $t=0$ (i.e., a *flow*[^5] from $x_1$ to $x_0$). Below we give an illustration where $x_t$ is 1-dimensional:
+where $\mu$ is the drift component that is deterministic, and $\sigma$ is the diffusion term driven by Brownian motion[^3] (denoted by $W_t$) that is stochastic. This differential equation specifies a *time-dependent vector (velocity) field*[^4] telling how a data point $x_t$ should be moved as time $t$ evolves from $t=0$ to $t=1$ (i.e., a *flow*[^5] from $x_0$ to $x_1$). Below we give an illustration where $x_t$ is 1-dimensional:
 
-![[Untitled-2025-06-11-1554.png]]
+![[Untitled-2025-06-11-1554 1.png]]
 > Vector field between two distributions specified by a differential equation.
 
 When $\sigma(x_t,t)\equiv 0$, we get an *ordinary differential equation (ODE)*[^6] $\frac{dx_t}{dt}=\mu(x_t,t)$ where the vector field is deterministic, i.e., the movement of $x_t$ is fully determined by $\mu$ and $t$. Otherwise, we get a *stochastic differential equation (SDE)*[^7] where the movement of $x_t$ has a certain level of randomness, described by the diffusion component $\sigma(x_t,t)dW_t$. Extending the previous illustration, below we show the difference in flow of $x_t$ under ODE and SDE:
 
 ![[Pasted image 20250615150129.png]]
-> Difference of movements in vector fields specified by ODE and SDE. *Source: Song, Yang, et al. "Score-based generative modeling through stochastic differential equations."*
+> Difference of movements in vector fields specified by ODE and SDE. *Source: Song, Yang, et al. "Score-based generative modeling through stochastic differential equations."* Note that their time is reversed.
 
-As you would imagine, once we manage to solve the differential equation, even if we still cannot have a closed form of $p(x_0)$, we can sample from $p(x_0)$ by sampling a data point $x_1$ from $p(x_1)$ and get the generated data point $x_0$ by calculating the following reverse-time integral with an integration technique of our choice:
+As you would imagine, once we manage to solve the differential equation, even if we still cannot have a closed form of $p(x_1)$, we can sample from $p(x_1)$ by sampling a data point $x_0$ from $p(x_0)$ and get the generated data point $x_1$ by calculating the following forward-time integral with an integration technique of our choice:
 
 $$
-x_0 = x_1 + \int_1^0 \mu(x_t,t)dt + \int_1^0 \sigma(x_t,t)dW_t
+x_1 = x_0 + \int_0^1 \mu(x_t,t)dt + \int_0^1 \sigma(x_t,t)dW_t
 $$
 
-Or more intuitively, moving $x_1$ towards $x_0$ along time in the vector field:
+Or more intuitively, moving $x_0$ towards $x_1$ along time in the vector field:
 
-![[Untitled-2025-06-11-1554-2.png]]
-> A data point moving from $x_1$ towards $x_0$ in the vector field.
+![[Untitled-2025-06-11-1554-2 1.png]]
+> A flow of data point moving from $x_0$ towards $x_1$ in the vector field.
 
 # ODE and Flow Matching
 
@@ -45,92 +44,220 @@ $$
 \frac{dx_t}{dt}=\mu(x_t,t)
 $$
 
-Essentially, $\mu$ is the vector field. For every possible combinations of data point $x_t$ and time $t$, $\mu(x_t,t)$ is the instantaneous direction and speed in which the point will move. To generate a data point $x_0$, we perform the integral:
+Essentially, $\mu$ is the vector field. For every possible combination of data point $x_t$ and time $t$, $\mu(x_t,t)$ is the instantaneous velocity in which the point will move. To generate a data point $x_1$, we perform the integral:
 
 $$
-x_0=x_1+\int_1^0 \mu(x_t,t)dt
+x_1=x_0+\int_0^1 \mu(x_t,t)dt
 $$
 
-To calculate this integral, a simple and widely adopted method is the Euler method[^8]. Choose $N$ number of of time steps $1=t_N>t_{N-1}>\dots>t_0=0$, and for each integral step $k=N-1, \dots, 0$:
+To calculate this integral, a simple and widely adopted method is the Euler method[^8]. Choose $N$ time steps $0=t_0<t_1<\dots<t_{N-1}<t_N=1$, and for each integral step $k=0,1,\dots,N-1$:
 
 $$
-x_{t_{k-1}} = x_{t_k}+(t_k-t_{k-1})\mu(x_{t_k},t_k)
+x_{t_{k+1}} = x_{t_k}+(t_{k+1}-t_k)\mu(x_{t_k},t_k)
 $$
 
-In other words, it discretize the time span $[0, 1]$ into $N$ time steps, and for each step the data is moved based on the instantaneous direction and speed at the current step.
+In other words, we discretize the time span $[0, 1]$ into $N$ time steps, and for each step the data is moved based on the instantaneous velocity at the current step.
 
-> There are other methods to calculate the integral, of course. For example, one can use the solvers in `torchdiffeq` python package.
+> [!note]
+> There are other methods to calculate the integral, of course. For example, one can use the solvers in the `torchdiffeq` Python package[^9].
 
 ## Flow Matching
 
-In many scenarios, the exact form of the vector field $\mu$ is still unknown. The general idea of flow matching[^9] is to find a ground truth vector field that defines the flow transporting $p(x_1)$ to $p(x_0)$, and build a neural network $\mu_\theta$ that is trained to match the ground truth vector field, hence the name. In practice, this is usually done by independently sample $x_0$ from the training data and $x_1$ from noise, calculate the intermediate data point $x_t$ and the ground truth vector $\mu(x_t,t)$, and minimize the deviation between $\mu_\theta(x_t,t)$ and $\mu(x_t,t)$.
+In many scenarios, the exact form of the vector field $\mu$ is unknown. The general idea of *flow matching*[^10] is to find a ground truth vector field that defines the *flow* transporting $p(x_0)$ to $p(x_1)$, and build a neural network $\mu_\theta$ that is trained to *match* the ground truth vector field, hence the name. In practice, this is usually done by independently sampling $x_0$ from the noise and $x_1$ from the training data, calculating the intermediate data point $x_t$ and the ground truth velocity $\mu(x_t,t)$, and minimizing the deviation between $\mu_\theta(x_t,t)$ and $\mu(x_t,t)$.
 
-Ideally, the ground truth vector field should be as straight as possible, so we can use a small number of $N$ steps to calculate the ODE integral. Thus, the ground truth vector is usually defined following the optimal transport map:
+Ideally, the ground truth vector field should be as straight as possible, so we can use a small number of $N$ steps to calculate the ODE integral. Thus, the ground truth velocity is usually defined following the optimal transport flow map:
 
 $$
-x_t=tx_1+(1-t)x_0,\mu(x_t,t)=x_0-x_1
+x_t=tx_1+(1-t)x_0,\quad\mu(x_t,t)=x_1-x_0
 $$
 
 And a neural network $\mu_\theta$ is trained to match the ground truth vectors as:
 
 $$
-\mathcal L=\mathbb E_{x_0,x_1,t}\parallel \mu_\theta(x_t,t)-(x_0-x_1)\parallel^2
+\mathcal L=\mathbb E_{x_0,x_1,t}\| \mu_\theta(x_t,t)-(x_1-x_0)\|^2
 $$
 
 ## Curvy Vector Field
 
-Although the ground truth vector field is designed to be straight, in practice it is usually not. When the data space is high-dimensional and the target distribution $p(x_0)$ is complex, there will be multiple pairs of $(x_0, x_1)$ that result in the same intermediate data point $x_t$, thus multiple vectors $x_0-x_1$. At the end of day, the actual ground truth vector at $x_t$ will be the average of all possible vectors $x_0-x_1$ that pass through $x_t$. This will lead to a "curvy" vector field, illustrated as follows:
+Although the ground truth vector field is designed to be straight, in practice it usually is not. When the data space is high-dimensional and the target distribution $p(x_0)$ is complex, there will be multiple pairs of $(x_0, x_1)$ that result in the same intermediate data point $x_t$, thus multiple velocities $x_1-x_0$. At the end of the day, the actual ground truth velocity at $x_t$ will be the average of all possible velocities $x_1-x_0$ that pass through $x_t$. This will lead to a "curvy" vector field, illustrated as follows:
 
 ![[Pasted image 20250616092835.png]]
-> Left: multiple vectors passing through the same intermediate data point. Right: the result ground truth vector field. *Source: Geng, Zhengyang, et al. "Mean Flows for One-step Generative Modeling."* Note $z_t$ and $v$ in the figure correspond to $x_t$ and $\mu$ in this post, respectively.
+> Left: multiple vectors passing through the same intermediate data point. Right: the resulting ground truth vector field. *Source: Geng, Zhengyang, et al. "Mean Flows for One-step Generative Modeling."* Note $z_t$ and $v$ in the figure correspond to $x_t$ and $\mu$ in this post, respectively.
 
-As we discussed, when you calculate the ODE integral, you are using the instantaneous direction and speed--tangent of the curves in the vector field--of each step. You would imagine this will lead to subpar performance when using few number $N$ of steps, as demonstrated below:
+As we discussed, when you calculate the ODE integral, you are using the instantaneous velocity--tangent of the curves in the vector field--of each step. You would imagine this will lead to subpar performance when using a small number $N$ of steps, as demonstrated below:
 
 ![[Pasted image 20250616093805.png]]
-> Native flow matching models fail at few-step sampling. *Source: Frans, Kevin, et al. "One step diffusion via shortcut models."* Note that the time is reversed in the figure.
+> Native flow matching models fail at few-step sampling. *Source: Frans, Kevin, et al. "One step diffusion via shortcut models."*
 
 ## Shortcut Vector Field
 
-If we cannot straighten the ground truth vector field, can we tackle the problem of few-step sampling by learning vectors that properly jump across long time steps instead of learning the instantaneous vectors? Yes we can.
+If we cannot straighten the ground truth vector field, can we tackle the problem of few-step sampling by learning velocities that properly jump across long time steps instead of learning the instantaneous velocities? Yes, we can.
 
 ### Shortcut Models
 
-Shortcut models[^10] implement the above idea by training a network $u_\theta(x_t,t,\Delta t)$ to match the *vectors that jump across long time steps* (termed *shortcuts* in the paper). A ground truth shortcut $u(x_t,t,\Delta t)$ will be the vector pointing from $x_t$ to $x_{t-\Delta t}$. Ideally, you can transform $x_1$ to $x_0$ within one step with the learned shortcuts:
+Shortcut models[^11] implement the above idea by training a network $u_\theta(x_t,t,\Delta t)$ to match the *velocities that jump across long time steps* (termed *shortcuts* in the paper). A ground truth shortcut $u(x_t,t,\Delta t)$ will be the velocity pointing from $x_t$ to $x_{t+\Delta t}$, formally:
 
 $$
-x_0=x_1+u(x_1,1,1)
+u(x_t,t,\Delta t)=\frac{1}{\Delta t}\int_t^{t+\Delta t}\mu(x_\tau,\tau)d\tau
+$$
+
+Ideally, you can transform $x_0$ to $x_1$ within one step with the learned shortcuts:
+
+$$
+x_1\approx x_0+u_\theta(x_0,0,1)
 $$
 
 > [!note]
-> Of course, in practice shortcut models face the same problem mentioned in the [[#Curvy Vector Field]]: the same data point $x_1$ corresponds to multiple shortcut vectors to different data points $x_0$, making the ground truth shortcut vector at $x_1$ being the average of all possibilities. So, the shortcut models have performance advantage with few sampling steps compared to conventional flow matching models, but typically don't have the same performance with one step versus more steps.
+> Of course, in practice shortcut models face the same problem mentioned in the [[#Curvy Vector Field]]: the same data point $x_1$ corresponds to multiple shortcut velocities to different data points $x_0$, making the ground truth shortcut velocity at $x_1$ the average of all possibilities. So, shortcut models have a performance advantage with few sampling steps compared to conventional flow matching models, but typically don't have the same performance with one step versus more steps.
 
-The theory is quite straight-forward. The tricky part is in the model training. First, the network expands from learning all possibilities of vectors at $(x_t,t)$ to all shortcuts at $(x_t,t, \Delta t)$ with $\Delta t\in [0, t]$. Essentially the shortcut vector field have one more dimension than the instantaneous vector field, making the learning space larger. Second, calculating the ground truth vector $x_{t-\Delta t}-x_t$ involves calculating the integral $\int^{t-\Delta t}_t \mu(x_t,t)$, which can be computational heavy.
+The theory is quite straightforward. The tricky part is in the model training. First, the network expands from learning all possibilities of velocities at $(x_t,t)$ to all velocities at $(x_t,t, \Delta t)$ with $\Delta t\in [0, t]$. Essentially, the shortcut vector field has one more dimension than the instantaneous vector field, making the learning space larger. Second, calculating the ground truth shortcut $x_{t+\Delta t}-x_t$ involves calculating the integral $\int^{t+\Delta t}_t \mu(x_\tau,\tau)d\tau$, which can be computationally heavy.
 
-To tackle these challenges, shortcut models introduce *self-consistency shortcuts*: one shortcut vector with step size $2\Delta t$ should equals two consecutive shortcut vectors both with step size $\Delta t$:
-
-$$
-u(x_t,t,2\Delta t)=u(x_t,t,\Delta t)/2+u(x_{t-\Delta t},t-\Delta t,\Delta t)/2
-$$
-
-The model is then trained with the combination of matching instantaneous vectors and self-consistency shortcuts as below. Notice that we don't train a separate network for matching the instantaneous vectors but leveraging the fact that the shortcut $u(x_t,t,\Delta t)$ is the instantaneous vector when $\Delta t\rightarrow 0$.
+To tackle these challenges, shortcut models introduce *self-consistency shortcuts*: one shortcut vector with step size $2\Delta t$ should equal two consecutive shortcut vectors both with step size $\Delta t$:
 
 $$
-\mathcal{L} = \mathbb{E} [ \underbrace{\| u_\theta(x_t, t, 0) - (x_0 - x_1)\|^2}_{\text{Flow-Matching}} +
-\underbrace{\|u_\theta(x_t, t, 2\Delta t) - \mathbf{u}_{\text{target}}\|^2}_{\text{Self-Consistency}}],
-$$
-$$
-\quad \mathbf{u}_{\text{target}} = u_\theta(x_t, t, \Delta t)/2 + u_\theta(x'_{t-\Delta t}, t - \Delta t, \Delta t)/2 \quad 
-\text{and} \quad x'_{t-\Delta t} = x_t + \Delta t \cdot u_\theta(x_t, t, \Delta t)
+u(x_t,t,2\Delta t)=u(x_t,t,\Delta t)/2+u(x_{t+\Delta t},t+\Delta t,\Delta t)/2
 $$
 
-Where $\mathbf{u}_\text{target}$ is detached from back propagation acting as a pseudo ground truth. Below is an illustration of the training process provided in the original paper.
+The model is then trained with the combination of matching instantaneous vectors and self-consistency shortcuts as below. Notice that we don't train a separate network for matching the instantaneous vectors but leverage the fact that the shortcut $u(x_t,t,\Delta t)$ is the instantaneous velocity when $\Delta t\rightarrow 0$.
+
+$$
+\mathcal{L} = \mathbb{E}_{x_0,x_1,t,\Delta t} \left[ \underbrace{\| u_\theta(x_t, t, 0) - (x_1 - x_0)\|^2}_{\text{Flow-Matching}} +
+\underbrace{\|u_\theta(x_t, t, 2\Delta t) - \text{sg}(\mathbf{u}_{\text{target}})\|^2}_{\text{Self-Consistency}} \right],
+$$
+$$
+\quad \mathbf{u}_{\text{target}} = u_\theta(x_t, t, \Delta t)/2 + u_\theta(x'_{t+\Delta t}, t + \Delta t, \Delta t)/2 \quad 
+\text{and} \quad x'_{t+\Delta t} = x_t + \Delta t \cdot u_\theta(x_t, t, \Delta t)
+$$
+
+Where $\text{sg}$ is stop gradient, i.e., detach $\mathbf{u}_\text{target}$ from back propagation, making it a pseudo ground truth. Below is an illustration of the training process provided in the original paper.
 
 ![[Pasted image 20250616100336.png]]
 > Training of the shortcut models with self-consistency loss.
 
 ### Mean Flow
 
+Mean flow[^12] is another work sharing the idea of learning velocities that take large step size shortcuts but with a stronger theoretical foundation and a different approach to training.
+
+![[Pasted image 20250616173056.png]]
+> Illustration of the average velocity provided in the original paper.
+
+Mean flow defines an *average velocity* as a shortcut from current time $r$ to the next time $t$ where $r$ and $t$ are independent:
+
+$$
+u(x_t,r,t)=\frac{1}{t-r}\int_{r}^t \mu(x_\tau,\tau)d\tau
+$$
+
+This average velocity is essentially equivalent to a *shortcut* in shortcut models given $\Delta t=t-r$. What differentiates mean flow from shortcut models is that mean flow aims to provide a ground truth of the vector field defined by $u(x_t,r,t)$, and directly train a network $u_\theta(x_t,r,t)$ to match the ground truth.
+
+We transform the above equation by differentiate both sides with respect to $t$ and rearrange components, and get:
+
+$$
+u(x_t,r,t)=\mu(x_t,t)-(t-r)\frac{d}{dt}u(x_t,r,t)
+$$
+
+We get the average velocity on the left, and the instantaneous vector and the time derivative components on the right. This defines the ground truth average vector field, and our goal now is to calculate the right side. We already know that the ground truth instantaneous velocity $\mu(x_t,t)=x_1-x_0$. To compute the time derivative component, we can expand it in terms of partial derivatives:
+
+$$
+\frac{d}{dt}u(x_t,r,t)=\frac{dx_t}{dt}\partial_x u+\frac{dr}{dt}\partial_r u+\frac{dt}{dt}\partial_t u
+$$
+
+From the ODE definition $\frac{dx_t}{dt}=\mu(x_t,t)$, and $\frac{dt}{dt}=1$. Since $t$ and $r$ are independent, $\frac{dr}{dt}=0$. Thus, we have:
+
+$$
+\frac{d}{dt}u(x_t,r,t)=\mu(x_t,t)\partial_x u+\partial_t u
+$$
+
+This means the time derivative component is the vector product between $[\partial_x u,\partial_r u,\partial_t u]$ and $[\mu,0,1]$. In practice, this can be computed using the Jacobian vector product (JVP) functions in NN libraries, such as the `torch.func.jvp` function in PyTorch. In summary, the mean flow loss function is:
+
+$$
+\mathcal L=\mathbb E_{x_t,r,t}\|u_\theta(x_t,r,t)-\text{sg}(\mu(x_t,t)-(\mu(x_t,t)\partial_x u_\theta+\partial_t u_\theta))\|^2
+$$
+
+Notice that the JVP computation inside $\text{sg}$ is performed with the network $u_\theta$ itself. In this regard, this loss function shares a similar idea with the self-consistency loss in shortcut models--supervising the network with output produced by the network itself.
+
+### Extended Reading: Rectified Flow
+
+Both shortcut models and mean flow are built on top of the ground truth curvy ODE field. They don't modify the field $\mu$, but rather try to learn shortcut velocities that can traverse the field with fewer Euler steps. This is reflected in their loss function design: shortcut models' loss function specifically includes a standard flow matching component, and mean flow's loss function is derived from the relationship between vector fields $\mu$ and $u$.
+
+Rectified flow[^13], another family of flow matching models that aims to achieve one-step sampling, is fundamentally different in this regard. It aims to replace the original ground truth ODE field with a new one with straight flows. Ideally, the resulting ODE field has zero curvature, enabling one-step integration with the simple Euler method. This usually involves augmentation of the training data and a repeated *reflow* process.
+
+We won't discuss rectified flow in further detail in this post, but it's worth pointing out its difference from shortcut models and mean flow.
+
 # SDE and Score Matching
+
+## SDE in Generative Modeling
+
+SDE, as its name suggests, is a differential equation with a stochastic component. Recall the general differential equation we introduced at the beginning:
+
+$$
+dx_t=\mu(x_t,t)dt+\sigma(x_t,t)dW_t
+$$
+
+In practice, the diffusion term $\sigma$ usually only depends on $t$, so we will use the simpler formula going forward:
+
+$$
+dx_t=\mu(x_t,t)dt+\sigma(t)dW_t
+$$
+
+$W_t$ is the Brownian motion (a.k.a. standard Wiener process). In practice, its behavior over time $t$ can be described as $W_{t+\Delta t}-W_t\sim \mathcal N(0, \Delta t)$. This is the source of SDE's stochasticity, and also why people like to call the family of SDE-based generative models *diffusion models*[^14], since Brownian motion is derived from physical diffusion processes[^15].
+ 
+In the context of generative modeling, the stochasticity in SDE means it can theoretically handle augmented data or data that is stochastic in nature (e.g., financial data) more gracefully. Practically, it also enables techniques such as stochastic control guidance[^16]. At the same time, it also means SDE is mathematically more complicated compared to ODE. We no longer have a deterministic vector field $\mu$ specifying flows of data points $x_0$ moving towards $x_1$. Instead, both $\mu$ and $\sigma$ have to be designed to ensure that the SDE leads to the target distribution $p(x_1)$ we want.
+
+To solve the SDE, similar to the Euler method used for solving ODE, we can use the Euler-Maruyama method[^17]:
+
+$$
+x_{t_{k+1}}=x_{t_k}+(t_{k+1}-t_k)\mu(x_t,t)+\sqrt{t_{k+1}-t_k}\sigma(t)\epsilon,\quad \epsilon\sim\mathcal N(0,1)
+$$
+
+In other words, we move the data point guided by the velocity $\mu(x_t,t)$ plus a bit of Gaussian noise scaled by $\sqrt{t_{k+1}-t_k}\sigma(t)$.
+
+## Score Matching
+
+In SDE, the exact form of the vector field $\mu$ is still (quite likely) unknown. To solve this, the general idea is consistent with flow matching: we want to find the ground truth $\mu(x_t,t)$ and build a neural network $\mu_\theta(x_t,t)$ to match it.
+
+Score matching models[^18] implement this idea by parameterizing $\mu$ as:
+
+$$
+\mu(x_t,t)=v(x_t,t)+\frac{\sigma^2(t)}{2}\nabla \log p(x_t)
+$$
+
+where $v(x_t,t)$ is a velocity similar to that in ODE, and $\nabla \log p(x_t)$ is the *score (a.k.a. informant)*[^19] of $x_t$. Without going too deep into the relevant theories, think of the score as a "compass" that points in the direction where $x_t$ becomes more likely to belong to the distribution $p(x_1)$. The beauty of introducing the score is that depending on the definition of ground truth $x_t$, the velocity $v$ can be derived from the score, or vice versa. Then, we only have to focus on building a learnable *score function* $s_\theta(x_t,t)$ to *match* the ground truth score using the loss function below, hence the name score matching:
+
+$$
+\mathcal L=\mathbb E_{x_t,t}\left[
+\|s_\theta(x_t,t)-\nabla \log p(x_t)\|^2
+\right]
+$$
+
+For example, if we have time-dependent coefficients $\alpha_t$ and $\beta_t$ (termed noise schedulers in most diffusion models), and define that $x_t$ follows the distribution given a clean data point $x_1$:
+
+$$
+p(x_t)=\mathcal N(\alpha_t x_1,\beta^2_t)
+$$
+
+then we will have:
+
+$$
+\nabla \log p(x_t)=-\frac{x_t-\alpha_t x_1}{\beta^2_t},\quad
+v(x_t,t) = \left(\beta_t^2 \frac{\partial_t\alpha_t}{\alpha_t} - (\partial_t\beta_t) \beta_t\right) \nabla \log p(x_t) + \frac{\partial_t\alpha_t}{\alpha_t} x_t
+$$
+
+Some works[^14] also propose to re-parameterize the score function with noise $\epsilon$ sampled from a standard normal distribution, so that the neural network can be a learnable denoiser $\epsilon_\theta(x_t,t)$ that matches the noise rather than the score. Since $s_\theta=-\epsilon_\theta / \sigma(t)$, both approaches are equivalent.
+
+## Shortcuts in SDE
+
+Most existing efforts sharing the idea of shortcut vector fields are grounded in ODEs. However, given the correlations between SDE and ODE, learning an SDE that follows the same idea should be straightforward. Generally speaking, SDE training, similar to ODE, focuses on the deterministic drift component $\mu$. One should be able to, for example, use the same mean flow loss function to train a score function for solving an SDE.
+
+One caveat of training a "shortcut SDE" is that the ideal result of one-step sampling contradicts the stochastic nature of SDE--if you are going to perform the sampling in one step, you are probably better off using ODE to begin with. Still, I believe it would be useful to train an SDE so that its benefits versus ODE are preserved, while still enabling the lowering of sampling steps $N$ for improved computational efficiency.
+
+Below are some preliminary results I obtained from a set of amorphous material generation experiments. You don't need to understand the figure--just know that it shows that applying the idea of learning shortcuts to SDE does yield better results compared to the vanilla SDE when using few-step sampling.
+
+![[Untitled-2025-06-11-1554-3.png]]
+> Structural functions of generated materials, sampled in 10 steps.
+
+> [!quote] References
+> - Holderrieth and Erives, “An Introduction to Flow Matching and Diffusion Models.”
+> - Song and Ermon, “Generative Modeling by Estimating Gradients of the Data Distribution.”
 
 [^1]: Rezende, Danilo, and Shakir Mohamed. "Variational inference with normalizing flows."
 [^2]: https://en.wikipedia.org/wiki/Differential_equation
@@ -140,5 +267,14 @@ Where $\mathbf{u}_\text{target}$ is detached from back propagation acting as a p
 [^6]: https://en.wikipedia.org/wiki/Ordinary_differential_equation
 [^7]: https://en.wikipedia.org/wiki/Stochastic_differential_equation
 [^8]: https://en.wikipedia.org/wiki/Euler_method
-[^9]: Lipman, Yaron, et al. "Flow matching for generative modeling."
-[^10]: Frans, Kevin, et al. "One step diffusion via shortcut models.
+[^9]: https://github.com/rtqichen/torchdiffeq
+[^10]: Lipman, Yaron, et al. "Flow matching for generative modeling."
+[^11]: Frans, Kevin, et al. "One step diffusion via shortcut models.
+[^12]: Geng, Zhengyang, et al. "Mean Flows for One-step Generative Modeling."
+[^13]: Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow
+[^14]: Ho, Jonathan, Ajay Jain, and Pieter Abbeel. "Denoising diffusion probabilistic models."
+[^15]: https://en.wikipedia.org/wiki/Diffusion_process
+[^16]: Huang et al., “Symbolic Music Generation with Non-Differentiable Rule Guided Diffusion.”
+[^17]: https://en.wikipedia.org/wiki/Euler–Maruyama_method
+[^18]: Song et al., “Score-Based Generative Modeling through Stochastic Differential Equations.”
+[^19]: https://en.wikipedia.org/wiki/Informant_(statistics)

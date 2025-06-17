@@ -15,7 +15,7 @@ $$
 
 where $\mu$ is the drift component that is deterministic, and $\sigma$ is the diffusion term driven by Brownian motion[^3] (denoted by $W_t$) that is stochastic. This differential equation specifies a *time-dependent vector (velocity) field*[^4] telling how a data point $x_t$ should be moved as time $t$ evolves from $t=0$ to $t=1$ (i.e., a *flow*[^5] from $x_0$ to $x_1$). Below we give an illustration where $x_t$ is 1-dimensional:
 
-![[Untitled-2025-06-11-1554 1.png]]
+![[Untitled-2025-06-11-1554-4.png]]
 > Vector field between two distributions specified by a differential equation.
 
 When $\sigma(x_t,t)\equiv 0$, we get an *ordinary differential equation (ODE)*[^6] where the vector field is deterministic, i.e., the movement of $x_t$ is fully determined by $\mu$ and $t$. Otherwise, we get a *stochastic differential equation (SDE)*[^7] where the movement of $x_t$ has a certain level of randomness. Extending the previous illustration, below we show the difference in flow of $x_t$ under ODE and SDE:

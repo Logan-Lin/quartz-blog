@@ -3,7 +3,7 @@ title: Shortcuts in ODE and SDE
 draft: false
 ---
 >[!TLDR]
->In the context of generative modeling, we examine ODEs, SDEs, and two recent works that share the idea of learning shortcuts from a vector field perspective, and discuss the generalization of this idea to both ODE- and SDE-based models.
+>In the context of generative modeling, we examine ODEs, SDEs, and two recent works that share the idea of learning shortcuts that traverse through vector fields defined by ODEs faster. We then discuss the generalization of this idea to both ODE- and SDE-based models.
 
 # Differential Equations
 

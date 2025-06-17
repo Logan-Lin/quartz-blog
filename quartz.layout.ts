@@ -29,21 +29,14 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        {
-          Component: Component.DesktopOnly(Component.Darkmode()),
-        },
-      ],
-    }),
     Component.Explorer(),
     Component.DesktopOnly(Component.RecentNotes()),
   ],
-  right: [Component.DesktopOnly(Component.TableOfContents()), Component.Backlinks()],
+  right: [
+    Component.Darkmode(),
+    Component.DesktopOnly(Component.TableOfContents()),
+    Component.DesktopOnly(Component.Backlinks()),
+  ],
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
@@ -52,19 +45,10 @@ export const defaultListPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        {
-          Component: Component.DesktopOnly(Component.Darkmode()),
-        },
-      ],
-    }),
     Component.Explorer(),
     Component.DesktopOnly(Component.RecentNotes()),
   ],
-  right: [],
+  right: [
+    Component.Darkmode(),
+  ],
 }

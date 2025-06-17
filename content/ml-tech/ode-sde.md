@@ -155,7 +155,7 @@ $$
 u(x_t,r,t)=\mu(x_t,t)-(t-r)\frac{d}{dt}u(x_t,r,t)
 $$
 
-We get the average velocity on the left, and the instantaneous vector and the time derivative components on the right. This defines the ground truth average vector field, and our goal now is to calculate the right side. We already know that the ground truth instantaneous velocity $\mu(x_t,t)=x_1-x_0$. To compute the time derivative component, we can expand it in terms of partial derivatives:
+We get the average velocity on the left, and the instantaneous velocity and the time derivative components on the right. This defines the ground truth average vector field, and our goal now is to calculate the right side. We already know that the ground truth instantaneous velocity $\mu(x_t,t)=x_1-x_0$. To compute the time derivative component, we can expand it in terms of partial derivatives:
 
 $$
 \frac{d}{dt}u(x_t,r,t)=\frac{dx_t}{dt}\partial_x u+\frac{dr}{dt}\partial_r u+\frac{dt}{dt}\partial_t u

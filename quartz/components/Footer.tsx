@@ -8,8 +8,13 @@ interface Options {
 export default ((opts?: Options) => {
   const Footer: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
     const links = opts?.links ?? []
+    const year = new Date().getFullYear()
     return (
       <footer class={`${displayClass ?? ""}`}>
+        <p>
+          © {year} Yan Lin. Content licensed under {" "}
+          <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+        </p>
         <ul>
           {Object.entries(links).map(([text, link]) => (
             <li>

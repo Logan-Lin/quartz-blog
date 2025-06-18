@@ -79,7 +79,7 @@ $$
 
 ## Curvy Vector Field
 
-Although the ground truth vector field is designed to be straight, in practice it usually is not. When the data space is high-dimensional and the target distribution $p(x_0)$ is complex, there will be multiple pairs of $(x_0, x_1)$ that result in the same intermediate data point $x_t$, thus multiple velocities $x_1-x_0$. At the end of the day, the actual ground truth velocity at $x_t$ will be the average of all possible velocities $x_1-x_0$ that pass through $x_t$. This will lead to a "curvy" vector field, illustrated as follows:
+Although the ground truth vector field is designed to be straight, in practice it usually is not. When the data space is high-dimensional and the target distribution $p(x_1)$ is complex, there will be multiple pairs of $(x_0, x_1)$ that result in the same intermediate data point $x_t$, thus multiple velocities $x_1-x_0$. At the end of the day, the actual ground truth velocity at $x_t$ will be the average of all possible velocities $x_1-x_0$ that pass through $x_t$. This will lead to a "curvy" vector field, illustrated as follows:
 
 ![[Pasted image 20250616092835.png]]
 > Left: multiple vectors passing through the same intermediate data point. Right: the resulting ground truth vector field. *Source: Geng, Zhengyang, et al. "Mean Flows for One-step Generative Modeling."* Note $z_t$ and $v$ in the figure correspond to $x_t$ and $\mu$ in this post, respectively.
@@ -170,7 +170,7 @@ $$
 This means the time derivative component is the vector product between $[\partial_x u,\partial_r u,\partial_t u]$ and $[\mu,0,1]$. In practice, this can be computed using the Jacobian vector product (JVP) functions in NN libraries, such as the `torch.func.jvp` function in PyTorch. In summary, the mean flow loss function is:
 
 $$
-\mathcal L=\mathbb E_{x_t,r,t}\|u_\theta(x_t,r,t)-\text{sg}(\mu(x_t,t)-(\mu(x_t,t)\partial_x u_\theta+\partial_t u_\theta))\|^2
+\mathcal L=\mathbb E_{x_t,r,t}\|u_\theta(x_t,r,t)-\text{sg}(\mu(x_t,t)-(t-r)(\mu(x_t,t)\partial_x u_\theta+\partial_t u_\theta))\|^2
 $$
 
 Notice that the JVP computation inside $\text{sg}$ is performed with the network $u_\theta$ itself. In this regard, this loss function shares a similar idea with the self-consistency loss in shortcut models--supervising the network with output produced by the network itself.
@@ -245,6 +245,9 @@ Some works[^14] also propose to re-parameterize the score function with noise $\
 ## Shortcuts in SDE
 
 Most existing efforts sharing the idea of shortcut vector fields are grounded in ODEs. However, given the correlations between SDE and ODE, learning an SDE that follows the same idea should be straightforward. Generally speaking, SDE training, similar to ODE, focuses on the deterministic drift component $\mu$. One should be able to, for example, use the same mean flow loss function to train a score function for solving an SDE.
+
+> [!Note]
+> Needless to say, generalizing shortcut models and mean flow to flow matching models with ground truth vector fields other than optimal transport flow requires no modification either, since most such models (e.g., Bayesian flow) are ultimately grounded in ODE.
 
 One caveat of training a "shortcut SDE" is that the ideal result of one-step sampling contradicts the stochastic nature of SDE--if you are going to perform the sampling in one step, you are probably better off using ODE to begin with. Still, I believe it would be useful to train an SDE so that its benefits versus ODE are preserved, while still enabling the lowering of sampling steps $N$ for improved computational efficiency.
 

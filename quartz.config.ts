@@ -9,7 +9,7 @@ import * as Plugin from "./quartz/plugins"
 const config: QuartzConfig = {
   configuration: {
     pageTitle: "Yan Lin's Blog",
-    pageTitleSuffix: "",
+    pageTitleSuffix: " - Yan Lin's Blog",
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
@@ -27,7 +27,7 @@ const config: QuartzConfig = {
       },
       colors: {
         lightMode: {
-          light: "#faf8f8",
+          light: "#fff",
           lightgray: "#e5e5e5",
           gray: "#b8b8b8",
           darkgray: "#4e4e4e",

@@ -112,13 +112,13 @@ $$
 
 The theory is quite straightforward. The tricky part is in the model training. First, the network expands from learning all possibilities of velocities at $(x_t,t)$ to all velocities at $(x_t,t, \Delta t)$ with $\Delta t\in [0, t]$. Essentially, the shortcut vector field has one more dimension than the instantaneous vector field, making the learning space larger. Second, calculating the ground truth shortcut involves calculating integral, which can be computationally heavy.
 
-To tackle these challenges, shortcut models introduce *self-consistency shortcuts*: one shortcut vector with step size $2\Delta t$ should equal two consecutive shortcut vectors both with step size $\Delta t$:
+To tackle these challenges, shortcut models introduce *self-consistency shortcuts*: one shortcut with step size $2\Delta t$ should equal two consecutive shortcuts both with step size $\Delta t$:
 
 $$
 u(x_t,t,2\Delta t)=u(x_t,t,\Delta t)/2+u(x_{t+\Delta t},t+\Delta t,\Delta t)/2
 $$
 
-The model is then trained with the combination of matching instantaneous vectors and self-consistency shortcuts as below. Notice that we don't train a separate network for matching the instantaneous vectors but leverage the fact that the shortcut $u(x_t,t,\Delta t)$ is the instantaneous velocity when $\Delta t\rightarrow 0$.
+The model is then trained with the combination of matching instantaneous velocities and self-consistency shortcuts as below. Notice that we don't train a separate network for matching the instantaneous vectors but leverage the fact that the shortcut $u(x_t,t,\Delta t)$ is the instantaneous velocity when $\Delta t\rightarrow 0$.
 
 $$
 \mathcal{L} = \mathbb{E}_{x_0,x_1,t,\Delta t} [ \underbrace{\| u_\theta(x_t, t, 0) - (x_1 - x_0)\|^2}_{\text{Flow-Matching}} +
@@ -141,7 +141,7 @@ Mean flow[^12] is another work sharing the idea of learning velocities that take
 ![[Pasted image 20250616173056.png]]
 > Illustration of the average velocity provided in the original paper.
 
-Mean flow defines an *average velocity* as a shortcut from current time $r$ to the next time $t$ where $r$ and $t$ are independent:
+Mean flow defines an *average velocity* as a shortcut between times $t$ and $r$ where $t$ and $r$ are independent:
 
 $$
 u(x_t,r,t)=\frac{1}{t-r}\int_{r}^t \mu(x_\tau,\tau)d\tau
@@ -152,7 +152,7 @@ This average velocity is essentially equivalent to a *shortcut* in shortcut mode
 We transform the above equation by differentiate both sides with respect to $t$ and rearrange components, and get:
 
 $$
-u(x_t,r,t)=\mu(x_t,t)-(t-r)\frac{d}{dt}u(x_t,r,t)
+u(x_t,r,t)=\mu(x_t,t)+(r-t)\frac{d}{dt}u(x_t,r,t)
 $$
 
 We get the average velocity on the left, and the instantaneous velocity and the time derivative components on the right. This defines the ground truth average vector field, and our goal now is to calculate the right side. We already know that the ground truth instantaneous velocity $\mu(x_t,t)=x_1-x_0$. To compute the time derivative component, we can expand it in terms of partial derivatives:
@@ -170,10 +170,17 @@ $$
 This means the time derivative component is the vector product between $[\partial_x u,\partial_r u,\partial_t u]$ and $[\mu,0,1]$. In practice, this can be computed using the Jacobian vector product (JVP) functions in NN libraries, such as the `torch.func.jvp` function in PyTorch. In summary, the mean flow loss function is:
 
 $$
-\mathcal L=\mathbb E_{x_t,r,t}\|u_\theta(x_t,r,t)-\text{sg}(\mu(x_t,t)-(t-r)(\mu(x_t,t)\partial_x u_\theta+\partial_t u_\theta))\|^2
+\mathcal L=\mathbb E_{x_t,r,t}\|u_\theta(x_t,r,t)-\text{sg}(\mu(x_t,t)+(r-t)(\mu(x_t,t)\partial_x u_\theta+\partial_t u_\theta))\|^2
 $$
 
 Notice that the JVP computation inside $\text{sg}$ is performed with the network $u_\theta$ itself. In this regard, this loss function shares a similar idea with the self-consistency loss in shortcut models--supervising the network with output produced by the network itself.
+
+> [!note]
+> While the loss function of mean flow is directly derived from the integral definition of shortcuts/average velocities, the self-consistency loss in shortcut models is also implicitly simulating the integral definition. If we expand a shortcut $u(x_t,t,\Delta t)$ following the idea of self-consistency recursively by $n$ times:
+> $$
+> u(x_t,t,\Delta t)=\sum_{k=0}^{n^2}\frac{1}{\Delta t/n^2}u(x_{t+k\Delta t/n^2},t+k\Delta t/n^2,\Delta t/n^2)
+> $$
+> When $n\rightarrow +\infty$ we essentially get the integral definition.
 
 ### Extended Reading: Rectified Flow
 
@@ -274,7 +281,7 @@ Below are some preliminary results I obtained from a set of amorphous material g
 [^10]: Lipman, Yaron, et al. "Flow matching for generative modeling."
 [^11]: Frans, Kevin, et al. "One step diffusion via shortcut models.
 [^12]: Geng, Zhengyang, et al. "Mean Flows for One-step Generative Modeling."
-[^13]: Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow
+[^13]: Liu, Xingchao, Chengyue Gong, and Qiang Liu. “Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow.”
 [^14]: Ho, Jonathan, Ajay Jain, and Pieter Abbeel. "Denoising diffusion probabilistic models."
 [^15]: https://en.wikipedia.org/wiki/Diffusion_process
 [^16]: Huang et al., “Symbolic Music Generation with Non-Differentiable Rule Guided Diffusion.”

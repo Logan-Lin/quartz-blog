@@ -1,4 +1,0 @@
----
-draft: true
-title: Homelab
----

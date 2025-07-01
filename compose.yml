@@ -8,6 +8,13 @@ services:
     restart: unless-stopped
     networks:
       - proxy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.blog.rule=Host(`blog.yanlincs.com`)"
+      - "traefik.http.routers.blog.tls=true"
+      - "traefik.http.routers.blog.tls.certresolver=cloudflare"
+      - "traefik.http.routers.blog.tls.domains[0].main=*.yanlincs.com"
+      - "traefik.http.services.blog.loadbalancer.server.port=80"
 
 networks:
   proxy-network:

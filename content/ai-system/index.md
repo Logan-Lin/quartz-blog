@@ -7,17 +7,17 @@ Companion literature for the [DAKI3 - AI Systems & Infrastructures](https://www.
 ## Course Outline
 
 - Phase A: [[interact-with-ai-systems|Interact with AI Systems]]
-    - Lecture 1: [[api-fundamentals|API Fundamentals]]
-    - Lecture 2: Advanced APIs in the era of AI
-    - Lecture 3: Wrap AI models with APIs
+    - Module 1: [[api-fundamentals|API Fundamentals]]
+    - Module 2: [[advanced-apis|Advanced APIs in the Era of AI]]
+    - Module 3: Wrap AI models with APIs
 - Phase B: Infrastructure & Deployment of AI
-    - Lecture 4: AI compute hardware
-    - Lecture 5: Packaging & containerization
-    - Lecture 6: Cloud deployment
-    - Lecture 7: Edge & self-hosted deployment
-    - Lecture 8: Mini-project
+    - Module 4: AI compute hardware
+    - Module 5: Packaging & containerization
+    - Module 6: Cloud deployment
+    - Module 7: Edge & self-hosted deployment
+    - Module 8: Mini-project
 - Phase C: Production-ready AI systems
-    - Lecture 9: Automating deployment & management
-    - Lecture 10: Clustering & load balancing
-    - Lecture 11: High availability & reliability
-    - Lecture 12: Advanced deployment strategies 
+    - Module 9: Automating deployment & management
+    - Module 10: Clustering & load balancing
+    - Module 11: High availability & reliability
+    - Module 12: Advanced deployment strategies 

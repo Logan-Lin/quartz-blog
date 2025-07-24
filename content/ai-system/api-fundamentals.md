@@ -3,6 +3,7 @@ title: API Fundamentals
 draft: false
 ---
 > [!summary] TL;DR
+> APIs are standardized interfaces that enable applications to communicate across different programming languages and infrastructure, serving as a universal postal system for the digital world.
 
 In [[interact-with-ai-systems|Interact with AI Systems]] we've established that we need a standardized interaction method beyond direct function calls. That method is what we call **Application Programming Interfaces (APIs)**. If applications need to communicate like humans do but face barriers like different programming languages and different deployment infrastructure, APIs are like having a universal postal office who knows where everyone lives and how they prefer to receive and send messages.
 
@@ -17,13 +18,13 @@ When humans communicate through letters, three pillars are needed: where to send
 
 ### Network Fundamentals
 
-Just like you need an address to send a letter, APIs need addresses too. Without going too deep into computer networking, we will focus on three core concepts: IP addresses, domains, and ports[^1].
+Just like you need an address to send a letter, APIs need addresses too. Without going too deep into computer networking, we will focus on [three core concepts](https://uhasker.github.io/getting-things-done-in-next-js/chapter3/01-ips-ports-and-domains.html): IP addresses, domains, and ports.
 
-An **IP address**[^2] is a unique identifier assigned to each device connected to a network, telling applications where to find each other. Think of it as a street address such as *Fredrik Bajers Vej 7K, 9220 Aalborg East, Denmark*. An IPv4 address looks something like `65.108.210.169`.
+An **[IP address](https://www.geeksforgeeks.org/computer-science-fundamentals/what-is-an-ip-address/)** is a unique identifier assigned to each device connected to a network, telling applications where to find each other. Think of it as a street address such as *Fredrik Bajers Vej 7K, 9220 Aalborg East, Denmark*. An IPv4 address looks something like `65.108.210.169`.
 
-Technically speaking, APIs can identify themselves solely with IP addresses. The problem is that IP addresses are difficult for humans to read and remember, just like street addresses are usually too long for us to remember. We usually prefer a shorter, semantic-rich name like *Aalborg University*. Similarly, domain names provide this human-friendly alternative. A **domain**[^3] is also a unique identifier pointing to some network resource and usually has one (or more) corresponding IP address(es). In the ChatGPT example above, `api.openai.com` is the domain name of the API, pointing to IP addresses like `162.159.140.245` and `172.66.0.243`.
+Technically speaking, APIs can identify themselves solely with IP addresses. The problem is that IP addresses are difficult for humans to read and remember, just like street addresses are usually too long for us to remember. We usually prefer a shorter, semantic-rich name like *Aalborg University*. Similarly, domain names provide this human-friendly alternative. A **[domain](https://www.geeksforgeeks.org/computer-networks/introduction-to-domain-name/)** is also a unique identifier pointing to some network resource and usually has one (or more) corresponding IP address(es). In the ChatGPT example above, `api.openai.com` is the domain name of the API, pointing to IP addresses like `162.159.140.245` and `172.66.0.243`.
 
-Finally, we have ports. Just as some people run several businesses in the same location and have multiple corresponding mailboxes, computers run multiple applications simultaneously. A **port**[^4] is used to identify which specific application should receive the incoming message, and each IP address can have up to 65,535 ports. Typically we don't have to specify a port when calling an API, since there are default ports assigned to certain services, protocols, and applications. For example, HTTPS-based APIs usually run on port 443.
+Finally, we have ports. Just as some people run several businesses in the same location and have multiple corresponding mailboxes, computers run multiple applications simultaneously. A **[port](https://www.geeksforgeeks.org/computer-networks/what-is-ports-in-networking/)** is used to identify which specific application should receive the incoming message, and each IP address can have up to 65,535 ports. Typically we don't have to specify a port when calling an API, since there are default ports assigned to certain services, protocols, and applications. For example, HTTPS-based APIs usually run on port 443.
 
 ![[Pasted image 20250720134403.png]]
 
@@ -35,13 +36,13 @@ Finally, we have ports. Just as some people run several businesses in the same l
 
 ### HTTP Protocol & Methods
 
-To send a letter in the real world, you first have to choose from available postal services, which you will probably choose based on price, delivery time, previous experiences, etc. For APIs, you usually won't spend time choosing postal services (transfer protocols) since they are largely standardized, and that one standard protocol used in most APIs is called **HTTP (HyperText Transfer Protocol)**[^5].
+To send a letter in the real world, you first have to choose from available postal services, which you will probably choose based on price, delivery time, previous experiences, etc. For APIs, you usually won't spend time choosing postal services (transfer protocols) since they are largely standardized, and that one standard protocol used in most APIs is called **[HTTP (HyperText Transfer Protocol)](https://www.geeksforgeeks.org/html/what-is-http/)**.
 
 What you do have to choose is **HTTP methods**, similar to how a postal service usually has multiple delivery methods. Two methods that you will frequently encounter when using AI service APIs are `GET` and `POST`. `GET` means the API call wants to retrieve information, for example you can check OpenAI's available AI models by sending a `GET` request to `https://api.openai.com/v1/models`. `POST` is for sending data and expecting a response, which will be the primary method we use to send data to AI services and retrieve their response.
 
 #### HTTP Request
 
-Besides providing multiple methods, HTTP as a postal service for APIs also standardize how each envelope is addressed, in the form of several HTTP request components: request line, headers, and body[^6].
+Besides providing multiple methods, HTTP as a postal service for APIs also standardize how each envelope is addressed, in the form of several [HTTP request components](https://proxyelite.info/understanding-http-requests-what-are-they-made-of/): request line, headers, and body.
 
 The **request line** will be something like this:
 ```
@@ -49,7 +50,7 @@ POST https://api.openai.com/v1/chat/completions HTTP/1.1
 ```
 This contains the method, the URL stating where to send the request, and the protocol version. We should also briefly address the difference between a URL and a domain here. Think of the domain `api.openai.com` as the building address like *Fredrik Bajers Vej 7K* that usually corresponds to a certain group of hardware resources. The full URL is like an address with floor and room number like *Fredrik Bajers Vej 7K, 3.2.50*, which in the above case specifies the version of the API (v1) and the specific function (conversation completion).
 
-The **headers**[^7] are like the information you write on the envelope, and will be something like this:
+The **[headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields)** are like the information you write on the envelope, and will be something like this:
 ```
 Authorization: Bearer sk-abc1234567890qwerty
 Content-Type: application/json
@@ -75,11 +76,11 @@ For the `GET` method, only the request line and headers, or sometimes just the r
     "max_tokens": 50
 }
 ```
-The format of this JSON object is specified by the provider of the APIs. There are other content types[^8] that might be more suitable for certain types of data. Generally speaking, JSON is the most popular one since it's machine-parseable and human-friendly.
+The format of this JSON object is specified by the provider of the APIs. There are other [content types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type) that might be more suitable for certain types of data. Generally speaking, JSON is the most popular one since it's machine-parseable and human-friendly.
 
 #### HTTP Response
 
-Now you've sent the envelope (HTTP request) through the postal service called HTTP. The recipient will send a response letter back to you (HTTP response) if everything is working correctly, and if not, the postal service will at least write a response telling you what's wrong. Akin to HTTP request, a HTTP response is composed of a few components: status line, response headers, and response body[^9].
+Now you've sent the envelope (HTTP request) through the postal service called HTTP. The recipient will send a response letter back to you (HTTP response) if everything is working correctly, and if not, the postal service will at least write a response telling you what's wrong. Akin to HTTP request, a [HTTP response](https://www.tutorialspoint.com/http/http_responses.htm) is composed of a few components: status line, response headers, and response body.
 
 The **status line** looks like this:
 ```
@@ -121,13 +122,13 @@ The **response body** is similar to the body in the request, containing the data
 Again, the format of this JSON object is specific to API providers and functions you requested.
 
 > [!note] 
-> You might have noticed that we've been saying HTTP protocol throughout the above section, but the URLs we are calling start with HTTPS. HTTPS is an extension of HTTP that additionally encrypts messages. Think of it as writing letters in a way that only you and the recipient can understand. Nowadays, almost all public APIs use HTTPS and most software blocks all non-secure HTTP communications. We will come back to HTTP and HTTPS when we are deploying and serving our own APIs in Lecture 3: [[wrap-ai-with-api|Wrap AI Models with APIs]] and Lecture 6: [[cloud-deployment|Cloud Deployment]].
+> You might have noticed that we've been saying HTTP protocol throughout the above section, but the URLs we are calling start with HTTPS. HTTPS is an extension of HTTP that additionally encrypts messages. Think of it as writing letters in a way that only you and the recipient can understand. Nowadays, almost all public APIs use HTTPS and most software blocks all non-secure HTTP communications. We will come back to HTTP and HTTPS when we are deploying and serving our own APIs in Module 3: [[wrap-ai-with-api|Wrap AI Models with APIs]] and Module 6: [[cloud-deployment|Cloud Deployment]].
 
 ### Standards & Design Principles
 
 In communications, beyond mandating rules (e.g., languages) we have "common knowledge"—for example, how an address is written (street and building number, then post code and city/area, finally country) and how a letter is structured (greetings and regards). You can technically refuse to adhere to such common knowledge, but it might lead to miscommunication and confusion, or you will need to attach a document stating how and why you do things differently. Similarly, when working with APIs, there are standards and design principles that are not mandatory but will make the APIs more predictable and intuitive, reducing the need for users and developers to extensively study the API documentation.
 
-We'll briefly touch on one of the more prominent and widely adopted standards: **REST (Representational State Transfer)**[^10]. Core REST principles include uniform interface, statelessness, cacheability, and layered system.
+We'll briefly touch on one of the more prominent and widely adopted standards: **[REST (Representational State Transfer)](https://amplication.com/blog/rest-apis-what-why-and-how)**. Core REST principles include uniform interface, statelessness, cacheability, and layered system.
 
 **Uniform interface** ensures all interactions between applications follow a consistent pattern, for example, making the formulation of URLs intuitive and HTTP methods consistent. API URLs that follow this principle include:
 ```
@@ -160,6 +161,10 @@ POST   /api?method=chat             # Generic endpoint
 
 **Layered system** allows the architecture to be composed of multiple hierarchical layers, where each layer has specific roles and cannot see beyond the immediate layer it's communicating with. Typical AI APIs will include authentication layers for security, caching layers for reuse of frequently accessed AI results, and rate limiting layers to prevent abuse.
 
+> [!info] Extended Reading
+> If you want to use a more SQL query-like API interaction method, where you explicitly define the type and scope of data you want and receive exactly that, consider GraphQL:
+> - https://graphql.org/learn/
+
 ## Interact with APIs in Practice
 
 Now we've established the basic concepts related to APIs, we will look at how to interact with APIs in practice.
@@ -176,11 +181,11 @@ Click send, and after a while you should be able to see the response with compon
 
 ![[Pasted image 20250720200546.png]]
 
-Feel free to explore other functionalities of Postman yourself. Apart from being able to send API requests in a graphical user interface, you can also form a collection of requests for reuse and structured testing. Postman also comes with collaboration tools that can come in handy when developing in a team. Alternatives to Postman include [Hoppscotch](https://hoppscotch.io/) and [Insomnia](https://insomnia.rest/), among others[^11], all with similar core functionalities.
+Feel free to explore other functionalities of Postman yourself. Apart from being able to send API requests in a graphical user interface, you can also form a collection of requests for reuse and structured testing. Postman also comes with collaboration tools that can come in handy when developing in a team. Alternatives to Postman include [Hoppscotch](https://hoppscotch.io/) and [Insomnia](https://insomnia.rest/), [among others](https://apisyouwonthate.com/blog/http-clients-alternatives-to-postman/), all with similar core functionalities.
 
 ### Interact with APIs with Python
 
-To interact with APIs in a Python program, a universal method is to use the `requests` package[^12]. It is not a built-in package and you will have to install it with a package manager of your choice.
+To interact with APIs in a Python program, a universal method is to use the [`requests` package](https://docs.python-requests.org/en/latest/index.html). It is not a built-in package and you will have to install it with a package manager of your choice.
 
 Below is an example of sending a `GET` request:
 ```python
@@ -222,7 +227,7 @@ headers = {
 }
 
 json_body = {
-    "model": "claude-3-sonnet-20240229",
+    "model": "claude-sonnet-4-20250514",
     "max_tokens": 2048,
     "temperature": 0.7,
     "messages": [
@@ -263,23 +268,10 @@ Note the HTTP request and response components, management of API keys, and handl
 > [!info] Extended Reading
 > To get started with AI APIs, you'll need to register accounts, obtain API keys, and familiarize yourself with provider documentation. Here are the two major AI API platforms to explore:
 > 
-> API Platforms:
-> - [OpenAI API](https://openai.com/api/) - GPT models and other AI services
-> - [Anthropic API](https://www.anthropic.com/api) - Claude models and AI safety-focused services
+> - [OpenAI platform](https://platform.openai.com/welcome)
+> - [Anthropic developer console](https://console.anthropic.com/)
 > 
-> Documentation:
-> - [OpenAI API Documentation](https://platform.openai.com/docs/overview) - Comprehensive guides and API reference
-> - [Anthropic API Documentation](https://docs.anthropic.com/en/api/overview) - Detailed API usage and examples
+> And their documentation:
+> - [OpenAI API Documentation](https://platform.openai.com/docs/overview)
+> - [Anthropic API Documentation](https://docs.anthropic.com/en/api/overview)
 
-[^1]: https://uhasker.github.io/getting-things-done-in-next-js/chapter3/01-ips-ports-and-domains.html
-[^2]: https://www.geeksforgeeks.org/computer-science-fundamentals/what-is-an-ip-address/
-[^3]: https://www.geeksforgeeks.org/computer-networks/introduction-to-domain-name/
-[^4]: https://www.geeksforgeeks.org/computer-networks/what-is-ports-in-networking/
-[^5]: https://www.geeksforgeeks.org/html/what-is-http/
-[^6]: https://proxyelite.info/understanding-http-requests-what-are-they-made-of/
-[^7]: https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
-[^8]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type
-[^9]: https://www.tutorialspoint.com/http/http_responses.htm
-[^10]: https://amplication.com/blog/rest-apis-what-why-and-how
-[^11]: https://apisyouwonthate.com/blog/http-clients-alternatives-to-postman/
-[^12]: https://docs.python-requests.org/en/latest/index.html

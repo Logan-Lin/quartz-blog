@@ -1,3 +1,12 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+// Theme system CSS - essential for automatic dark mode detection
+:root[saved-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[saved-theme="light"] {
+  color-scheme: light;
+}

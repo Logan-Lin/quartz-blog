@@ -290,9 +290,6 @@ for message in consumer:
     print(f'Consumed: {message_value}')
 ```
 
-> [!note]
-> We will dive deeper into the whole software and hardware architecture of Kafka in later modules, after we gained some fundamental knowledges of clustering. Right now it would be a bit overwhelming.
-
 ## High-Performance Data Pipelines
 
 Building on these protocol foundations, we now turn to the infrastructure needed to handle large-scale data processing. In production environments, protocols alone might be insufficient for processing massive datasets, potentially creating bottlenecks in AI systems. High-performance data pipelines address this challenge by providing the processing power needed for large-scale data operations. We've already examined one such system (Kafka) above. Here we'll explore two additional systems from Apache: Hadoop and Spark. While Kafka excels at delivering high-throughput messages, Hadoop and Spark are designed to analyze large-scale data with high speed and performance.
@@ -301,17 +298,17 @@ Building on these protocol foundations, we now turn to the infrastructure needed
 
 [Hadoop](https://www.geeksforgeeks.org/data-engineering/hadoop-an-introduction/) is a framework for storing and processing large amounts of data in a distributed computing environment (clustering). In essence, it is actually a collection of open-source software with the key idea of utilizing clustering architecture to handle massive amounts of data. Without going deep into its hardware infrastructure, there are two core layers in Hadoop: a storage layer called HDFS, and a computation layer called MapReduce.
 
-**Hadoop Distributed File System (HDFS)** is the architecture for storing large amounts of data in a cluster. It breaks large files into smaller blocks (usually 128 MB or 256 MB) and stores them across multiple machines. Each block is replicated multiple times (typically 3) to ensure fault tolerance—a common clustering practice where a few node failures won't compromise data integrity. It's like buying three copies of a DVD[^1] and storing them in your house and your friend's house so you're unlikely to lose them.
+**Hadoop Distributed File System (HDFS)** is the architecture for storing large amounts of data in a cluster. It breaks large files into smaller blocks (usually 128 MB or 256 MB) and stores them across multiple machines. Each block is replicated multiple times (typically 3) to ensure fault tolerance—a common clustering practice where a few node failures won't compromise data integrity. It's like buying [three copies of a DVD](https://en.namu.wiki/w/%EC%9D%B4%EC%A6%88%EB%AF%B8%20%EC%BD%94%EB%82%98%ED%83%80#:~:text=I%20need%20at%20least%20three%20copies%20of%20the%20same%20thing.%20First%20of%20all%2C%20one%20sheet%20must%20be%20kept%20in%20a%20special%20case%20for%20permanent%20preservation%2C%20and%20the%20other%20sheet%20should%20be%20taken%20out%20occasionally%20and%20used%20for%20viewing%20purposes.) and storing them in your house and your friend's house so you're unlikely to lose them.
 
 **MapReduce** is the computation layer for efficiently processing large amounts of data in a cluster. Input data is divided into chunks and processed in parallel, with each worker processing a chunk and producing key-value pairs. These key-value pairs are then grouped to generate final results. Think of how big IT companies split a large software project into multiple modules for every employee to work on individually, then merge everyone's work into the final product. A common way to interact with Hadoop systems with Python is writing [MapReduce jobs](https://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/).
 
 ### Apache Spark
 
-While [Spark](https://www.geeksforgeeks.org/dbms/overview-of-apache-spark/) and Hadoop are both designed for large-scale data workloads, they have distinct architectural approaches and differences in detailed functionalities[^2].
+While [Spark](https://www.geeksforgeeks.org/dbms/overview-of-apache-spark/) and Hadoop are both designed for large-scale data workloads, they have [distinct architectural approaches and differences in detailed functionalities](https://www.geeksforgeeks.org/cloud-computing/difference-between-hadoop-and-spark/).
 
 To begin, unlike HDFS in Hadoop, Spark doesn't have its own native file system but can be integrated with external storage systems including HDFS or databases. This makes its implementation and deployment more flexible. Part of this flexibility comes from the fact that Hadoop relies on its HDFS data architecture, while Spark's storage efficiency is primarily achieved through storing intermediate data in memory rather than on disks, which is usually much faster.
 
 Spark's computation architecture is also different from Hadoop. There are two key concepts: RDDs (Resilient Distributed Datasets) and the DAG (Directed Acyclic Graph) Scheduler. RDDs are essentially immutable collections of data that are distributed across a cluster of machines, similar to each job assigned to each employee that do not conflict with each other. The DAG scheduler is Spark's brain for figuring out how to compute the results, similar to how a management team figures out how to split a big project into multiple jobs. Spark has built-in APIs that support several programming languages to interact with its system, including Python with the [`pyspark`](https://www.datacamp.com/tutorial/pyspark-tutorial-getting-started-with-pyspark) library.
 
-[^1]: https://arc.net/l/quote/ieamswug
-[^2]: https://www.geeksforgeeks.org/cloud-computing/difference-between-hadoop-and-spark/
+> [!note]
+> We will dive deeper into the whole software and hardware architecture of Kafka, Hadoop, and Spark in later modules, after we gained some fundamental knowledges of clustering. Right now it would be a bit overwhelming.

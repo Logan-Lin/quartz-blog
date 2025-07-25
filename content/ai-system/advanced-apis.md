@@ -12,7 +12,7 @@ In [[api-fundamentals|API Fundamentals]] we established the three pillars of API
 
 ![[stream 1.gif]]
 
-In this module, we'll explore advanced API techniques that enable more flexible communication patterns especially relevant for modern AI systems. We'll start with additional fundamentals like rate limiting and versioning, then move to implementing streaming and message-driven protocols. Finally, we'll examine architectures that make it possible to process high-throughput data efficiently.
+In this module, we'll explore advanced API techniques that enable more flexible communication patterns especially relevant for modern AI systems. We'll start with additional fundamentals like rate limiting and versioning, then move to implementing streaming and message-driven protocols. We'll also touch on the shiny new star of AI communication protocols--model context protocol. Finally, we'll examine architectures that make it possible to process high-throughput data efficiently.
 
 ## Additional Fundamentals
 
@@ -50,7 +50,7 @@ There are also different algorithms for determining when the rate limit is hit a
 - **Token bucket**: Allows requests only when tokens are available in a virtual "bucket," with tokens replenished at a fixed rate. This allows short bursts while maintaining overall rate control.
 
 > [!note]
-> We will get a more concrete understanding of API versioning and rate limiting later in Module 3: [[wrap-ai-with-api|Wrap AI models with APIs]] when we have to implement these strategies ourselves.
+> We will get a more concrete understanding of API versioning and rate limiting later in Module 3: [[wrap-ai-with-api|Wrap AI Models with APIs]] when we have to implement these strategies ourselves.
 
 ## Advanced API Protocols
 
@@ -289,6 +289,33 @@ for message in consumer:
     message_value = message.value
     print(f'Consumed: {message_value}')
 ```
+
+### Model Context Protocol
+
+Recent advancements in conversational AI models—large language models (LLMs)—have shown great potential in solving complex tasks. Their utilization is highly dependent on the comprehensiveness of the information they are given and the diversity of actions they can perform. When you interact with LLMs through the conversation APIs we introduced earlier, you can manually feed as much information as possible into the conversation context and instruct LLMs to tell you what to do in natural language. However, this process doesn't align with the philosophy of APIs: it is neither automatic nor reproducible, which means it cannot scale to production-level applications. The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) addresses this challenge.
+
+MCP was introduced by Anthropic in 2024 and has rapidly become the standard for conversational AI models to integrate with external information sources and tools. Built on [JSON-RPC 2.0](https://www.jsonrpc.org/specification)—the same foundation as other protocols we've explored—MCP provides a standardized approach that eliminates the need for custom integrations between every AI system and external service. While similar functionality could be achieved through hardcoded custom interactions using conventional API techniques, MCP's widespread adoption stems from its development simplicity and standardized approach.
+
+MCP's architecture is composed of three types of applications: hosts, servers, and clients. **Hosts** are AI applications that users interact with directly, such as Claude Code and IDEs. These applications contain LLMs that need access to external capabilities. **Servers** are external applications that expose specific capabilities to AI models through standardized interfaces. These might include database connectors, file system access tools, or API integrations with third-party services. **Clients** live within host applications and manage connections between hosts and servers. Each client maintains a dedicated one-to-one connection with a specific server, similar to how we saw individual connections in our previous protocol examples.
+
+![[Pasted image 20250725114212.png]]
+
+MCP servers can provide three types of capabilities to AI systems: resources, tools, and prompts. **Resources** act like read-only data sources, similar to HTTP `GET` endpoints. They provide contextual information without performing significant computation or causing side effects. For example, a file system resource might provide access to documentation, while a database resource could offer read-only access to customer data. **Tools** are executable functions that AI models can call to perform specific actions. Unlike resources, tools can modify state, perform computations, or interact with external services. Examples include sending emails, creating calendar events, or running data analysis scripts. **Prompts** are pre-defined templates that help AI systems use resources and tools most effectively. They provide structured ways to accomplish common tasks and can be shared across different AI applications.
+
+MCP supports two primary communication methods depending on deployment needs: **stdio (Standard Input/Output)** for local integrations when clients and servers run on the same machine, and **HTTP with SSE** for remote connections—leveraging the same SSE protocol we explored earlier for streaming responses.
+
+Implementing MCP servers and clients with Python is relatively straightforward. Examples of a [weather server](https://github.com/modelcontextprotocol/quickstart-resources/blob/main/weather-server-python/weather.py) and an [MCP client](https://github.com/modelcontextprotocol/quickstart-resources/blob/main/mcp-client-python/client.py) are provided in the official quick start tutorials.
+
+> [!info] Extended Reading
+> https://modelcontextprotocol.io/specification/ provides complete technical details of MCP, while https://modelcontextprotocol.io/docs/ provides tutorials and documentations for building MCP servers and clients.
+> 
+> There are lots of public MCP servers run by major companies, such as [Zapier](https://zapier.com/mcp) and [Notion](https://www.notion.com/help/notion-mcp). Feel free to take a look at lists of MCP servers:
+> - https://github.com/punkpeye/awesome-mcp-servers
+> - https://github.com/wong2/awesome-mcp-servers
+> 
+> Should you always use MCP for connecting LLMs with external resources and tools? Maybe not. Take a look at blog posts discussing this topic:
+> - https://lucumr.pocoo.org/2025/7/3/tools/
+> - https://decodingml.substack.com/p/stop-building-ai-agents
 
 ## High-Performance Data Pipelines
 

@@ -9,7 +9,7 @@ Companion literature for the [DAKI3 - AI Systems & Infrastructures](https://www.
 - Phase A: [[interact-with-ai-systems|Interact with AI Systems]]
     - Module 1: [[api-fundamentals|API Fundamentals]]
     - Module 2: [[advanced-apis|Advanced APIs in the Era of AI]]
-    - Module 3: Wrap AI models with APIs
+    - Module 3: [[wrap-ai-with-api|Wrap AI Models with APIs]]
 - Phase B: Infrastructure & Deployment of AI
     - Module 4: AI compute hardware
     - Module 5: Packaging & containerization

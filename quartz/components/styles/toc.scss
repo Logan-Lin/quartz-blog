@@ -38,6 +38,13 @@ button.toc-header {
   }
 }
 
+h3.toc-header {
+  font-size: 1rem;
+  display: inline-block;
+  margin: 0;
+  color: var(--dark);
+}
+
 ul.toc-content.overflow {
   list-style: none;
   position: relative;

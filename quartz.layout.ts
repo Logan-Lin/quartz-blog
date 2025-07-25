@@ -5,7 +5,18 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.RecentNotes({
+        title: "Recent Posts",
+        limit: 5,
+        showTags: true,
+        linkToMore: false,
+        filter: (f) => !f.slug?.endsWith("/index") && f.slug !== "index"
+      }),
+      condition: (page) => page.fileData.slug === "index"
+    })
+  ],
   footer: Component.Footer({
     links: {
       Homepage: "https://www.yanlincs.com",
@@ -33,8 +44,7 @@ export const defaultContentPageLayout: PageLayout = {
   ],
   right: [
     Component.TableOfContents(),
-    Component.RecentNotes(),
-  ],
+  ]
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
@@ -47,6 +57,5 @@ export const defaultListPageLayout: PageLayout = {
   ],
   right: [
     Component.TableOfContents(),
-    Component.RecentNotes(),
   ],
 }

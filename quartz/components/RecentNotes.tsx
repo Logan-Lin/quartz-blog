@@ -43,6 +43,8 @@ export default ((userOpts?: Partial<Options>) => {
             const title = page.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
             const tags = page.frontmatter?.tags ?? []
 
+            const date = getDate(cfg, page)
+            
             return (
               <li class="recent-li">
                 <div class="section">
@@ -51,6 +53,7 @@ export default ((userOpts?: Partial<Options>) => {
                       <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
                         {title}
                       </a>
+                      {date && <span class="note-date"><Date date={date} locale={cfg.locale} /></span>}
                     </h3>
                   </div>
                   {opts.showTags && (

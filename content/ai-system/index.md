@@ -1,6 +1,7 @@
 ---
 title: AI Systems & Infrastructures
 draft: false
+list: false
 ---
 Companion literature for the [DAKI3 - AI Systems & Infrastructures](https://www.moodle.aau.dk/course/view.php?id=52786) course at Aalborg University in the form of blog posts.
 

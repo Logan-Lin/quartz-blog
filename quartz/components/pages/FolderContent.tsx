@@ -103,11 +103,13 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     ) as ComponentChildren
 
     const isRootIndex = fileData.slug === "index"
+    const shouldShowList = fileData.frontmatter?.list !== false
+    const showFolderListing = !isRootIndex && shouldShowList
 
     return (
       <div class="popover-hint">
         <article class={classes}>{content}</article>
-        {!isRootIndex && (
+        {showFolderListing && (
           <div class="page-listing">
             {options.showFolderCount && (
               <p>

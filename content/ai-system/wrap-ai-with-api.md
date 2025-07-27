@@ -209,13 +209,6 @@ Now if the request body contains invalid data types, FastAPI will reject the req
 > - https://data-ai.theodo.com/en/technical-blog/fastapi-pydantic-powerful-duo
 > - https://www.geeksforgeeks.org/python/fastapi-pydantic/
 
-> [!info] Extended Reading
-> Examples of implementing advanced API techniques introduced in [[advanced-apis|Advanced APIs in the Era of AI]] with FastAPI:
-> - [Streaming Protocols](https://apidog.com/blog/fastapi-streaming-response/)
-> - [WebSockets](https://www.geeksforgeeks.org/python/how-to-use-websocket-with-fastapi/)
-> - [MQTT](https://sabuhish.github.io/fastapi-mqtt/getting-started/)
-> - [Model Context Protocol](https://github.com/tadata-org/fastapi_mcp)
-
 ### API Versioning
 
 As we covered in [[advanced-apis#API Versioning|Advanced APIs in the Era of AI]], API versioning allows you to introduce changes without breaking existing integrations. This is particularly important for AI APIs where models and features are constantly evolving. FastAPI makes implementing URL path versioning straightforward using `APIRouter` with prefixes.
@@ -244,6 +237,13 @@ app.include_router(v2_router)
 ```
 
 In the above example we use URL path versioning, since it is the most popular approach because it makes the API version immediately visible and easy to understand. Now your API supports both versions simultaneously: users can access `/v1/receiver` for the original functionality while `/v2/receiver` provides enhanced features.
+
+> [!info] Extended Reading
+> Examples of implementing advanced API techniques introduced in [[advanced-apis|Advanced APIs in the Era of AI]] with FastAPI:
+> - [Streaming Protocols](https://apidog.com/blog/fastapi-streaming-response/)
+> - [WebSockets](https://www.geeksforgeeks.org/python/how-to-use-websocket-with-fastapi/)
+> - [MQTT](https://sabuhish.github.io/fastapi-mqtt/getting-started/)
+> - [Model Context Protocol](https://github.com/tadata-org/fastapi_mcp)
 
 ## Build APIs for AI Models
 

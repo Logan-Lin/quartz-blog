@@ -2,8 +2,7 @@
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    nodejs
-    nodePackages.npm
+    nodejs_24
     git
   ];
 

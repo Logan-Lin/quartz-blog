@@ -1,9 +1,9 @@
 ---
-title: AI Systems & Infrastructures
+title: AI Systems & Infrastructure
 draft: false
 list: false
 ---
-Companion literature for the [DAKI3 - AI Systems & Infrastructures](https://www.moodle.aau.dk/course/view.php?id=52786) course at Aalborg University in the form of blog posts.
+Companion literature for the [DAKI3 - AI Systems & Infrastructure](https://www.moodle.aau.dk/course/view.php?id=52786) course at Aalborg University in the form of blog posts.
 
 ## Course Outline
 
@@ -21,4 +21,4 @@ Companion literature for the [DAKI3 - AI Systems & Infrastructures](https://www.
     - Module 9: Automating deployment & management
     - Module 10: Clustering & load balancing
     - Module 11: High availability & reliability
-    - Module 12: Advanced deployment strategies 
+    - Module 12: Advanced deployment strategies

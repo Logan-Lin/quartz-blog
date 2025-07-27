@@ -53,7 +53,7 @@ For continuous features, one intuitive approach is to first tokenize them into d
 
 Vector quantization maintains a "codebook" $\boldsymbol C \in \mathbb R^{n\times d}$, which functions similarly to the index-fetching embedding layer, where $n$ is the total number of unique tokens, and $d$ is the embedding size. A given continuous vector $\boldsymbol{z}\in\mathbb R^{d}$ is quantized into a discrete value $i\in\mathbb [0,n-1]$ by finding the closest row vector in $\boldsymbol C$ to $\boldsymbol{z}$, and that row vector $\boldsymbol C_i$ is fetched as the embedding for $\boldsymbol{z}$. Formally:
 $$
-i = \arg\min_j ||\boldsymbol z - \boldsymbol C_j||₂
+i = \arg\min_j ||\boldsymbol z - \boldsymbol C_j||_2
 $$
 ![[Screen_Shot_2020-06-28_at_4.26.40_PM.png]]
 

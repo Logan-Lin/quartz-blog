@@ -136,7 +136,7 @@ The key differences from the regular POST request are:
 
 See it work in action:
 
-![[sse.gif]]
+![[Screen Recording 2025-07-27 at 15.59.42.gif]]
 
 > [!info] Extended Reading
 > Take a look at the official documents for streaming messages from [OpenAI](https://platform.openai.com/docs/guides/streaming-responses?api-mode=responses) and [Anthropic](https://docs.anthropic.com/en/docs/build-with-claude/streaming), which provide different approaches towards implementing SSE-based text streaming.

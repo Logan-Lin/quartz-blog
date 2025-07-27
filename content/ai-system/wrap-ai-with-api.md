@@ -216,6 +216,35 @@ Now if the request body contains invalid data types, FastAPI will reject the req
 > - [MQTT](https://sabuhish.github.io/fastapi-mqtt/getting-started/)
 > - [Model Context Protocol](https://github.com/tadata-org/fastapi_mcp)
 
+### API Versioning
+
+As we covered in [[advanced-apis#API Versioning|Advanced APIs in the Era of AI]], API versioning allows you to introduce changes without breaking existing integrations. This is particularly important for AI APIs where models and features are constantly evolving. FastAPI makes implementing URL path versioning straightforward using `APIRouter` with prefixes.
+
+```python
+from fastapi import APIRouter
+from datetime import datetime
+
+v1_router = APIRouter(prefix="/v1")
+v2_router = APIRouter(prefix="/v2")
+
+@v1_router.post("/receiver")
+def receiver_v1(data: ReceivedData):
+    return {"message": f"User {data.user} sent '{data.message}' on {data.date}"}
+
+@v2_router.post("/receiver") 
+def receiver_v2(data: ReceivedData):
+    return {
+        "message": f"User {data.user} sent '{data.message}' on {data.date}",
+        "version": "2.0",
+        "timestamp": datetime.now().isoformat()
+    }
+
+app.include_router(v1_router)
+app.include_router(v2_router)
+```
+
+In the above example we use URL path versioning, since it is the most popular approach because it makes the API version immediately visible and easy to understand. Now your API supports both versions simultaneously: users can access `/v1/receiver` for the original functionality while `/v2/receiver` provides enhanced features.
+
 ## Build APIs for AI Models
 
 With the foundation of basic implementation of FastAPI servers, we proceed to integrate AI models and implement AI API servers. We will build an API server with image classification APIs as an example.

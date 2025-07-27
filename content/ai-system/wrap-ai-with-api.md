@@ -414,13 +414,13 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 security = HTTPBearer()
 
 async def verify_api_key(credentials: HTTPAuthorizationCredentials = Depends(security)):
-      # API key validation logic
-      if credentials.credentials != "your-secret-api-key":
-          raise HTTPException(
-              status_code=status.HTTP_401_UNAUTHORIZED,
-              detail="Invalid API key"
-          )
-      return credentials.credentials
+    # API key validation logic
+    if credentials.credentials != "your-secret-api-key":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API key"
+        )
+    return credentials.credentials
 ```
 
 And for routes that need to be protected, we add the requirement for API keys:

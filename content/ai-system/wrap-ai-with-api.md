@@ -127,7 +127,7 @@ def get_secret():
 
 And you will get the corresponding responses from `/` and `/secret` routes by accessing `http://127.0.0.1:8000` and `http://127.0.0.1:8000/secret`, respectively.
 
-There are also occasions you want users to pass variables through URLs. For example a YouTube channel's URL is given as `https://www.youtube.com/@DigitalFoundry` or `https://www.youtube.com/channel/UC9PBzalIcEQCsiIkq36PyUA`. Implementing a separate route for each unique variable is clearly not practical. Luckily you have two ways to pass and parse variables in FastAPI's routes. One is through [URL template](https://en.wikipedia.org/wiki/URI_Template):
+There are also occasions you want users to pass variables through URLs. For example YouTube channels' URLs are given as `https://www.youtube.com/@DigitalFoundry` or `https://www.youtube.com/channel/UCm22FAXZMw1BaWeFszZxUKw`. Implementing a separate route for each unique variable is clearly not practical. Luckily you have two ways to pass and parse variables in FastAPI's routes. One is through [URL template](https://en.wikipedia.org/wiki/URI_Template):
 
 ```python
 @app.get("/parrot/{message}")
@@ -144,7 +144,7 @@ def repeat_message(message: str, user: int, date: str):
 # Try access http://localhost:8000/parrot/random-July26/secret/21
 ```
 
-Another way is through [URL parameters](https://www.semrush.com/blog/url-parameters/). These are variables specified following `?` at the end of URLs with format `<key>=<value>` for each variable, and can be `&`-separated for specifying multiple variables. For example, `https://www.youtube.com/watch?v=XtdaeX_fGHI`. In FastAPI, URL parameters are caught by function parameters that are not covered by URL templates:
+Another way is through [URL parameters](https://www.semrush.com/blog/url-parameters/). These are variables specified following `?` at the end of URLs with format `<key>=<value>` for each variable, and can be `&`-separated for specifying multiple variables. For example, `https://www.youtube.com/watch?v=5tdsZwlWXAc&t=2s`. In FastAPI, URL parameters are caught by function parameters that are not covered by URL templates:
 
 ```python
 @app.get("/secret")
@@ -236,7 +236,7 @@ app.include_router(v1_router)
 app.include_router(v2_router)
 ```
 
-In the above example we use URL path versioning, since it is the most popular approach because it makes the API version immediately visible and easy to understand. Now your API supports both versions simultaneously: users can access `/v1/receiver` for the original functionality while `/v2/receiver` provides enhanced features.
+Now your API supports both versions simultaneously: users can access `/v1/receiver` for the original functionality while `/v2/receiver` provides enhanced features.
 
 > [!info] Extended Reading
 > Examples of implementing advanced API techniques introduced in [[advanced-apis|Advanced APIs in the Era of AI]] with FastAPI:

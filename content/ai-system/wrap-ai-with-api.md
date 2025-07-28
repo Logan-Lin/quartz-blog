@@ -677,7 +677,7 @@ Download the [full implementation of the API server](https://github.com/Logan-Li
 > 
 > **Exercise: Image Classification API Server**
 > 
-> Develop an API server that integrates the concepts covered throughout this post:
+> Develop an API server that integrates the concepts covered throughout this module:
 > - **FastAPI Implementation**: Use the FastAPI fundamentals covered in [[#FastAPI Fundamentals]], including proper route definition, request handling, and Pydantic data models
 > - **AI Model Integration**: Integrate an image classification model following the patterns shown in [[#Build APIs for AI Models]], using an appropriate open-source model that can run on your system
 > - **Authentication System**: Implement API key authentication as demonstrated in [[#API Key Authentication]] to protect your endpoints
@@ -698,6 +698,6 @@ Download the [full implementation of the API server](https://github.com/Logan-Li
 > 
 > **Technical Guidelines:**
 > 
-> - **Model Choice**: Use lightweight models appropriate for your system capabilities (examples like ResNet models are mentioned in the post)
-> - **Data Format**: Choose appropriate data formats for image handling (base64 encoding is demonstrated in the post)
-> - **Database**: Use suitable database solutions (SQLite examples are provided in the post for simplicity)
+> - **Model Choice**: Use lightweight models appropriate for your system capabilities (examples like ResNet models are mentioned in the module)
+> - **Data Format**: Choose appropriate data formats for image handling
+> - **Database**: Use suitable database solutions (examples like SQLite used in the module)

@@ -275,3 +275,25 @@ Note the HTTP request and response components, management of API keys, and handl
 > - [OpenAI API Documentation](https://platform.openai.com/docs/overview)
 > - [Anthropic API Documentation](https://docs.anthropic.com/en/api/overview)
 
+> [!faq] Exercise
+> Build two Python programs that demonstrate the API fundamentals covered in this module.
+> 
+> **Exercise 1: Command-line Chatbot**
+> 
+> Build a chatbot using an AI API of your choice (e.g., OpenAI, Anthropic, or others) that demonstrates:
+> - **HTTP Methods**: Use both GET (to retrieve available models) and POST (for chat completions)
+> - **HTTP Request Components**: Properly implement headers including Authorization, Content-Type, and User-Agent as shown in the [[#HTTP Request]] section
+> - **REST Statelessness**: Follow the statelessness principle by including full conversation history in each request
+> - **HTTP Status Code Handling**: Handle different status codes with user-friendly messages referencing the [[#HTTP Response]] section
+> - **Response Processing**: Parse and display relevant response components (content, usage tokens, model information)
+> 
+> **Exercise 2: Image Analysis Tool**
+> 
+> Build a command-line tool that analyzes image content using a multi-modal AI API of your choice that demonstrates the same points as above plus:
+> - **Content-Type Handling**: Choose a proper input format for images (file upload, base64 encoding, or URL references)
+> 
+> **Implementation Requirements:**
+> 
+> Both programs should demonstrate robust practices:
+> - **Security**: Follow Authorization header best practices from the [[#HTTP Request]] section by using environment variables for API keys instead of hardcoding them
+> - **Transparency**: Implement using the `requests` package following the request-response patterns shown in the [[#Interact with APIs with Python]] section, which provides better understanding of HTTP fundamentals than provider-specific SDKs

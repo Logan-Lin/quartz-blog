@@ -3,7 +3,7 @@ title: Interact with AI Systems
 draft: false
 ---
 > [!tldr] TL;DR
-> Introduction to the Phase A of the course: why do we need to learn how to interact with AI systems.
+> Learn why standardized interactions between applications are essential for making AI models practical in real-world scenarios, moving beyond simple function calls to robust communication methods that work across different programming languages and distributed systems.
 
 Interactions are common in both human society and the digital world. We as humans interact with each other through language so that our thoughts and purposes are communicated. In the digital world, a food delivery application interacts with restaurants to process your order and interacts with banks to ensure payment for the meal. Interactions between applications (AI or not) are what build the digital world we cannot live without. But how do applications interact with each other?
 

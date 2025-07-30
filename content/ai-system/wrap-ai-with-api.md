@@ -665,8 +665,6 @@ And in our `/classify` route, add one line of code at the start of the function:
 
 Now if a user sends more than 5 requests within one minute, their requests will be rejected with a `429 Too Many Requests`. In practice you might also want to record users' rate limit threshold in the `User` data model instead of hardcoding it.
 
-Download the [full implementation of the API server](https://github.com/Logan-Lin/ai-systems-infrastructure/tree/main/module-3) if you want to experiment with it yourself.
-
 > [!info] Extended Reading
 > A few libraries for easier implementation of rate limiting:
 > - https://github.com/laurentS/slowapi

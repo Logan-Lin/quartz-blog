@@ -85,7 +85,6 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
-        <script defer src="https://tracker.yanlincs.com/script.js" data-website-id="fdc3a19e-9830-4033-876c-4b5f7c120edf"></script>
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js

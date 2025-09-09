@@ -340,14 +340,13 @@ Spark's computation architecture is also different from Hadoop. There are two ke
 > [!note]
 > We will dive deeper into the whole software and hardware architecture of Kafka, Hadoop, and Spark in later modules, after we gained some fundamental knowledges of clustering. Right now it would be a bit overwhelming.
 
-> [!faq] Exercise
-> Upgrade the chatbot program you implemented in [[api-fundamentals|API Fundamentals]] to demonstrate the advanced API concepts covered in this module.
-> 
-> **Exercise: Streaming Chatbot Enhancement**
-> 
-> Upgrade your chatbot from [[api-fundamentals|API Fundamentals]] to implement streaming capabilities:
-> - **SSE Implementation**: Use Server-Sent Events as demonstrated in the [[#Server-Sent Events]] section to receive responses word-by-word instead of waiting for complete responses
-> - **Stream Processing**: Parse the streaming response format and handle the continuous data flow appropriately, including proper handling of connection termination signals
-> - **Rate Limiting Handling**: Implement awareness of rate limiting as covered in [[#Rate Limiting]], including proper handling of different rate limit types and user-friendly error messages for 429 status codes
-> - **Version Management**: Demonstrate understanding of API versioning concepts from [[#API Versioning]] in your implementation
+## Exercise
+
+Upgrade the chatbot program you implemented in [[api-fundamentals|API Fundamentals]] to demonstrate the advanced API concepts covered in this module.
+
+**Exercise: Streaming Chatbot Enhancement**
+
+Upgrade your chatbot from [[api-fundamentals|API Fundamentals]] to implement streaming capabilities:
+- **SSE Implementation**: Use Server-Sent Events as demonstrated in the [[#Server-Sent Events]] section to receive responses word-by-word instead of waiting for complete responses
+- **Stream Processing**: Parse the streaming response format and handle the continuous data flow appropriately, including proper handling of connection termination signals
 

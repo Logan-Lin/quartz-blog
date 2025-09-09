@@ -9,7 +9,7 @@ pkgs.mkShell {
   shellHook = ''
       alias serve="npx quartz build --serve"
       alias build="npx quartz build"
-      alias sync="npx quartz build && rsync -avP --delete ./{public,compose.yml,nginx.conf} personal-vps:/root/blog/"
+      alias sync="npx quartz build && rsync -avP --delete ./public/ vps:~/www/blog/ && rsync -avP ./nginx.conf vps:~/www/blog-nginx.conf"
       alias push="npx quartz build && npx quartz sync && exit"
       
       echo "Available commands:"

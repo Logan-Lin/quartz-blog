@@ -670,32 +670,26 @@ Now if a user sends more than 5 requests within one minute, their requests will 
 > - https://github.com/laurentS/slowapi
 > - https://github.com/long2ice/fastapi-limiter
 
-> [!faq] Exercise
-> Build an image classification API server that demonstrates knowledge covered in this module, reversing your role from API consumer to producer.
-> 
-> **Exercise: Image Classification API Server**
-> 
-> Develop an API server that integrates the concepts covered throughout this module:
-> - **FastAPI Implementation**: Use the FastAPI fundamentals covered in [[#FastAPI Fundamentals]], including proper route definition, request handling, and Pydantic data models
-> - **AI Model Integration**: Integrate an image classification model following the patterns shown in [[#Build APIs for AI Models]], using an appropriate open-source model that can run on your system
-> - **Authentication System**: Implement API key authentication as demonstrated in [[#API Key Authentication]] to protect your endpoints
-> - **Database Integration**: Use database integration techniques from [[#Database Integration]] for user management and usage tracking
-> - **Rate Limiting**: Apply rate limiting concepts from [[#Rate Limiting]] to prevent server overload
-> - **API Versioning**: Support API versioning using the approach shown in [[#API Versioning]]
-> 
-> **Client Integration:**
-> 
-> Modify your image analysis program from [[api-fundamentals|API Fundamentals]] to connect to your server instead of third-party APIs.
-> 
-> **Implementation Requirements:**
->
-> The server should demonstrates concepts building on previous modules:
-> - **HTTP Fundamentals**: Apply proper HTTP methods, status codes, and request/response handling learned from api-fundamentals
-> - **Error Handling**: Implement error handling for authentication, invalid inputs, and server errors
-> - **Security**: Follow proper API security practices demonstrated throughout the module
-> 
-> **Technical Guidelines:**
-> 
-> - **Model Choice**: Use lightweight models appropriate for your system capabilities (examples like ResNet models are mentioned in the module)
-> - **Data Format**: Choose appropriate data formats for image handling
-> - **Database**: Use suitable database solutions (examples like SQLite used in the module)
+## Exercise
+
+Build an image classification API server that demonstrates knowledge covered in this module, reversing your role from API consumer to producer.
+
+**Exercise: Image Classification API Server**
+
+Develop an API server that integrates the concepts covered throughout this module:
+- **FastAPI Implementation**: Use the FastAPI fundamentals covered in [[#FastAPI Fundamentals]], including proper route definition, request handling, and Pydantic data models
+- **AI Model Integration**: Integrate an image classification model following the patterns shown in [[#Build APIs for AI Models]], using an appropriate open-source model that can run on your system
+- **Authentication System**: Implement API key authentication as demonstrated in [[#API Key Authentication]] to protect your endpoints
+- **Database Integration**: Use database integration techniques from [[#Database Integration]] for user management and usage tracking
+- **Rate Limiting**: Apply rate limiting concepts from [[#Rate Limiting]] to prevent server overload
+- **API Versioning**: Support API versioning using the approach shown in [[#API Versioning]]
+
+**Client Integration:**
+
+Modify your image analysis program from [[api-fundamentals|API Fundamentals]] to connect to your server instead of third-party APIs.
+
+**Technical Guidelines:**
+
+- **Model Choice**: Use lightweight models appropriate for your system capabilities (examples like ResNet models are mentioned in the module)
+- **Data Format**: Choose appropriate data formats for image handling
+- **Database**: Use suitable database solutions (examples like SQLite used in the module)

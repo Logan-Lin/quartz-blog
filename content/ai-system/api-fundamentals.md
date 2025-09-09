@@ -18,7 +18,7 @@ When humans communicate through letters, three pillars are needed: where to send
 
 ### Network Fundamentals
 
-Just like you need an address to send a letter, APIs need addresses too. Without going too deep into computer networking, we will focus on [three core concepts](https://uhasker.github.io/getting-things-done-in-next-js/chapter3/01-ips-ports-and-domains.html): IP addresses, domains, and ports.
+Just like you need an address to send a letter, APIs need addresses too. Without going too deep into computer networking, we will focus on three core concepts: IP addresses, domains, and ports.
 
 An **[IP address](https://www.geeksforgeeks.org/computer-science-fundamentals/what-is-an-ip-address/)** is a unique identifier assigned to each device connected to a network, telling applications where to find each other. Think of it as a street address such as *Fredrik Bajers Vej 7K, 9220 Aalborg East, Denmark*. An IPv4 address looks something like `65.108.210.169`.
 
@@ -26,7 +26,7 @@ Technically speaking, APIs can identify themselves solely with IP addresses. The
 
 Finally, we have ports. Just as some people run several businesses in the same location and have multiple corresponding mailboxes, computers run multiple applications simultaneously. A **[port](https://www.geeksforgeeks.org/computer-networks/what-is-ports-in-networking/)** is used to identify which specific application should receive the incoming message, and each IP address can have up to 65,535 ports. Typically we don't have to specify a port when calling an API, since there are default ports assigned to certain services, protocols, and applications. For example, HTTPS-based APIs usually run on port 443.
 
-We should also briefly address the difference between a URL and a domain here. Think of the domain `api.openai.com` as the building address like *Fredrik Bajers Vej 7K* that usually corresponds to a certain group of hardware resources. The full URL is like an address with floor and room number like *Fredrik Bajers Vej 7K, 3.2.50*, which in the below example specifies the version of the API (v1) and the specific function (conversation completion).
+We should also briefly address the [difference between a URL and a domain](https://www.geeksforgeeks.org/computer-networks/difference-between-domain-name-and-url/) here. Think of the domain `api.openai.com` as the building address like *Fredrik Bajers Vej 7K* that usually corresponds to a certain group of hardware resources. The full URL is like an address with floor and room number like *Fredrik Bajers Vej 7K, 3.2.50*, which in the below example specifies the version of the API (v1) and the specific function (conversation completion).
 
 ![[Pasted image 20250720134403.png]]
 
@@ -217,6 +217,7 @@ And an example of sending a `POST` request:
 ```python
 import os
 import requests
+import json
 
 url = "https://api.anthropic.com/v1/messages"
 
@@ -277,24 +278,25 @@ Note the HTTP request and response components, management of API keys, and handl
 > - [OpenAI API Documentation](https://platform.openai.com/docs/overview)
 > - [Anthropic API Documentation](https://docs.anthropic.com/en/api/overview)
 
-> [!faq] Exercise
-> Build two Python programs that demonstrate the API fundamentals covered in this module.
-> 
-> **Exercise 1: Command-line Chatbot**
-> 
-> Build a chatbot using an AI API of your choice (e.g., OpenAI, Anthropic, or others) that takes users' input from the command line interface and display the response. It demonstrates:
-> - **HTTP Request Components**: Properly implement headers including Authorization, Content-Type, and User-Agent as shown in the [[#HTTP Request]] section
-> - **REST Statelessness**: Follow the statelessness principle by including full conversation history in each request
-> - **HTTP Status Code Handling**: Handle different status codes with user-friendly messages referencing the [[#HTTP Response]] section
-> - **Response Processing**: Parse and display relevant response (content, usage tokens, model information)
-> 
-> **Exercise 2: Image Analysis Tool**
-> 
-> Build a command-line tool that analyzes image content using a multi-modal AI API of your choice that takes users' input file (path) from the command line and display the analysis result (content of the image, class labels, or others). It demonstrates the same points as above plus:
-> - **Content-Type Handling**: Choose a proper input format for images (file upload, base64 encoding, or URL references)
-> 
-> **Implementation Requirements:**
-> 
-> Both programs should demonstrate robust practices:
-> - **Security**: Follow Authorization header best practices from the [[#HTTP Request]] section by using environment variables for API keys instead of hardcoding them
-> - **Transparency**: Implement using the `requests` package following the request-response patterns shown in the [[#Interact with APIs with Python]] section, which provides better understanding of HTTP fundamentals than provider-specific SDKs
+## Exercise
+
+Build two Python programs that demonstrate the API fundamentals covered in this module.
+
+**Exercise 1: Command-line Chatbot**
+
+Build a chatbot using an AI API of your choice (e.g., OpenAI, Anthropic, or others) that takes users' input from the command line interface and display the response. It demonstrates:
+- **HTTP Request Components**: Properly implement headers including Authorization, Content-Type, and User-Agent as shown in the [[#HTTP Request]] section
+- **REST Statelessness**: Follow the statelessness principle by including full conversation history in each request
+- **HTTP Status Code Handling**: Handle different status codes with user-friendly messages referencing the [[#HTTP Response]] section
+- **Response Processing**: Parse and display relevant response (content, usage tokens, model information)
+
+**Exercise 2: Image Analysis Tool**
+
+Build a command-line tool that analyzes image content using a multi-modal AI API of your choice that takes users' input file (path) from the command line and display the analysis result (content of the image, class labels, or others). It demonstrates the same points as above plus:
+- **Content-Type Handling**: Choose a proper input format for images (file upload, base64 encoding, or URL references)
+
+**Implementation Tips:**
+
+Both programs should demonstrate robust practices:
+- **Security**: Follow Authorization header best practices from the [[#HTTP Request]] section by using environment variables for API keys instead of hardcoding them
+- **Transparency**: Implement using the `requests` package following the request-response patterns shown in the [[#Interact with APIs with Python]] section, which provides better understanding of HTTP fundamentals than provider-specific SDKs

@@ -10,3 +10,44 @@
 :root[saved-theme="light"] {
   color-scheme: light;
 }
+
+// Add header level indicators as prefixes for article content only
+article {
+  h1::before {
+    content: "#";
+    color: inherit;
+    opacity: 0.8;
+    font-family: var(--codeFont);
+    font-size: 0.9em;
+    margin-right: 0.5rem;
+  }
+
+  h2::before {
+    content: "##";
+    color: inherit;
+    opacity: 0.8;
+    font-family: var(--codeFont);
+    font-size: 0.9em;
+    margin-right: 0.5rem;
+  }
+
+  h3::before {
+    content: "###";
+    color: inherit;
+    opacity: 0.8;
+    font-family: var(--codeFont);
+    font-size: 0.9em;
+    margin-right: 0.5rem;
+  }
+
+  h4::before,
+  h5::before,
+  h6::before {
+    content: "####";
+    color: inherit;
+    opacity: 0.8;
+    font-family: var(--codeFont);
+    font-size: 0.9em;
+    margin-right: 0.5rem;
+  }
+}

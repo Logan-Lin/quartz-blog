@@ -3,7 +3,7 @@ title: AI compute hardware
 draft: false
 ---
 > [!tldr] TL;DR
-> Modern "AI computers" aren't fundamentally different - they still use the 80-year-old Von Neumann architecture (CPU, memory, I/O, bus). While CPUs excel at sequential processing, AI workloads need massive parallel computation and high memory bandwidth. This mismatch led to specialized hardware: GPUs (originally for graphics, now dominant for AI), TPUs (Google's custom AI chips), and NPUs (efficient AI chips for phones/laptops).
+> Modern "AI computers" aren't fundamentally different: they still use the 80-year-old Von Neumann architecture. While CPUs excel at sequential processing, AI workloads need massive parallel computation and high memory bandwidth. This mismatch led to specialized hardware.
 
 Unless you have been living off-grid for the last few years, you have probably been tired of hearing "AI computers" or something similar.
 

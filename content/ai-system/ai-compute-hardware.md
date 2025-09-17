@@ -158,3 +158,16 @@ As for the specific architecture design, different companies have different desi
 Despite all the hyped-up specialized hardware for AI computing, most modern computers still fundamentally adhere to the Von Neumann architecture at the system level. Regardless of GPUs, TPUs, or NPUs integrated into computers, this hardware will still connect to CPUs via the bus system, share the unified memory address space, and is ultimately managed and coordinated by CPUs. The CPU remains the "executive chef" coordinating the system, while specialized processors act like highly skilled sous chefs handling specific tasks.
 
 The Von Neumann architecture's genius lies not in its specific components, but in its modular design that continues to accommodate new types of processing units as computational needs evolve. Just like [Factorio](https://www.factorio.com/), while new assembly lines might need to be built to produce new types of products introduced by updates to the game, the bus system will remain the golden standard architecture if you want your factory to be scalable and productive.
+
+## Exercise
+
+**Run an AI model on different types of hardware provided by Google Colab.**
+
+Spin up [Google Colab](https://colab.research.google.com/), an interactive playground (essentially Jupyter Notebook) for running Python code with different types of hardware (CPU, GPU, and TPU) and enough free computing hours for us to play with.
+
+Have fun tinkering around with an AI model on it and try out different types of hardware:
+
+- Run the image analysis model we used in [[wrap-ai-with-api|Wrap AI Models with APIs]].
+- Calculate the theoretical size of the model (hint: can be achieved by calculating the number of parameters in the model).
+- Change your runtime to different types of hardware (CPU, GPU, and TPU) and rerun the model.
+- Record the time the model needs to process one image and compare the time across different types of hardware.

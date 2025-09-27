@@ -10,7 +10,7 @@ pkgs.mkShell {
       alias serve="npx quartz build --serve"
       alias build="npx quartz build"
       alias sync="npx quartz build && rsync -avP --delete ./public/ vps:~/www/blog/ && rsync -avP ./nginx.conf vps:~/www/blog-nginx.conf"
-      alias push="npx quartz build && npx quartz sync && exit"
+      alias push="npx quartz build && npx quartz sync"
       
       echo "Available commands:"
       echo "  serve      - Build and serve the site locally"

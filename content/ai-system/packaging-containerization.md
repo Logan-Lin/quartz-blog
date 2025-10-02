@@ -1,11 +1,11 @@
 ---
-title: Packaging & containerization
+title: B.5-Packaging & containerization
 draft: false
 ---
 > [!summary] TL;DR
 > Ever struggled with "it works on my machine" syndrome? Learn how containers solve deployment headaches by packaging your applications with everything they need to run consistently anywhere. We'll explore Docker fundamentals and build a containerized AI API server.
 
-Now you understand that most computers, from your smartphones and laptops, those overpriced "AI computers" sold in the electronic stores, to cloud servers that you can rent for a price of a car per year, adhere to the same computer architecture. It should come with no surprise that in most cases, you can install a general purpose computer operating system (Linux, Microsoft Windows, or others) on them, and use them as you would use your PC.
+Now you understand (from [[ai-compute-hardware|AI compute hardware]]) that most computers, from your smartphones and laptops, those overpriced "AI computers" sold in the electronic stores, to cloud servers that you can rent for a price of a car per year, adhere to the same computer architecture. It should come with no surprise that in most cases, you can install a general purpose computer operating system (Linux, Microsoft Windows, or others) on them, and use them as you would use your PC.
 
 But before you go ahead and deploy your AI API server on all kinds of machines and dreaming about earning passive income by charging other developer using your server, we will learn techniques that will make large-scale deployment much easier.
 
@@ -320,7 +320,7 @@ Building custom container images transforms your application from something that
 
 ### Interactive Approach (Not Recommended)
 
-Before diving into the proper way to build images, let's briefly look at the manual approach to understand why it's not ideal. You could theoretically create a custom image by starting a container, installing everything manually, and then saving it:
+Before diving into the proper way to build images, let's briefly look at the manual approach to understand why it's not ideal. You could theoretically create a custom image by starting a container, installing everything manually, and then saving it using the [docker commit](https://docs.docker.com/reference/cli/docker/container/commit/) command:
 
 ```bash
 # Start an interactive Python container
@@ -340,7 +340,7 @@ While this technically works, it has serious drawbacks: the process isn't reprod
 
 ### Dockerfile: The Recipe for Container Images
 
-The proper way to build container images is with a **Dockerfile** - a text file containing step-by-step instructions for creating your image. Remember the layered system we discussed earlier? A Dockerfile defines exactly what goes into each layer, making the build process completely reproducible and documented.
+The proper way to build container images is with a [**Dockerfile**](https://docs.docker.com/reference/dockerfile/): a text file containing step-by-step instructions for creating your image. Remember the layered system we discussed earlier? A Dockerfile defines exactly what goes into each layer, making the build process completely reproducible and documented.
 
 Think of a Dockerfile as a recipe that tells Docker: "Start with this base ingredient (base image), add these components (dependencies), mix in this code (your application), and serve it this way (startup command)." Anyone with your Dockerfile can recreate the exact same image, just like anyone can follow a recipe to make the same dish.
 
@@ -394,6 +394,7 @@ transformers==4.35.2
 torch==2.1.1
 pillow==10.1.0
 sqlalchemy==2.0.23
+numpy<2
 ```
 
 Now, here's our Dockerfile with step-by-step explanations:
@@ -412,16 +413,16 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application code (creates application layer)
-COPY main.py .
+COPY server.py .
 
 # Create directory for database
-RUN mkdir -p /app/data
+RUN mkdir -p ./data
 
 # Expose port 8000 for the API
 EXPOSE 8000
 
 # Command to run when container starts
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python" "server.py"]
 ```
 
 Let's break down each instruction:
@@ -453,7 +454,7 @@ Docker will execute each instruction in your Dockerfile, creating layers as it g
 docker run -p 8000:8000 my-ai-classifier:v1.0
 
 # Or run in detached mode with volume for persistent database
-docker run -d -p 8000:8000 -v $(pwd)/data:/app/data --name ai-server my-ai-classifier:v1.0
+docker run -d -p 8000:8000 -v $(pwd)/data/ai_api.db:/app/data/ai_api.db --name ai-server my-ai-classifier:v1.0
 ```
 
 Your API server is now running in a container! You can access it at `http://localhost:8000` just like before, but now everything runs in a completely isolated, reproducible environment.
@@ -501,7 +502,7 @@ docker run -p 8000:8000 yourusername/my-ai-classifier:v1.0
 
 Transform your image classification API server from [[wrap-ai-with-api|Wrap AI Models with APIs]] into a portable, reproducible container that can run anywhere:
 
-- **Write a Dockerfile**: Create a comprehensive Dockerfile using the instructions covered in [[#Dockerfile Instructions]], properly structuring your build layers for efficiency
+- **Write a Dockerfile**: Create a comprehensive Dockerfile using the instructions covered in [[#Dockerfile Instructions]]
 - **Build and Run**: Follow the process demonstrated in [[#Building and Running Your Container]] to create your container image and run it with appropriate port mapping and volume mounting
 - **Test Functionality**: Verify that your containerized API server works identically to the original version, with all endpoints accessible and functioning correctly
 

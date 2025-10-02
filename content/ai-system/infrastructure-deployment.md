@@ -1,5 +1,5 @@
 ---
-title: Infrastructure & Deployment of AI
+title: B-Infrastructure & Deployment of AI
 draft: false
 ---
 > [!tldr] TL;DR

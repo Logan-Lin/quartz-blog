@@ -751,16 +751,17 @@ docker run -d \
 
 Notice:
 - No `-p 8000:8000` port publishing (Traefik handles external access)
-- `--network traefik-network` connects to Traefik's network
-- Labels configure routing and SSL
+- `--network traefik-network` connects to Traefik's network, this is important for the two containers to talk to each other
 
-These labels tell Traefik:
+The critical part is the labels which configure routing and SSL. These labels tell Traefik:
 - `traefik.enable=true`: Manage this container
 - `traefik.http.routers.api.rule`: Route requests for `yourdomain.com` to this container
 - `traefik.http.routers.api.entrypoints=websecure`: Use HTTPS (port 443)
 - `traefik.http.routers.api.tls=true`: Enable TLS
 - `traefik.http.routers.api.tls.certresolver=letsencrypt`: Use Let's Encrypt for certificates
 - `traefik.http.services.api.loadbalancer.server.port=8000`: Forward to port 8000 inside the container
+
+Note that `api` is just an identifier for this service, and you can use any name as long as it doesn't conflict with other containers. The port configuration is often optional since Traefik can auto-detect exposed ports, but we include it here for clarity.
 
 #### How Automatic SSL Works
 

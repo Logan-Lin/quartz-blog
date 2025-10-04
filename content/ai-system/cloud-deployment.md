@@ -513,7 +513,7 @@ ping yourdomain.com
 
 If it resolves to your server's IP address, DNS is configured correctly.
 
-### Manual SSL Setup with Nginx and Certbot
+### Manual SSL Setup
 
 The traditional approach to HTTPS uses Nginx as a reverse proxy and Certbot to obtain SSL certificates from Let's Encrypt. This method requires manual configuration but provides full transparency and control over how everything works.
 
@@ -674,7 +674,7 @@ sudo cat /etc/nginx/sites-available/your-domain
 
 Your API is now accessible via HTTPS at `https://yourdomain.com`.
 
-### Automatic SSL Setup with Traefik
+### Automatic SSL Setup
 
 While the Nginx and Certbot approach works well, it requires manual configuration for each domain and updating Nginx configuration files. Traefik offers an alternative approach designed specifically for Docker environments, where SSL certificates are obtained and renewed automatically through container labels.
 

@@ -2,6 +2,9 @@
 title: B.6-Cloud Deployment
 draft: false
 ---
+> [!summary] TL;DR
+> The "cloud" is just computers in data centers you can rent remotely. Learn how to deploy your containerized AI API to cloud VMs, covering remote access, Docker installation, and production-ready HTTPS setup.
+
 After [[ai-compute-hardware|AI compute hardware]] and [[packaging-containerization|Packaging & containerization]], now we have the confidence that we can deploy our AI system to a computer other than our own PC. Other than the fact that we can do it, there are also reasons that we might want to do it. AI systems, especially API servers like the one we implemented earlier, usually need to run 24/7, which you probably shouldn't rely on your own PC. Running AI systems often use lots of computational resources, which in turn make computers produce heat and noise, something you probably don't enjoy at home.
 
 In this module we will learn how to deploy our system on to the ["cloud"](https://en.wikipedia.org/wiki/Cloud_computing). This is probably a buzzword you have heard for quite a while, only recently overtaken by the "AI" hype. You will learn that cloud deployment has nothing to do with clouds in the sky: the cloud infrastructure essentially is composed of computers inside data centers that are setup in a way that can be accessed remotely, thus cloud deployment (in most cases) comes down to deployment on to a remote computer.

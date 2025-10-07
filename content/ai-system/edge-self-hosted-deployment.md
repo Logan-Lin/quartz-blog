@@ -1,5 +1,5 @@
 ---
-title: B.7-Edge & self-hosted deployment
+title: B.7-Edge & Self-hosted Deployment
 draft: false
 ---
 > [!summary] TL;DR

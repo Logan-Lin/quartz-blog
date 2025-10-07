@@ -1,5 +1,5 @@
 ---
-title: B.5-Packaging & containerization
+title: B.5-Packaging & Containerization
 draft: false
 ---
 > [!summary] TL;DR

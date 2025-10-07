@@ -1,5 +1,5 @@
 ---
-title: B.4-AI compute hardware
+title: B.4-AI Compute Hardware
 draft: false
 ---
 > [!tldr] TL;DR

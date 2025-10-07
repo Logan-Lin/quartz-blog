@@ -827,3 +827,18 @@ curl -L http://yourdomain.com
 The `-L` flag tells curl to follow redirects. You should see your API's response.
 
 Your API is now production-ready with HTTPS. Users can access it at `https://yourdomain.com` with full encryption, and certificates will renew automatically. Your container continues running unchanged on port 8000, completely unaware of the HTTPS complexity happening in front of it.
+
+## Exercise
+
+**Deploy Your API Server Container on the Cloud**
+
+Deploy the container we built in [[packaging-containerization|the previous module]] on a cloud machine to free up the computational resources of your personal computer.
+
+- Connect to a cloud machine of your choice and install the necessary container runtime
+- Pull the container image you pushed to container image registry, or upload all source code and build the image on the cloud machine directly
+- Run the container and test its functionality
+
+**Advanced Challenges (Optional):**
+
+- If your cloud machine has a publicly accessible IP address, setup a domain pointing to your API server and enable HTTPS
+- Interact with your API server using client program running on another machine (e.g., your personal computer) through the HTTPS-enabled API endpoints

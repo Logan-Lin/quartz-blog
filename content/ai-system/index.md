@@ -12,13 +12,13 @@ Companion literature for the [DAKI3 - AI Systems & Infrastructure](https://www.m
     - Module 2: [[advanced-apis|Advanced APIs in the Era of AI]]
     - Module 3: [[wrap-ai-with-api|Wrap AI Models with APIs]]
 - Phase B: [[infrastructure-deployment|Infrastructure & Deployment of AI]]
-    - Module 4: [[ai-compute-hardware|AI compute hardware]]
-    - Module 5: [[packaging-containerization|Packaging & containerization]]
-    - Module 6: [[cloud-deployment|Cloud deployment]]
-    - Module 7: [[edge-self-hosted-deployment|Edge & self-hosted deployment]]
-    - Module 8: [[mini-project|Mini-project]]
-- Phase C: Production-ready AI systems
-    - Module 9: Automating deployment & management
-    - Module 10: Clustering & load balancing
-    - Module 11: High availability & reliability
-    - Module 12: Advanced deployment strategies
+    - Module 4: [[ai-compute-hardware|AI Compute Hardware]]
+    - Module 5: [[packaging-containerization|Packaging & Containerization]]
+    - Module 6: [[cloud-deployment|Cloud Deployment]]
+    - Module 7: [[edge-self-hosted-deployment|Edge & Self-hosted Deployment]]
+    - Module 8: [[mini-project|Mini Project]]
+- Phase C: Production-ready AI Systems
+    - Module 9: Automating Deployment & Management
+    - Module 10: Clustering & Load Balancing
+    - Module 11: High Availability & Reliability
+    - Module 12: Advanced Deployment Strategies

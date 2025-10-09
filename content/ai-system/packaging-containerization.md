@@ -422,7 +422,7 @@ RUN mkdir -p ./data
 EXPOSE 8000
 
 # Command to run when container starts
-CMD ["python" "server.py"]
+CMD ["python", "server.py"]
 ```
 
 Let's break down each instruction:

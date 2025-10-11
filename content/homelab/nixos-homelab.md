@@ -2,8 +2,7 @@
 title: A NixOS Newbie's Homelab Setup
 draft: false
 ---
-
-> [!tldr]
+> [!tldr] TL;DR
 > From Unraid's GUI to NixOS declarative config. Started with nix-darwin on my MacBook, migrated my home server, then added a VPS and ThinkPad. Four machines, one repo, shared modules. As a newbie, it's been surprisingly manageable.
 
 ## The Unraid Days

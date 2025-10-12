@@ -364,17 +364,18 @@ h3,
 h4,
 h5,
 h6 {
-  &[id] > a[href^="#"] {
-    margin: 0 0.5rem;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    transform: translateY(-0.1rem);
+  &[id] > a[href^="#"].heading-anchor {
+    margin-left: 0.5rem;
+    opacity: 0.5;
     font-family: var(--codeFont);
-    user-select: none;
-  }
+    font-size: 0.9em;
+    color: inherit;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
 
-  &[id]:hover > a {
-    opacity: 1;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &:not([id]) > a[role="anchor"] {

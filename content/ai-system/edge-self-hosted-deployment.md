@@ -182,3 +182,20 @@ Which option makes sense depends on your situation and priorities.
 For learning and local-only use, stick with LAN access. No need to expose services to the internet while you're experimenting. If you have a public IP (static or dynamic) and want full control, Option 1 is the simplest. Just remember you're responsible for security. If you're behind CGNAT or want to keep your home IP hidden, Option 2 (WireGuard/Tailscale) gives you maximum flexibility and control, though with added complexity. If you want the easiest solution for public access and don't mind trusting a third party, Option 3 (Cloudflare Tunnel) is perfect for personal projects.
 
 Whatever you choose, remember that exposing services to the internet comes with security responsibilities. Keep your software updated, use strong authentication, monitor your logs, and only expose services you actually need to be public.
+
+## Exercise
+
+**Self-host Your API Server**
+
+Deploy your containerized API server from [[packaging-containerization|Packaging & containerization]] on local hardware instead of the cloud. This exercise teaches you the fundamentals of edge and self-hosted deployment.
+
+- Choose your hardware: Raspberry Pi, an old laptop, a desktop PC, or even your daily computer for testing
+- Install a Linux operating system if not already running one (Ubuntu Server recommended for x86 machines, Raspberry Pi OS for Pi)
+- Install Docker and deploy your containerized API server on the local hardware
+- Verify the service works on your local network by accessing it from another device (phone, laptop) connected to the same WiFi
+
+**Advanced Challenges (Optional):**
+
+- Make your locally-hosted service accessible from the internet using one of the three approaches covered in this module, then test by accessing from a different network (mobile data, coffee shop WiFi, etc.)
+- Set up HTTPS for your local service using one of the approaches covered in this module and the previous one
+- If using Raspberry Pi or other ARM hardware, build a multi-architecture Docker image that works on both x86 and ARM platforms

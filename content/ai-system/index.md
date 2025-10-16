@@ -18,7 +18,5 @@ Companion literature for the [DAKI3 - AI Systems & Infrastructure](https://www.m
     - Module 7: [[edge-self-hosted-deployment|Edge & Self-hosted Deployment]]
     - Module 8: [[mini-project|Mini Project]]
 - Phase C: Production-ready AI Systems
-    - Module 9: Automating Deployment & Management
-    - Module 10: Clustering & Load Balancing
-    - Module 11: High Availability & Reliability
-    - Module 12: Advanced Deployment Strategies
+    - Module 9: High Availability & Reliability
+    - Module 10: Advanced Deployment Strategies

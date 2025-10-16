@@ -52,7 +52,7 @@ These are not strict requirements, but are aspects that you probably should cons
 
 For folks who feel the above requirements are too easy, here are some examples of how you can incorporate advanced techniques into your mini project to amaze your classmates. You probably have even crazier ideas if you are really considering implementing these: the sky is the limit here.
 - Record per user usage and implement advanced rate limit algorithm for your API endpoints with AI functionalities
-- Leverage production-ready techniques we are going to learn in the following modules to: make your server automatically scale up or down based on real-time traffic, or make it highly-available (e.g., run on a cluster)
+- Leverage production-ready techniques we are going to learn in the last phase to: make your server highly-available (e.g., run on a cluster) or implement advanced deployment strategies
 - Make your server publicly available, by giving it a publicly accessible IP address, a domain, and proper SSL certificate
 - Make your API server a drop-in replacement of OpenAI/Anthropic's API families by implementing multi-modal conversational APIs that can receive both natural language and image input and generate language output
 

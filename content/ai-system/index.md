@@ -20,3 +20,8 @@ Companion literature for the [DAKI3 - AI Systems & Infrastructure](https://www.m
 - Phase C: Production-ready AI Systems
     - Module 9: High Availability & Reliability
     - Module 10: Advanced Deployment Strategies
+
+## Other Materials
+
+- [Reference implementation of exercises](https://github.com/orgs/AI-Systems-Infrastructure/repositories)
+- [[exam|Exam Format]]

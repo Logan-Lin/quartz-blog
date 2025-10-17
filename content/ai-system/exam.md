@@ -8,12 +8,12 @@ Individual oral exam based on submitted project. The duration will be 15 minutes
 ### Agenda
 
 - Students give a (roughly) 5-minute presentation of their completed mini-project
-- Students draw a topic (from the 6 topics listed below, preferably the one closest related to their mini-project) and explain the basic concepts within that topic
+- Students pick a topic (from the 5 topics listed below, preferably the one closest related to their mini-project) and explain the basic concepts within that topic
 - Examiner and censor ask follow-up questions, which may relate to other course topics and include questions about practical applications and implementation; students can optionally refer back to their mini-project
 
 ## Assessment
 
-Students are not required to write code during the exam, but may be asked to draw diagrams or solve small tasks manually. The grade will be based on an overall assessment of both the mini-project and oral performance, and in accordance with the 7-point grading scale.
+Students are not required to write code during the exam, nor to remember any specific commands or code syntax, but may be asked to draw diagrams or solve small tasks manually. The grade will be based on an overall assessment of both the mini-project and oral performance, and in accordance with the 7-point grading scale.
 
 ## Pre-approved aids
 

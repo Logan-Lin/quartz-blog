@@ -75,7 +75,7 @@ Note that the questions listed below are examples and may be formulated differen
 **AI computing hardware**
 
 - Why are GPUs particularly well-suited for AI computing compared to traditional CPUs?
-- Compare different types of AI hardware: GPUs, TPUs, NPUs, and FPGAs. What are their respective strengths?
+- Compare different types of AI hardware: GPUs, TPUs, and NPUs. What are their respective strengths?
 - What are the trade-offs between using dedicated AI accelerators (TPUs, NPUs) vs general-purpose GPUs?
 - What factors should you consider when choosing hardware for AI inference and training?
 - How do different specs of AI computing hardware (TFLOPS, core count, TDP, memory size, memory bandwidth, etc.) affect AI model performance? What are the implications for hardware selection?

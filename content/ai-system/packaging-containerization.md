@@ -35,6 +35,9 @@ Think of containers like this: at a traditional Chinese dinner, everyone shares 
 
 The benefits of containers quickly made containerization become the industry standard for large-scale software deployment. Today, there is a very high chance that one of the applications you use everyday is running in containers. It is [reported](https://www.docker.com/blog/2025-docker-state-of-app-dev/) that by 2025, container usage in the IT industry has reached 92%. With the help of containers, companies can deploy updates without downtime, handle more users by scaling automatically, and run the same software reliably across different hardware infrastructures.
 
+> [!tip] Videos
+> - [Containerization explained](https://www.youtube.com/watch?v=0qotVMX-J5s)
+
 > [!info] Extended Reading
 > For those curious about the differences between containers and [virtual machines (VMs)](https://en.wikipedia.org/wiki/Virtual_machine). Virtual machines create complete simulated computers, each running its own full operating system. It's like building separate restaurants for each type of cuisine, each with its own kitchen, dining room, storage, and utility systems. Containers, on the other hand, share the host's operating system kernel while maintaining isolation. This makes containers much lighter and faster to start compared to VMs. Nevertheless, VMs provide stronger isolation for certain security-critical applications, just like separate restaurants offer more complete separation for health code or dietary law compliance, so they still have their usecases.
 
@@ -76,6 +79,10 @@ With the toolkit provided by Docker, in many cases you can quickly starting usin
 If you need to build a custom image, with Dockerfile you can also easily use one of the existing image as the base image, and you only have to define the customized part of your image. We will dive into how to write Dockerfile below.
 
 Under the hood, Docker uses a client-server architecture that separates what you interact with from what actually does the work. When you use Docker CLI, you are interacting with the Docker Client, a program that takes your commands and send the corresponding requests to the Docker Daemon. Docker Daemon is a background service that does the actual work of managing containers, like a server that runs on backend. As you would imagine, the Docker Client and the Docker Daemon don't necessarily have to run on the same machine, a common relationship between clients and servers.
+
+> [!tip] Videos
+> - [Container images explained](https://www.youtube.com/watch?v=wr4gpKBO3ug)
+> - [Docker introduction](https://www.youtube.com/watch?v=Gjnup-PuquQ)
 
 > [!info] Extended Reading
 > There are alternative container frameworks to Docker, such as:
@@ -492,6 +499,9 @@ Once pushed, anyone can run your containerized API server with a single command:
 ```bash
 docker run -p 8000:8000 yourusername/my-ai-classifier:v1.0
 ```
+
+> [!tip] Videos
+> - [Docker tutorial](https://www.youtube.com/watch?v=DQdB7wFEygo)
 
 > [!info] Extended Reading
 > The same push process works for other registries like [GitHub Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) (`ghcr.io/username/repository:tag`) or [Google Container Registry](https://cloud.google.com/artifact-registry/docs) (`gcr.io/project/repository:tag`). Many registries also offer **automated building**: instead of building images locally, you can push your Dockerfile and source code to the registry, and it will build the image for you. This is particularly useful for [CI/CD pipelines](https://docs.docker.com/build/ci/) where you want automated builds triggered by code changes. Services like Docker Hub's [Automated Builds](https://docs.docker.com/docker-hub/builds/), [GitHub Actions with Container Registry](https://docs.github.com/en/actions/publishing-packages/publishing-docker-images), and [cloud provider build services](https://cloud.google.com/build/docs) handle the entire build process in the cloud.

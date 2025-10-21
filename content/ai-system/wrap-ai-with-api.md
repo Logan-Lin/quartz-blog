@@ -62,6 +62,9 @@ def hello_world():
 
 The three examples above can all achieve similar results—implement an API server that takes `GET` requests and returns a hello-world message. You can tell that comparatively the implementation with FastAPI and Flask is simpler than that with Django. We will use FastAPI as the primary example for demonstrating how to build your own API servers in the following content.
 
+> [!tip] Videos
+> - [Comparison between FastAPI, Flask, and Django](https://www.youtube.com/watch?v=cNlJCQHSmbE)
+
 ## FastAPI Fundamentals
 
 We will start with implementing an API server with essential functionalities: accept requests to specific routes (specified by the URL) with `GET` and `POST` methods. 
@@ -203,6 +206,10 @@ def receiver(data: ReceivedData):
 ```
 
 Now if the request body contains invalid data types, FastAPI will reject the request and return `422 Unprocessable Content`.
+
+> [!tip] Videos
+> - [FastAPI tutorial](https://www.youtube.com/watch?v=iWS9ogMPOI0)
+> - [Pydantic tutorial](https://www.youtube.com/watch?v=XIdQ6gO3Anc)
 
 > [!info] Extended Reading
 > There are many more benefits and functionalities of integrating `pydantic` to define and abstract data models in FastAPI, including reusability and automatic documentation generation. Generally speaking, when implementing API servers, data model abstraction is a preferred practice. Take a look at more things you can do with both libraries combined:
@@ -544,6 +551,9 @@ async def classify_image(
 ):
     # Remaining code
 ```
+
+> [!tip] Videos
+> - [SQLAlchemy introduction](https://www.youtube.com/watch?v=aAy-B6KPld8)
 
 ### API Key Identification & Tracking
 

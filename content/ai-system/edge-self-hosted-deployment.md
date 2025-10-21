@@ -45,6 +45,11 @@ Beyond economics, self-hosting gives you complete control. Your data stays on yo
 
 Edge computing and self-hosted deployment are distinct ideas, but we cover them together in this module because they share practical challenges. Both involve working with hardware you have physical access to, whether that's a Raspberry Pi on your desk or a server in your office. Both require you to manage limited resources compared to the cloud's seemingly infinite capacity. When something breaks, you can't just open a support ticket; you need to troubleshoot and fix it yourself. The deployment techniques are also similar: you're installing operating systems, configuring networks, running containers, and ensuring services stay up, whether on edge devices or self-hosted servers. Most importantly, the skills you learn deploying to a Raspberry Pi at the edge transfer directly to managing a self-hosted server at home, and vice versa.
 
+> [!tip] Videos
+> - [Edge computing explained](https://www.youtube.com/watch?v=cEOUeItHDdo)
+> - [Introduction to self-hosting](https://www.youtube.com/watch?v=4tiNUaeAM1w)
+> - [Replacing cloud services with self-hosted ones](https://www.youtube.com/watch?v=vpiiqbpdkNk)
+
 ## Edge & Self-Hosted Deployment in Practice
 
 Now that you understand the concepts, let's get practical. We'll walk through deploying your containerized AI API server to edge and self-hosted hardware. Since we already covered Docker installation and running containers in [[cloud-deployment|Cloud Deployment]], we'll focus on what's different when working with physical hardware you control.
@@ -182,6 +187,10 @@ Which option makes sense depends on your situation and priorities.
 For learning and local-only use, stick with LAN access. No need to expose services to the internet while you're experimenting. If you have a public IP (static or dynamic) and want full control, Option 1 is the simplest. Just remember you're responsible for security. If you're behind CGNAT or want to keep your home IP hidden, Option 2 (WireGuard/Tailscale) gives you maximum flexibility and control, though with added complexity. If you want the easiest solution for public access and don't mind trusting a third party, Option 3 (Cloudflare Tunnel) is perfect for personal projects.
 
 Whatever you choose, remember that exposing services to the internet comes with security responsibilities. Keep your software updated, use strong authentication, monitor your logs, and only expose services you actually need to be public.
+
+> [!tip] Videos
+> - [VPNs and secure tunnels explained](https://www.youtube.com/watch?v=32KKwgF67Ho)
+> - [Cloudflare tunnel review](https://www.youtube.com/watch?v=oqy3krzmSMA)
 
 ## Exercise
 

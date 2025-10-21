@@ -30,6 +30,13 @@ We should also briefly address the [difference between a URL and a domain](https
 
 ![[Pasted image 20250720134403.png]]
 
+> [!tip] Videos
+> - [The OSI model of computer networks](https://www.youtube.com/watch?v=keeqnciDVOo)
+> - [IP address explained](https://www.youtube.com/watch?v=7_-qWlvQQtY)
+> - [How domains are mapped to IP addresses](https://www.youtube.com/watch?v=mpQZVYPuDGU)
+> - [Network ports explained](https://www.youtube.com/watch?v=h5vq9hFROEA)
+> - [Understanding URLs](https://www.youtube.com/watch?v=5Jr-_Za5yQM)
+
 > [!info] Extended Reading
 > If you are interested in concepts in computer networking that we left behind, take a look at these materials:
 > - https://www.geeksforgeeks.org/computer-networks/open-systems-interconnection-model-osi/
@@ -123,6 +130,10 @@ The **response body** is similar to the body in the request, containing the data
 ```
 Again, the format of this JSON object is specific to API providers and functions you requested.
 
+> [!tip] Videos
+> - [HTTP explained](https://www.youtube.com/watch?v=KvGi-UDfy00)
+> - [HTTP request explained](https://www.youtube.com/watch?v=DBhEFG7zjFU)
+
 > [!note] 
 > You might have noticed that we've been saying HTTP protocol throughout the above section, but the URLs we are calling start with HTTPS. HTTPS is an extension of HTTP that additionally encrypts messages. Think of it as writing letters in a way that only you and the recipient can understand. Nowadays, almost all public APIs use HTTPS and most software blocks all non-secure HTTP communications. We will come back to HTTP and HTTPS when we are deploying and serving our own APIs in Module 3: [[wrap-ai-with-api|Wrap AI Models with APIs]] and Module 6: [[cloud-deployment|Cloud Deployment]].
 
@@ -162,6 +173,9 @@ POST   /api?method=chat             # Generic endpoint
 **Cacheability** means HTTP responses should clearly define themselves as cacheable or non-cacheable. This can make the communication and computation of applications more efficient. Especially for AI APIs, frequently requested AI outputs can be flagged as cacheable and don't need to be recalculated.
 
 **Layered system** allows the architecture to be composed of multiple hierarchical layers, where each layer has specific roles and cannot see beyond the immediate layer it's communicating with. Typical AI APIs will include authentication layers for security, caching layers for reuse of frequently accessed AI results, and rate limiting layers to prevent abuse.
+
+> [!tip] Videos
+> - [What is a REST API?](https://www.youtube.com/watch?v=lsMQRaeKNDk)
 
 > [!info] Extended Reading
 > If you want to use a more SQL query-like API interaction method, where you explicitly define the type and scope of data you want and receive exactly that, consider GraphQL:
@@ -267,6 +281,9 @@ except json.JSONDecodeError:
 ```
 
 Note the HTTP request and response components, management of API keys, and handling of HTTP errors in both examples.
+
+> [!tip] Videos
+> - [Python `requests` library tutorial](https://www.youtube.com/watch?v=tb8gHvYlCFs)
 
 > [!info] Extended Reading
 > To get started with AI APIs, you'll need to register accounts, obtain API keys, and familiarize yourself with provider documentation. Here are the two major AI API platforms to explore:

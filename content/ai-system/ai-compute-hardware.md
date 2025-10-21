@@ -99,6 +99,11 @@ There are also lots of **I/O interfaces** on the board, like the *PCI Express in
 
 And if you look very closely, you can see traces everywhere on the board, this is the physical implementation of the **bus system**. These traces are essentially copper wires connecting all components together.
 
+> [!tip] Videos
+> - [History of John von Neumann](https://www.youtube.com/watch?v=QhBvuW-kCbM)
+> - [Computer architecture explained](https://www.youtube.com/playlist?list=PL9vTTBa7QaQOoMfpP3ztvgyQkPWDPfJez)
+> - [Computer architecture explained in Minecraft](https://www.youtube.com/watch?v=dV_lf1kyV9M)
+
 ## Limitations of Generic Hardware
 
 As we mentioned, most modern computers still fundamentally adhere to the Von Neumann architecture. But there are indeed limitations of generic computing hardware, especially CPUs, for heavy AI workloads. And there are two major aspects that CPUs are not very suitable for AI computing.
@@ -158,6 +163,9 @@ As for the specific architecture design, different companies have different desi
 Despite all the hyped-up specialized hardware for AI computing, most modern computers still fundamentally adhere to the Von Neumann architecture at the system level. Regardless of GPUs, TPUs, or NPUs integrated into computers, this hardware will still connect to CPUs via the bus system, share the unified memory address space, and is ultimately managed and coordinated by CPUs. The CPU remains the "executive chef" coordinating the system, while specialized processors act like highly skilled sous chefs handling specific tasks.
 
 The Von Neumann architecture's genius lies not in its specific components, but in its modular design that continues to accommodate new types of processing units as computational needs evolve. Just like [Factorio](https://www.factorio.com/), while new assembly lines might need to be built to produce new types of products introduced by updates to the game, the bus system will remain the golden standard architecture if you want your factory to be scalable and productive.
+
+> [!tip] Videos
+> - [Comparison of computing hardwares](https://www.youtube.com/watch?v=r5NQecwZs1A)
 
 ## Exercise
 

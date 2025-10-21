@@ -49,6 +49,10 @@ There are also different algorithms for determining when the rate limit is hit a
 - **Sliding window**: Continuously calculates usage based on recent activity, providing smoother request distribution and preventing burst abuse.
 - **Token bucket**: Allows requests only when tokens are available in a virtual "bucket," with tokens replenished at a fixed rate. This allows short bursts while maintaining overall rate control.
 
+> [!tip] Videos
+> - [API versioning explained](https://www.youtube.com/watch?v=vsb4ZkUytrU)
+> - [Rate limiting algorithms](https://www.youtube.com/watch?v=mQCJJqUfn9Y)
+
 > [!note]
 > We will get a more concrete understanding of API versioning and rate limiting later in Module 3: [[wrap-ai-with-api|Wrap AI Models with APIs]] when we have to implement these strategies ourselves.
 
@@ -187,6 +191,9 @@ ws.run_forever()
 
 ```
 
+> [!tip] Videos
+> - [Comparison between SSE and WebSocket](https://www.youtube.com/watch?v=X_DdIXrmWOo&t=102s)
+
 > [!info] Extended Reading
 > [WebRTC](https://www.tutorialspoint.com/webrtc/webrtc_quick_guide.htm) is another real-time protocol that provides [peer-to-peer connections](https://www.geeksforgeeks.org/computer-networks/what-is-p2p-peer-to-peer-process/) between applications. Compared to WebSocket which is more suitable for connections between servers or between a server and a client, WebRTC excels at streaming data between clients without relying on server architectures, and is widely used in video calling and live streaming softwares.
 
@@ -290,6 +297,10 @@ for message in consumer:
     print(f'Consumed: {message_value}')
 ```
 
+> [!tip] Videos
+> - [MQTT protocol explained](https://www.youtube.com/watch?v=0mlWIuPw34Y)
+> - [Kafka basics](https://www.youtube.com/watch?v=uvb00oaa3k8)
+
 ### Model Context Protocol
 
 Recent advancements in conversational AI models—large language models (LLMs)—have shown great potential in solving complex tasks. Their utilization is highly dependent on the comprehensiveness of the information they are given and the diversity of actions they can perform. When you interact with LLMs through the conversation APIs we introduced earlier, you can manually feed as much information as possible into the conversation context and instruct LLMs to tell you what to do in natural language. However, this process doesn't align with the philosophy of APIs: it is neither automatic nor reproducible, which means it cannot scale to production-level applications. The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) addresses this challenge.
@@ -305,6 +316,9 @@ MCP servers can provide three types of capabilities to AI systems: resources, to
 MCP supports two primary communication methods depending on deployment needs: **stdio (Standard Input/Output)** for local integrations when clients and servers run on the same machine, and **HTTP with SSE** for remote connections—leveraging the same SSE protocol we explored earlier for streaming responses.
 
 Implementing MCP servers and clients with Python is relatively straightforward. Examples of a [weather server](https://github.com/modelcontextprotocol/quickstart-resources/blob/main/weather-server-python/weather.py) and an [MCP client](https://github.com/modelcontextprotocol/quickstart-resources/blob/main/mcp-client-python/client.py) are provided in the official quick start tutorials.
+
+> [!tip] Videos
+> - [MCP protocol explained](https://www.youtube.com/watch?v=HyzlYwjoXOQ)
 
 > [!info] Extended Reading
 > https://modelcontextprotocol.io/specification/ provides complete technical details of MCP, while https://modelcontextprotocol.io/docs/ provides tutorials and documentations for building MCP servers and clients.
@@ -337,8 +351,9 @@ To begin, unlike HDFS in Hadoop, Spark doesn't have its own native file system b
 
 Spark's computation architecture is also different from Hadoop. There are two key concepts: RDDs (Resilient Distributed Datasets) and the DAG (Directed Acyclic Graph) Scheduler. RDDs are essentially immutable collections of data that are distributed across a cluster of machines, similar to each job assigned to each employee that do not conflict with each other. The DAG scheduler is Spark's brain for figuring out how to compute the results, similar to how a management team figures out how to split a big project into multiple jobs. Spark has built-in APIs that support several programming languages to interact with its system, including Python with the [`pyspark`](https://www.datacamp.com/tutorial/pyspark-tutorial-getting-started-with-pyspark) library.
 
-> [!note]
-> We will dive deeper into the whole software and hardware architecture of Kafka, Hadoop, and Spark in later modules, after we gained some fundamental knowledges of clustering. Right now it would be a bit overwhelming.
+> [!tip] Videos
+> - [Apache Spark basics](https://www.youtube.com/watch?v=IELMSD2kdmk)
+> - [Apache Hadoop basics](https://www.youtube.com/watch?v=aReuLtY0YMI)
 
 ## Exercise
 

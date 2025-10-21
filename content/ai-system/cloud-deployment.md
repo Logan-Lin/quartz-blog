@@ -29,6 +29,10 @@ Cloud infrastructure is built in three layers. The **physical layer** forms the 
 
 Together, these layers transform a pile of hardware into a self-service platform where you can spin up a server in seconds with a few clicks or API calls.
 
+> [!tip] Videos
+> - [Cloud computing introduction](https://www.youtube.com/watch?v=N0SYCyS2xZA)
+> - [Virtual machines vs. containers](https://www.youtube.com/watch?v=eyNBf1sqdBQ)
+
 > [!info] Extended Reading
 > To dive deeper into cloud infrastructure architecture:
 > - [What is a Data Center?](https://aws.amazon.com/what-is/data-center/) from AWS explains the physical infrastructure
@@ -102,6 +106,10 @@ While managed services and usage-based pricing sound appealing with their promis
 **Vendor lock-in with managed services.** When you use managed AI platforms like SageMaker or Vertex AI, you often write code that depends on their proprietary APIs. [Research shows 71% of organizations](https://journalofcloudcomputing.springeropen.com/articles/10.1186/s13677-016-0054-z) cite vendor lock-in as a deterrent to adopting more cloud services. Migrating away requires rewriting significant portions of your application. Data formats may be incompatible. Features you relied on might not exist elsewhere. The switching costs become so high that you're effectively locked into that provider's ecosystem, even if prices increase or service quality declines.
 
 For the image classification API server we've built in this course, a sensible starting point would be a small VM running your Docker container. You get full control, predictable monthly costs (often $5-20 for basic instances), and the ability to scale up by switching to a larger VM when needed. This approach teaches you cloud fundamentals without the risk of surprise bills or vendor lock-in. As you gain experience and your requirements grow clearer, you can make informed decisions about whether managed services justify their additional complexity and cost uncertainty.
+
+> [!tip] Videos
+> - [Business model of cloud computing](https://www.youtube.com/watch?v=4Wa5DivljOM)
+> - [Usage-based pricing pitfalls](https://www.youtube.com/watch?v=SCIfWhAheVw)
 
 > [!info] Extended Reading
 > For deeper exploration of cloud economics and vendor lock-in:
@@ -827,6 +835,12 @@ curl -L http://yourdomain.com
 The `-L` flag tells curl to follow redirects. You should see your API's response.
 
 Your API is now production-ready with HTTPS. Users can access it at `https://yourdomain.com` with full encryption, and certificates will renew automatically. Your container continues running unchanged on port 8000, completely unaware of the HTTPS complexity happening in front of it.
+
+> [!tip] Videos
+> - [HTTPS explained](https://www.youtube.com/watch?v=hExRDVZHhig)
+> - [Let's encrypt tutorial](https://www.youtube.com/watch?v=WPPBO-QpiJ0)
+> - [Traefik vs. Nginx](https://www.youtube.com/watch?v=scrtJ1U4wJU)
+> - [Obtaining SSL certificate for local machines](https://www.youtube.com/watch?v=qlcVx-k-02E&t=43s)
 
 ## Exercise
 

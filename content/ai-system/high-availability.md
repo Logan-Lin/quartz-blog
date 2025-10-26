@@ -17,7 +17,7 @@ When you tell someone "my service is reliable," what does that actually mean? Do
 
 The industry has developed standardized metrics to measure and communicate about availability. Understanding these metrics helps you answer crucial questions: Is my system good enough for users? Where should I focus improvement efforts? How do I compare to competitors?
 
-#### Mean Time Between Failures (MTBF)
+#### Mean Time Between Failures ([MTBF](https://www.ibm.com/think/topics/mtbf))
 
 The first metric answers a simple question: how long does your system typically run before something breaks?
 
@@ -39,7 +39,7 @@ This means on average, your system runs for 240 hours (10 days) between failures
 
 For AI systems specifically, failures might include model crashes, server running out of memory, dependency issues, network problems, or database corruption. Each of these counts as a failure event that reduces your MTBF.
 
-#### Mean Time To Repair (MTTR)
+#### Mean Time To Repair ([MTTR](https://www.ibm.com/think/topics/mttr))
 
 MTBF tells you how often things break, but MTTR answers the equally important question: when things do break, how quickly can you fix them?
 
@@ -84,8 +84,8 @@ This formula reveals a crucial insight: you can improve availability in two ways
 In fact, for many systems, improving MTTR gives you more bang for your buck. It's often easier to detect and fix problems faster than to prevent every possible failure.
 
 > [!tip] Videos
-> - [MTBF and MTTR explained](https://www.youtube.com/watch?v=c5DPJlh4lkI)
-> - [Understanding system reliability metrics](https://www.youtube.com/watch?v=v1Qpz8WdtdQ)
+> - [Video link needed - MTBF and MTTR explained]
+> - [Video link needed - System reliability metrics]
 
 > [!info] Extended Reading
 > For deeper exploration of reliability metrics:
@@ -126,7 +126,7 @@ The sweet spot for many professional services is 99.9% to 99.99%. This provides 
 
 #### Service Level Agreements (SLAs)
 
-Once you've decided on an availability target, how do you communicate this commitment to users? Enter the Service Level Agreement (SLA), a formal promise about what level of service users can expect.
+Once you've decided on an availability target, how do you communicate this commitment to users? Enter the [Service Level Agreement (SLA)](https://aws.amazon.com/what-is/service-level-agreement/), a formal promise about what level of service users can expect.
 
 An SLA typically specifies the availability target (like "99.9% uptime per month"), the measurement period for how and when availability is calculated, remedies for missing the target (refunds, service credits), and exclusions like planned maintenance windows or user-caused issues.
 
@@ -142,8 +142,8 @@ Choosing the right SLA involves balancing user expectations with costs:
 The key is being realistic. It's better to promise 99.9% and consistently exceed it than to promise 99.99% and frequently fall short.
 
 > [!tip] Videos
-> - [High availability explained](https://www.youtube.com/watch?v=FWJHBMW3XtU)
-> - [What is an SLA?](https://www.youtube.com/watch?v=vKJJg8h0YTk)
+> - [Video link needed - High availability explained]
+> - [Video link needed - SLA service level agreement]
 
 > [!info] Extended Reading
 > To understand how major providers structure their SLAs:
@@ -212,8 +212,8 @@ Your availability target is fundamentally a business decision about how much tru
 The key insight: availability isn't just about keeping servers running. It's about building trust with users that your service will be there when they need it. Every nine you add to your availability target is an investment in that trust, and a competitive advantage in markets where users have choices.
 
 > [!tip] Videos
-> - [The real cost of downtime](https://www.youtube.com/watch?v=bJW2M18rsII)
-> - [Why systems fail and how to prevent it](https://www.youtube.com/watch?v=vjsj7TxvVY4)
+> - [Video link needed - Cost of downtime]
+> - [Video link needed - Why systems fail]
 
 > [!info] Extended Reading
 > For deeper understanding of downtime impact:
@@ -288,8 +288,8 @@ For a critical system requiring 99.99%+ uptime, eliminate SPOFs at all levels. D
 The key insight: you don't need to eliminate every SPOF. What matters is that you know where your SPOFs are and have a plan, either to prevent the failure from taking down your service, or to recover quickly when it does.
 
 > [!tip] Videos
-> - [Single point of failure explained](https://www.youtube.com/watch?v=RKdOJ5zwizU)
-> - [Identifying SPOFs in your architecture](https://www.youtube.com/watch?v=B0LD0RtkOYk)
+> - [Video link needed - Single point of failure explained]
+> - [Video link needed - Identifying SPOFs in architecture]
 
 > [!info] Extended Reading
 > For deeper exploration of SPOF identification and elimination:
@@ -307,7 +307,7 @@ Both are valuable. Redundancy keeps your service running when components fail. B
 
 #### Hardware-Level: Multiple Servers
 
-Instead of running your AI API on a single cloud VM, you run it on two or more VMs simultaneously. A load balancer sits in front, distributing incoming requests across all healthy servers.
+Instead of running your AI API on a single cloud VM, you run it on two or more VMs simultaneously. A [load balancer](https://aws.amazon.com/what-is/load-balancing/) sits in front, distributing incoming requests across all healthy servers.
 
 Why does this help? When one server crashes (out of memory, hardware failure, software bug), the load balancer stops sending traffic to it and routes everything to the remaining servers. Your API keeps responding to requests. Users might not even notice the problem. That's the beauty of redundancy: there's nothing to recover from. Your system keeps working. You fix the failed server later, at your convenience, not in a panic at 2 AM.
 
@@ -385,7 +385,7 @@ This protects against several scenarios:
 
 The cloud storage backup is particularly important. If your entire VM is deleted (you accidentally terminate it, cloud provider has issues, account compromised), your local backups disappear too. Cloud storage in a different region survives these disasters.
 
-Backups enable recovery (they reduce MTTR). But replication prevents downtime in the first place (it increases MTBF). With replication, you maintain two or more copies of your database that stay continuously synchronized.
+Backups enable recovery (they reduce MTTR). But [replication](https://www.geeksforgeeks.org/system-design/database-replication-and-their-types-in-system-design/) prevents downtime in the first place (it increases MTBF). With replication, you maintain two or more copies of your database that stay continuously synchronized.
 
 How does it work? The primary database handles all write operations (create, update, delete). Replica databases continuously receive updates from the primary and stay in sync. Replicas can handle read operations, spreading the load. If the primary fails, you promote a replica to become the new primary.
 
@@ -399,7 +399,7 @@ Primary PostgreSQL (VM 1)  ←→  Replica PostgreSQL (VM 2)
 
 When the primary fails, your application detects the failure (connection timeout), switches to the replica (either manually or automatically), promotes the replica to primary, and service continues with minimal disruption.
 
-Recovery time is seconds to minutes with automatic failover, instead of the 15-30 minutes needed to restore from backups. Data loss is minimal, only transactions in the last few seconds before failure. The trade-offs: much better MTTR and data protection, but more complex to set up and maintain, higher cost (need to run multiple database servers), and requires application changes (connection pooling, failover logic).
+Recovery time is seconds to minutes with automatic [failover](https://learn.microsoft.com/en-us/azure/reliability/concept-failover-failback), instead of the 15-30 minutes needed to restore from backups. Data loss is minimal, only transactions in the last few seconds before failure. The trade-offs: much better MTTR and data protection, but more complex to set up and maintain, higher cost (need to run multiple database servers), and requires application changes (connection pooling, failover logic).
 
 Use this approach when you need 99.9%+ availability, data changes frequently and is critical, you can afford the complexity and cost, and the database is an identified SPOF you must eliminate.
 
@@ -438,9 +438,9 @@ Each improvement costs more money and complexity, but buys you additional "nines
 The most important step is the first one: start making backups today. Even a simple daily backup dramatically improves your ability to recover from disasters. Everything else builds on that foundation.
 
 > [!tip] Videos
-> - [Load balancing explained](https://www.youtube.com/watch?v=sCR3SAVdyCc)
-> - [Database replication basics](https://www.youtube.com/watch?v=bI8Ry6GhMSE)
-> - [The 3-2-1 backup strategy](https://www.youtube.com/watch?v=L6gUyHG7h2Q)
+> - [What is a Load Balancer?](https://www.youtube.com/watch?v=sCR3SAVdyCc)
+> - [Database Replication Explained (in 5 Minutes)](https://www.youtube.com/watch?v=bI8Ry6GhMSE)
+> - [Video link needed - 3-2-1 backup strategy]
 
 > [!info] Extended Reading
 > For deeper exploration of redundancy and backup strategies:

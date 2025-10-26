@@ -5,13 +5,13 @@ draft: true
 
 ## Understanding High Availability
 
-In October 2024, millions of people worldwide woke up to find ChatGPT unresponsive. Snapchat wouldn't load. Fortnite servers were down. Even some banking apps stopped working. The culprit? A single issue in an AWS datacenter that cascaded across hundreds of services. For over half a day, these services were simply unavailable, and there was nothing users could do except wait—or find alternatives.
+In October 2024, millions of people worldwide woke up to find ChatGPT unresponsive. Snapchat wouldn't load. Fortnite servers were down. Even some banking apps stopped working. The culprit? A single issue in an AWS datacenter that cascaded across hundreds of services. For over half a day, these services were simply unavailable, and there was nothing users could do except wait, or find alternatives.
 
-Now imagine this happens to your AI API server. You've successfully deployed it to the cloud following [[cloud-deployment|Cloud Deployment]], users are accessing it, and everything seems great. Then at 2 AM on a Saturday, something breaks. How long until users give up and try a competitor's service? How many will come back? In today's world where alternatives are just a Google search away, reliability isn't a nice-to-have feature—it's essential for survival.
+Now imagine this happens to your AI API server. You've successfully deployed it to the cloud following [[cloud-deployment|Cloud Deployment]], users are accessing it, and everything seems great. Then at 2 AM on a Saturday, something breaks. How long until users give up and try a competitor's service? How many will come back? In today's world where alternatives are just a Google search away, reliability is quite essential for survival.
 
 This is where availability comes in. It's the proportion of time your system is operational and ready when users need it. But "my system works most of the time" isn't a useful metric when you're trying to run a professional service. How do you measure availability objectively? What targets should you aim for? And what actually happens to your service when it goes down?
 
-### Measuring Availability: Beyond Gut Feeling
+### Measuring Availability
 
 When you tell someone "my service is reliable," what does that actually mean? Does it fail once a day? Once a month? Once a year? And when it does fail, does it come back in 30 seconds or 3 hours? Without objective measurements, "reliable" is just a feeling. You can't promise it to users or improve it in an organized way.
 
@@ -21,7 +21,7 @@ The industry uses standard metrics to measure and talk about availability. Under
 
 The first metric tells you how long your system typically runs before something breaks.
 
-Think of MTBF like a car's reliability rating. One car runs 50,000 miles between breakdowns, while another only makes it 5,000 miles. The first car has a much higher MTBF—it fails less frequently. The same concept applies to your AI service. Does it run for days, weeks, or months between failures?
+Think of MTBF like a car's reliability rating. One car runs 50,000 miles between breakdowns, while another only makes it 5,000 miles. The first car has a much higher MTBF, which means it fails less frequently. The same concept applies to your AI service. Does it run for days, weeks, or months between failures?
 
 MTBF is calculated by observing your system over time:
 
@@ -43,7 +43,7 @@ For AI systems specifically, failures might include model crashes, server runnin
 
 MTBF tells you how often things break, but MTTR tells you how quickly you can fix them when they do.
 
-MTTR measures your "time to recover"—from the moment users can't access your service until the moment it's working again. This includes detecting the problem, diagnosing what went wrong, applying a fix, and checking that everything works.
+MTTR measures your "time to recover", in other words, from the moment users can't access your service until the moment it's working again. This includes detecting the problem, diagnosing what went wrong, applying a fix, and checking that everything works.
 
 ```
 MTTR = Total Repair Time / Number of Failures
@@ -93,7 +93,7 @@ In fact, for many systems, improving MTTR gives you more bang for your buck. It'
 > - [Atlassian's Guide to Incident Metrics](https://www.atlassian.com/incident-management/kpis/common-metrics) explains MTBF, MTTR, and related metrics used by modern software teams
 > - [AWS: Distributed System Availability](https://docs.aws.amazon.com/whitepapers/latest/availability-and-beyond-improving-resilience/distributed-system-availability.html) explores how availability metrics apply to distributed systems
 
-### Speaking the Language: Uptime Targets and SLAs
+### Uptime Targets and SLAs
 
 Now that you understand how to measure availability, you need to know what counts as "good." Is 99% availability impressive? Or unacceptably low? The industry has developed a standard vocabulary for talking about availability targets, centered around the concept of "nines."
 
@@ -114,9 +114,9 @@ Let's make this clear with daily downtime. 99.9% means your service can be down 
 
 There's a handy mnemonic to remember. "Five nines allows roughly five minutes of downtime per year." You can derive other levels by multiplying or dividing by 10. Four nines is about 50 minutes per year, three nines is about 500 minutes per year.
 
-#### The Five Nines Holy Grail
+#### The Five Nines
 
-In the industry, "five nines" (99.999% availability) is often called the gold standard. It sounds impressive to promise your users less than 6 minutes of downtime per year. Some critical systems—like emergency services, air traffic control, or financial trading platforms—really need this level of reliability.
+In the industry, "five nines" (99.999% availability) is often called the gold standard. It sounds impressive to promise your users less than 6 minutes of downtime per year. Some critical systems, like emergency services, air traffic control, or financial trading platforms, really need this level of reliability.
 
 But here's the reality check. Even Google's senior vice president for operations has publicly stated, "We don't believe Five 9s is attainable in a commercial service, if measured correctly." Why? Because achieving five nines requires several things. You need redundant systems at every level with no single points of failure. You need automatic failover mechanisms that work flawlessly. You need 24/7 monitoring and on-call engineering teams. You need geographic distribution to survive datacenter outages. And you need extensive testing and disaster recovery procedures.
 
@@ -132,19 +132,9 @@ An SLA typically specifies the availability target (like "99.9% uptime per month
 
 For example, AWS's SLA for EC2 promises 99.99% availability. If they fail to meet this in a given month, customers receive service credits: 10% credit for 99.0%-99.99% availability, 30% credit for below 99.0%. This financial penalty motivates AWS to maintain high availability while providing compensation when things go wrong.
 
-For your AI service, an SLA serves several purposes.
+For your AI service, an SLA serves several purposes. It builds trust. Users need to know what to expect, and "we guarantee 99.9% uptime" is more reassuring than "we try to keep things running." It sets expectations. Users understand that some downtime is normal. If you promise 99.9%, users know that occasional brief outages are part of the deal. In a crowded AI market, a strong SLA can set you apart from competitors who make no promises. SLAs also give your team clear targets to design and operate toward.
 
-It builds trust. Users need to know what to expect, and "we guarantee 99.9% uptime" is more reassuring than "we try to keep things running."
-
-It sets expectations. Users understand that some downtime is normal. If you promise 99.9%, users know that occasional brief outages are part of the deal.
-
-In a crowded AI market, a strong SLA can set you apart from competitors who make no promises.
-
-SLAs also give your team clear targets to design and operate toward.
-
-Choosing the right SLA involves balancing user expectations with costs. A student project or internal tool might not need any formal SLA. A business productivity tool should promise at least 99.9%. Critical healthcare or financial AI applications might need 99.99% or higher.
-
-The key is being realistic. It's better to promise 99.9% and consistently exceed it than to promise 99.99% and frequently fall short.
+Choosing the right SLA involves balancing user expectations with costs. A student project or internal tool might not need any formal SLA. A business productivity tool should promise at least 99.9%. Critical healthcare or financial AI applications might need 99.99% or higher. Also, it's better to promise 99.9% and consistently exceed it than to promise 99.99% and frequently fall short.
 
 > [!tip] Videos
 > - [Video link needed - High availability explained]
@@ -156,11 +146,11 @@ The key is being realistic. It's better to promise 99.9% and consistently exceed
 > - [Microsoft Azure SLAs](https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services?lang=1) shows how SLA targets vary by service type
 > - [The High Availability Guide](https://en.wikipedia.org/wiki/High_availability) on Wikipedia provides full coverage of availability concepts and industry practices
 
-### Understanding the Stakes: What Downtime Actually Costs
+### What Downtime Actually Costs
 
-You might be thinking: "Okay, so my service goes down for an hour. Users wait, then it comes back. What's the big deal?" Let's look at what actually happens during that hour—and why availability matters far more than you might expect.
+You might be thinking: "Okay, so my service goes down for an hour. Users wait, then it comes back. What's the big deal?" Let's look at what actually happens during that hour, and why availability matters far more than you might expect.
 
-#### The Obvious Cost: Lost Money
+#### The Obvious Cost
 
 When your service is down, you can't process requests. No requests means no revenue. For a simple AI API charging $0.01 per request and serving 1,000 requests per hour:
 
@@ -169,7 +159,7 @@ When your service is down, you can't process requests. No requests means no reve
 8.76 hours/year (99.9% uptime) = ~$88 lost per year
 ```
 
-That doesn't sound too bad, right? But this is just direct revenue—and for most services, it's actually the smallest part of the cost.
+That doesn't sound too bad, right? But this is just direct revenue, and for most services, it's actually the smallest part of the cost.
 
 Recent research reveals the true scale of downtime costs. ITIC's 2024 study found that 90% of medium and large businesses lose over $300,000 for every hour their systems are down. Fortune 500 companies collectively lose $1.4 trillion per year to unscheduled downtime, which represents 11% of their revenue. For 41% of large enterprises, one hour of downtime costs between $1 million and $5 million.
 
@@ -177,7 +167,7 @@ Industry-specific costs are even more dramatic. The automotive industry loses $2
 
 For smaller businesses, the numbers are smaller but still significant. A small retail or service business might lose $50,000 to $100,000 per hour, while even micro businesses can face losses around $1,600 per minute.
 
-#### The Hidden Costs (Often Bigger Than Direct Revenue)
+#### The Hidden Costs
 
 Beyond immediate lost revenue, downtime creates ongoing costs that persist long after your service comes back online.
 
@@ -189,7 +179,7 @@ During and after outages, you'll face a flood of support tickets, refund request
 
 If users were in the middle of important tasks when your service went down (preparing a presentation, analyzing data for a deadline, running a business-critical workflow), the impact multiplies. They're not just inconvenienced. Their own work is blocked.
 
-#### AI Systems: Special Considerations
+#### Special Considerations for AI Systems
 
 AI systems face unique availability challenges that make downtime worse.
 
@@ -251,7 +241,7 @@ If your API calls another service (maybe for authentication or extra features) a
 
 The tricky part? You might not even realize these are SPOFs until something goes wrong at 3 AM on a Saturday.
 
-#### How to Identify SPOFs: The "What If" Game
+#### How to Identify SPOFs
 
 The simplest way to find SPOFs is to mentally (or literally) walk through your system architecture and ask "what if this fails?" for every component.
 
@@ -275,7 +265,7 @@ For example, your database file is a SPOF. Instead of setting up complex databas
 
 This makes sense when the component is expensive or complex to duplicate (large databases, specialized hardware), failures are rare (good quality hardware, stable software), you can tolerate some downtime (99% uptime target), and quick recovery is feasible (good backups, clear procedures).
 
-#### Making the Choice: What's Right for Your Level?
+#### What's Right for Your Level?
 
 For a student project or class assignment aiming for 99% uptime, don't worry about eliminating every SPOF. Focus on quick recovery plans, keep good backups of your database, and document how to redeploy if your VM dies. Cost is nearly free, and acceptable downtime is measured in hours.
 
@@ -283,7 +273,7 @@ For a business tool or production service targeting 99.9% uptime, eliminate crit
 
 For a critical system requiring 99.99%+ uptime, eliminate SPOFs at all levels. Deploy multiple servers in different geographic regions, implement real-time database replication, and set up automated failover mechanisms. Cost is high (5-10x base infrastructure), and acceptable downtime is seconds to minutes.
 
-Here's the key insight. You don't need to eliminate every SPOF. What matters is that you know where your SPOFs are and have a plan, either to prevent the failure from taking down your service, or to recover quickly when it does.
+You don't need to eliminate every SPOF. What matters is that you know where your SPOFs are and have a plan, either to prevent the failure from taking down your service, or to recover quickly when it does.
 
 > [!tip] Videos
 > - [Video link needed - Single point of failure explained]
@@ -295,7 +285,7 @@ Here's the key insight. You don't need to eliminate every SPOF. What matters is 
 > - [System Design: How to Avoid Single Points of Failure](https://blog.algomaster.io/p/system-design-how-to-avoid-single-point-of-failures) offers technical strategies with practical examples and diagrams
 > - [How to Avoid Single Points of Failure](https://clickup.com/blog/how-to-avoid-a-single-point-of-failure/) provides practical strategies and tools
 
-### Building Resilience: Redundancy and Backups
+### Redundancy and Backups
 
 We've identified where your system is at risk. Now let's talk about how to protect it. The solution comes in two related forms. Running backups (redundancy) prevent downtime, and saved backups (snapshots) enable quick recovery.
 
@@ -339,7 +329,7 @@ Running multiple containers on one VM is relatively cheap. You just need enough 
 
 #### Data-Level: Backups and Replication
 
-Data is special. When hardware fails, you buy new hardware. When software crashes, you restart it. But when data is lost—corrupted, deleted, or destroyed—it might be gone forever. Your users' data, request history, and system state represent irreplaceable information. Protecting data requires different strategies than protecting hardware or software.
+Data is special. When hardware fails, you buy new hardware. When software crashes, you restart it. But when data is lost, corrupted, deleted, or destroyed, it might be gone forever. Your users' data, request history, and system state represent irreplaceable information. Protecting data requires different strategies than protecting hardware or software.
 
 Backups are periodic snapshots of your data saved to a safe location. They're like save points in a video game. If something goes wrong, you can reload from the last save. Backups don't prevent failures, but they enable you to recover from them.
 
@@ -418,7 +408,7 @@ For 99.99% uptime (required for critical systems), you can tolerate up to 52 min
 
 Your setup includes multiple VMs in different availability zones or regions, multiple containers per VM, database replication across regions, automated health checks and failover, 24/7 monitoring and alerting, and tested disaster recovery procedures. Total additional cost is 5-10x your base infrastructure cost. When something fails, automated systems handle failover transparently. Users don't notice most failures. Manual intervention is only needed for extraordinary disasters.
 
-#### The Key Insight: Start Simple, Grow As Needed
+#### Start Simple, Grow As Needed
 
 You don't need to implement everything at once. In fact, you shouldn't. Over-engineering early wastes time and money on problems you don't have yet.
 

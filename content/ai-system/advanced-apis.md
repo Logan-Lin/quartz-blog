@@ -1,6 +1,7 @@
 ---
 title: A.2-Advanced APIs in the Era of AI
 draft: false
+created: 2025-09-11
 ---
 > [!summary] TL;DR
 > Advanced API patterns and techniques enable high-performance, real-time, and message-driven communication essential for modern AI systems—like subscription services that deliver continuous updates rather than requiring individual requests.

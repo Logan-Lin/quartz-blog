@@ -1,6 +1,7 @@
 ---
 title: A.3-Wrap AI Models with APIs
 draft: false
+created: 2025-09-18
 ---
 > [!summary] TL;DR
 > Build your own APIs for serving AI models, covering everything from basic server setup and AI model integration to authentication, database-backed user management, and rate limiting—transforming you from an API consumer to an API producer.

@@ -1,6 +1,7 @@
 ---
 title: B-Infrastructure & Deployment of AI
 draft: false
+created: 2025-09-25
 ---
 > [!tldr] TL;DR
 > In this phase, we will dive into the backend infrastructure—both software and hardware—of AI systems, glance into how they work, and learn how to deploy our AI service on infrastructure other than our own PC.

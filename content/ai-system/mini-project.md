@@ -1,6 +1,7 @@
 ---
 title: B.8-Mini Project
 draft: false
+created: 2025-10-21
 ---
 Leveraging the knowledge from the [[ai-system/index|phase A and B]] of this course (and optionally the advanced techniques from the phase C), we will develop and deploy a multi-functional AI API server in our mini project.
 

@@ -1,6 +1,7 @@
 ---
 title: B.6-Cloud Deployment
 draft: false
+created: 2025-10-09
 ---
 > [!summary] TL;DR
 > The "cloud" is just computers in data centers you can rent remotely. Learn how to deploy your containerized AI API to cloud VMs, covering remote access, Docker installation, and production-ready HTTPS setup.

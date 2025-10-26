@@ -1,6 +1,7 @@
 ---
 title: A.1-API Fundamentals
 draft: false
+created: 2025-09-03
 ---
 > [!summary] TL;DR
 > APIs are standardized interfaces that enable applications to communicate across different programming languages and infrastructure, serving as a universal postal system for the digital world.

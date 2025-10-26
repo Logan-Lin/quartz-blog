@@ -1,6 +1,7 @@
 ---
 title: C.9-High Availability & Reliability
 draft: true
+created: 2025-10-26
 ---
 In October 2025, millions of people worldwide woke up to find ChatGPT unresponsive. Snapchat wouldn't load. Fortnite servers were down. Even some banking apps stopped working. All thanks to [a single issue in an AWS datacenter](https://9to5mac.com/2025/10/20/alexa-snapchat-fortnite-chatgpt-and-more-taken-down-by-major-aws-outage/) that cascaded across hundreds of services. For over half a day, these services were unavailable, and there was nothing users could do except wait, or find alternatives.
 

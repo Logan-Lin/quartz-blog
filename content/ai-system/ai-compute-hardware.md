@@ -1,6 +1,7 @@
 ---
 title: B.4-AI Compute Hardware
 draft: false
+created: 2025-09-25
 ---
 > [!tldr] TL;DR
 > Modern "AI computers" aren't fundamentally different: they still use the 80-year-old Von Neumann architecture. While CPUs excel at sequential processing, AI workloads need massive parallel computation and high memory bandwidth. This mismatch led to specialized hardware.

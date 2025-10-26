@@ -1,6 +1,7 @@
 ---
 title: B.5-Packaging & Containerization
 draft: false
+created: 2025-10-02
 ---
 > [!summary] TL;DR
 > Ever struggled with "it works on my machine" syndrome? Learn how containers solve deployment headaches by packaging your applications with everything they need to run consistently anywhere. We'll explore Docker fundamentals and build a containerized AI API server.

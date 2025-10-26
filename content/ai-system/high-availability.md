@@ -98,7 +98,7 @@ In fact, for many systems, improving MTTR gives you more bang for your buck. It'
 > For deeper exploration of reliability metrics:
 > - [ITIC 2024 Hourly Cost of Downtime Report](https://itic-corp.com/itic-2024-hourly-cost-of-downtime-report/) provides detailed industry statistics on downtime costs
 > - [Atlassian's Guide to Incident Metrics](https://www.atlassian.com/incident-management/kpis/common-metrics) explains MTBF, MTTR, and related metrics used by modern software teams
-> - [Metrics for High Availability](https://medium.com/building-high-performance-software-systems/metrics-for-high-availability-221660dd7707) dives into how these metrics apply to distributed systems
+> - [AWS: Distributed System Availability](https://docs.aws.amazon.com/whitepapers/latest/availability-and-beyond-improving-resilience/distributed-system-availability.html) explores how availability metrics apply to distributed systems
 
 ### Speaking the Language: Uptime Targets and SLAs
 
@@ -176,7 +176,7 @@ The key is being realistic. It's better to promise 99.9% and consistently exceed
 > [!info] Extended Reading
 > To understand how major providers structure their SLAs:
 > - [AWS Service Level Agreements](https://aws.amazon.com/legal/service-level-agreements/) shows real-world examples across different services
-> - [Microsoft Azure SLAs](https://azure.microsoft.com/en-us/support/legal/sla/) demonstrates how SLA targets vary by service type
+> - [Microsoft Azure SLAs](https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services?lang=1) demonstrates how SLA targets vary by service type
 > - [The High Availability Guide](https://en.wikipedia.org/wiki/High_availability) on Wikipedia provides comprehensive coverage of availability concepts and industry practices
 
 ### Understanding the Stakes: What Downtime Actually Costs
@@ -260,7 +260,7 @@ The key insight: availability isn't just about keeping servers running. It's abo
 > For deeper understanding of downtime impact:
 > - [Siemens 2024 True Cost of Downtime Report](https://blog.siemens.com/2024/07/the-true-cost-of-an-hours-downtime-an-industry-analysis/) analyzes how unscheduled downtime affects global companies
 > - [The Impact of ChatGPT's 2024 Outages](https://opentools.ai/news/openai-faces-major-outage-how-chatgpt-users-coped) examines real-world effects when a major AI service goes down
-> - [Understanding Cloud Service Fragility](https://www.inc.com/jason-aten/an-aws-outage-took-down-snapchat-fortnite-and-chatgpt-and-showed-how-fragile-everything-really-is/91253901) explores infrastructure dependencies and cascade failures
+> - [AWS Outage Takes Down Major Services](https://www.engadget.com/big-tech/amazons-aws-outage-has-knocked-services-like-alexa-snapchat-fortnite-venmo-and-more-offline-142935812.html) explores the October 2024 infrastructure cascade failure
 
 ## Improving System Availability
 
@@ -375,7 +375,7 @@ The key insight: you don't need to eliminate every SPOF. What matters is that yo
 > [!info] Extended Reading
 > For deeper exploration of SPOF identification and elimination:
 > - [What is a Single Point of Failure?](https://www.techtarget.com/searchdatacenter/definition/Single-point-of-failure-SPOF) from TechTarget provides comprehensive coverage
-> - [Avoiding Single Points of Failure in Distributed Systems](https://www.baeldung.com/cs/distributed-systems-prevent-single-point-failure) offers technical strategies with examples
+> - [System Design: How to Avoid Single Points of Failure](https://blog.algomaster.io/p/system-design-how-to-avoid-single-point-of-failures) offers technical strategies with practical examples and diagrams
 > - [How to Avoid Single Points of Failure](https://clickup.com/blog/how-to-avoid-a-single-point-of-failure/) provides practical strategies and tools
 
 ### Building Resilience: Redundancy and Backups

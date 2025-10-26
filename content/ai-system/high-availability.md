@@ -3,9 +3,9 @@ title: C.9-High Availability & Reliability
 draft: true
 created: 2025-10-26
 ---
-In October 2025, millions of people worldwide woke up to find ChatGPT unresponsive. Snapchat wouldn't load. Fortnite servers were down. Even some banking apps stopped working. All thanks to [a single issue in an AWS datacenter](https://9to5mac.com/2025/10/20/alexa-snapchat-fortnite-chatgpt-and-more-taken-down-by-major-aws-outage/) that cascaded across hundreds of services. For over half a day, these services were unavailable, and there was nothing users could do except wait, or find alternatives.
+In October 2025, millions of people worldwide woke up to find ChatGPT unresponsive. Snapchat wouldn't load. Fortnite servers were down. Even some banking apps stopped working. All thanks to [a single issue in an AWS data center](https://9to5mac.com/2025/10/20/alexa-snapchat-fortnite-chatgpt-and-more-taken-down-by-major-aws-outage/) that cascaded across hundreds of services. For over half a day, these services were unavailable, and there was nothing users could do except wait, or find alternatives.
 
-Now imagine this happens to your AI API server. You've successfully deployed it to the cloud following [[cloud-deployment|Cloud Deployment]], users are accessing it, and everything seems great. Then at 2 AM on a Saturday, something breaks. How long until users give up and try a competitor's service? How many will come back? In today's world where alternatives are just a Google search away, reliability is quite essential for survival.
+Now imagine this happens to your AI API server. You've successfully deployed it to the cloud following [[cloud-deployment|Cloud Deployment]], users are accessing it, and everything seems great. Then at 2 AM on a Saturday, something breaks. How long until users give up and try a competitor's service? How many will come back? In today's world where alternatives are just a Google search away, reliability is essential for survival.
 
 ## Understanding High Availability
 
@@ -43,7 +43,7 @@ For AI systems specifically, failures might include model crashes, server runnin
 
 MTBF tells you how often things break, but MTTR tells you how quickly you can fix them when they do.
 
-MTTR measures your "time to recover", in other words, from the moment users can't access your service until the moment it's working again. This includes detecting the problem, diagnosing what went wrong, applying a fix, and checking that everything works.
+MTTR measures your "time to recover" - in other words, from the moment users can't access your service until the moment it's working again. This includes detecting the problem, diagnosing what went wrong, applying a fix, and checking that everything works.
 
 ```
 MTTR = Total Repair Time / Number of Failures
@@ -111,7 +111,7 @@ Here's what each level actually means in practice:
 
 In the industry, "five nines" (99.999% availability) is often called the gold standard. It sounds impressive to promise your users less than 6 minutes of downtime per year. Some critical systems, like emergency services, air traffic control, or financial trading platforms, really need this level of reliability.
 
-But, even [Google's senior vice president for operations has publicly stated](https://iamondemand.com/blog/high-availability-of-your-cloud-expectations/), "We don't believe Five 9s is attainable in a commercial service, if measured correctly." Why? Because achieving five nines requires several things. You need redundant systems at every level with no single points of failure. You need automatic failover mechanisms that work flawlessly. You need 24/7 monitoring and on-call engineering teams. You need geographic distribution to survive datacenter outages. And you need extensive testing and disaster recovery procedures.
+But even [Google's senior vice president for operations has publicly stated](https://iamondemand.com/blog/high-availability-of-your-cloud-expectations/), "We don't believe Five 9s is attainable in a commercial service, if measured correctly." Why? Because achieving five nines requires several things. You need redundant systems at every level with no single points of failure. You need automatic failover mechanisms that work flawlessly. You need 24/7 monitoring and on-call engineering teams. You need geographic distribution to survive data center outages. And you need extensive testing and disaster recovery procedures.
 
 The cost grows very quickly with each additional nine. Going from 99.9% to 99.99% might double your infrastructure costs. Going from 99.99% to 99.999% might triple them again. For most services, especially AI systems that aren't mission-critical, this investment doesn't make business sense.
 
@@ -200,13 +200,13 @@ For a student project or class assignment aiming for 99% uptime, don't worry abo
 
 > [!info] Extended Reading
 > To learn more about SPOF identification and elimination:
-> - [What is a Single Point of Failure?](https://www.techtarget.com/searchdatacenter/definition/Single-point-of-failure-SPOF) from TechTarget provides full coverage
+> - [What is a Single Point of Failure?](https://www.techtarget.com/searchdata center/definition/Single-point-of-failure-SPOF) from TechTarget provides full coverage
 > - [System Design: How to Avoid Single Points of Failure](https://blog.algomaster.io/p/system-design-how-to-avoid-single-point-of-failures) offers technical strategies with practical examples and diagrams
 > - [How to Avoid Single Points of Failure](https://clickup.com/blog/how-to-avoid-a-single-point-of-failure/) provides practical strategies and tools
 
 ### Redundancy and Backups
 
-We've identified where your system is at risk. Now let's talk about how to protect it. The solution comes in two related forms: running backups (redundancy) prevent downtime, and saved backups (snapshots) enable quick recovery.
+We've identified where your system is at risk. Now let's talk about how to protect it. The solution comes in two related forms: running backups (redundancy) prevents downtime, and saved backups (snapshots) enable quick recovery.
 
 Think of redundancy like having a spare key to your house. If you lose your main key, you don't have to break down the door. You just use the spare and life continues normally. Backups, on the other hand, are like having photos of everything in your house. If there's a fire, the photos don't prevent the disaster, but they help you rebuild afterward.
 
@@ -238,7 +238,7 @@ docker run -d -p 8003:8000 --restart unless-stopped --name ai-api-3 my-ai-classi
 # (Nginx config distributes traffic to localhost:8001, :8002, :8003)
 ```
 
-Now if `ai-api-2` crashes, `ai-api-1` and `ai-api-3` continue serving requests. Docker will also automatically restarts `ai-api-2`. The `--restart unless-stopped` flag is also important here. It tells Docker to automatically restart the container if it crashes, but not if you manually stopped it.
+Now if `ai-api-2` crashes, `ai-api-1` and `ai-api-3` continue serving requests. Docker will also automatically restart `ai-api-2`. The `--restart unless-stopped` flag is also important here. It tells Docker to automatically restart the container if it crashes, but not if you manually stopped it.
 
 Running multiple containers on one VM is relatively cheap. You just need enough memory and CPU to handle all containers, which makes it much more affordable than multiple servers. Use this approach even for moderate availability targets (99%+), especially when application-level failures are common.
 
@@ -265,9 +265,9 @@ aws s3 cp $BACKUP_FILE s3://my-backups/ai-api/
 find /backups -name "backup-*.tar.gz" -mtime +7 -delete
 ```
 
-Set this to run automatically at 2 AM every day, and now if your database corrupts at 3 PM, you have a recent backup from 2 AM. When you need to recover, download the latest backup from S3 (`aws s3 cp s3://my-backups/ai-api/backup-20250126-020000.tar.gz .`), extract it (`tar -xzf backup-20250126-020000.tar.gz`), replace the corrupted database (`mv ai_api.db /app/data/ai_api.db`), restart your container (`docker restart ai-api`), and verify the service is working. Total recovery time is about 15-30 minutes, depending on backup size, download speed. This is your MTTR for database corruption. Also, you will loss data created between 2 AM (last backup) and when corruption happened. More frequent backups reduce data loss but consume more storage and resources.
+Set this to run automatically at 2 AM every day, and now if your database corrupts at 3 PM, you have a recent backup from 2 AM. When you need to recover, download the latest backup from S3 (`aws s3 cp s3://my-backups/ai-api/backup-20250126-020000.tar.gz .`), extract it (`tar -xzf backup-20250126-020000.tar.gz`), replace the corrupted database (`mv ai_api.db /app/data/ai_api.db`), restart your container (`docker restart ai-api`), and verify the service is working. Total recovery time is about 15-30 minutes, depending on backup size, download speed. This is your MTTR for database corruption. Also, you will lose data created between 2 AM (last backup) and when corruption happened. More frequent backups reduce data loss but consume more storage and resources.
 
-Security experts recommend the 3-2-1 rule for critical data. Keep 3 copies of your data (original plus two backups), on 2 different storage types (like local disk plus cloud storage), with 1 off-site backup (survives building fire, flood, or local disaster). For your AI API, this might look like keeping your original SQLite database on your cloud VM (`/app/data/ai_api.db`), a daily snapshot on the same VM but different disk/partition, and another daily snapshot uploaded to cloud storage (like AWS S3 or Google Cloud Storage). This protects against several scenarios. If you accidentally delete something, restore from Backup 1 on the same VM (very fast). If a disk fails, restore from Backup 2 in cloud storage (a bit slower). If your VM is terminated, restore from Backup 2 and rebuild the VM. If an entire datacenter fails, Backup 2 is in a different region and remains accessible. The cloud storage backup is particularly important. If your entire VM is deleted (you accidentally terminate it, cloud provider has issues, account compromised), your local backups disappear too. Cloud storage in a different region survives these disasters.
+Security experts recommend the 3-2-1 rule for critical data. Keep 3 copies of your data (original plus two backups), on 2 different storage types (like local disk plus cloud storage), with 1 off-site backup (survives building fire, flood, or local disaster). For your AI API, this might look like keeping your original SQLite database on your cloud VM (`/app/data/ai_api.db`), a daily snapshot on the same VM but different disk/partition, and another daily snapshot uploaded to cloud storage (like AWS S3 or Google Cloud Storage). This protects against several scenarios. If you accidentally delete something, restore from Backup 1 on the same VM (very fast). If a disk fails, restore from Backup 2 in cloud storage (a bit slower). If your VM is terminated, restore from Backup 2 and rebuild the VM. If an entire data center fails, Backup 2 is in a different region and remains accessible. The cloud storage backup is particularly important. If your entire VM is deleted (you accidentally terminate it, cloud provider has issues, account compromised), your local backups disappear too. Cloud storage in a different region survives these disasters.
 
 Backups enable recovery (they reduce MTTR). But [replication](https://www.geeksforgeeks.org/system-design/database-replication-and-their-types-in-system-design/) prevents downtime in the first place (it increases MTBF). With replication, you maintain two or more copies of your database that stay continuously synchronized. How does it work? The primary database handles all write operations (create, update, delete). Replica databases continuously receive updates from the primary and stay in sync. Replicas can handle read operations, spreading the load. If the primary fails, you promote a replica to become the new primary.
 
@@ -297,4 +297,8 @@ When the primary fails, your application detects the failure (connection timeout
 > - [High Availability System Design](https://www.cisco.com/site/us/en/learn/topics/networking/what-is-high-availability.html) from Cisco provides full coverage of redundancy concepts
 > - [Redundancy and Replication Strategies](https://www.scoredetect.com/blog/posts/redundancy-and-replication-strategies-for-high-availability) explores different approaches with practical examples
 > - [Backup and Disaster Recovery Best Practices](https://solutionsreview.com/backup-disaster-recovery/backup-and-disaster-recovery-best-practices-to-consider/) offers 15 essential practices for protecting your data
+>
+> Popular backup tools to implement the strategies discussed:
+> - [Litestream](https://litestream.io/) for SQLite and [pgBackRest](https://pgbackrest.org/) for PostgreSQL offer database-specific backup with cloud storage support
+> - [Restic](https://restic.net/) and [BorgBackup](https://borgbackup.readthedocs.io/) provide general-purpose backup with deduplication and encryption
 

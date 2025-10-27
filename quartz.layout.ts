@@ -9,7 +9,7 @@ export const sharedPageComponents: SharedLayout = {
     Component.ConditionalRender({
       component: Component.RecentNotes({
         title: "Recent Posts",
-        limit: 5,
+        limit: 7,
         showTags: true,
         linkToMore: false,
         filter: (f) => !f.slug?.endsWith("/index") && f.slug !== "index"

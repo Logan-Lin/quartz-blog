@@ -1,9 +1,11 @@
 ---
 title: C.9-High Availability & Reliability
-draft: true
+draft: false
 created: 2025-10-26
 ---
 In October 2025, millions of people worldwide woke up to find ChatGPT unresponsive. Snapchat wouldn't load. Fortnite servers were down. Even some banking apps stopped working. All thanks to [a single issue in an AWS data center](https://9to5mac.com/2025/10/20/alexa-snapchat-fortnite-chatgpt-and-more-taken-down-by-major-aws-outage/) that cascaded across hundreds of services. For over half a day, these services were unavailable, and there was nothing users could do except wait, or find alternatives.
+
+![[Pasted image 20251027010633.png]]
 
 Now imagine this happens to your AI API server. You've successfully deployed it to the cloud following [[cloud-deployment|Cloud Deployment]], users are accessing it, and everything seems great. Then at 2 AM on a Saturday, something breaks. How long until users give up and try a competitor's service? How many will come back? In today's world where alternatives are just a Google search away, reliability is essential for survival.
 
@@ -58,6 +60,8 @@ MTTR = (2 + 1 + 3) hours / 3 failures = 2 hours
 Why does MTTR matter so much? Because modern research shows that downtime is very expensive. [ITIC's 2024 study](https://itic-corp.com/itic-2024-hourly-cost-of-downtime-report/) found that 90% of medium and large businesses lose over $300,000 for every hour their systems are down. Even for smaller operations, every minute of downtime means frustrated users, lost revenue, and damaged reputation.
 
 For your AI API server, MTTR includes several steps. First, you notice something is wrong (through monitoring alerts or user complaints). Then you remote into your server and check logs. Next, you identify the root cause. Then you add the fix and check that it works. Finally, you confirm that users can access the service again. The faster you can complete this cycle, the lower your MTTR and the better your availability.
+
+![[Pasted image 20251027010728.png]]
 
 #### The Availability Formula
 
@@ -139,7 +143,7 @@ When your service is down, you can't process requests. No requests means no reve
 8.76 hours/year (99.9% uptime) = ~$88 lost per year
 ```
 
-That doesn't sound too bad, right? But this is just direct revenue, and for most services, it's actually the smallest part of the cost. Recent research reveals the true scale of downtime costs. [Fortune 500 companies collectively lose $1.4 trillion per year to unscheduled downtime, which represents 11% of their revenue](https://www.theaemt.com/resource/the-true-cost-of-downtime-2024-a-comprehensive-analysis.html). For [41% of large enterprises, one hour of downtime costs between $1 million and $5 million](https://itic-corp.com/itic-2024-hourly-cost-of-downtime-part-2/). Industry-specific costs are even more dramatic. The [automotive industry loses $2.3 million per hour (that's $600 per second)](https://www.theaemt.com/resource/the-true-cost-of-downtime-2024-a-comprehensive-analysis.html). [Manufacturing loses $260,000 per hour on average](https://www.pingdom.com/outages/average-cost-of-downtime-per-industry/). [Financial services and banking often see losses exceeding $5 million per hour](https://www.erwoodgroup.com/blog/the-true-costs-of-downtime-in-2025-a-deep-dive-by-business-size-and-industry/). For smaller businesses, the numbers are smaller but still significant. A [small retail or service business might lose $50,000 to $100,000 per hour](https://www.erwoodgroup.com/blog/the-true-costs-of-downtime-in-2025-a-deep-dive-by-business-size-and-industry/), while even [micro businesses can face losses around $1,600 per minute](https://www.encomputers.com/2024/03/small-business-cost-of-downtime/).
+That doesn't sound too bad, right? But this is just direct revenue, and for most services, it's actually the smallest part of the cost. Recent research reveals the true scale of downtime costs. [Fortune 500 companies collectively lose \$1.4 trillion per year to unscheduled downtime, which represents 11% of their revenue](https://www.theaemt.com/resource/the-true-cost-of-downtime-2024-a-comprehensive-analysis.html). For [41% of large enterprises, one hour of downtime costs between \$1 million and \$5 million](https://itic-corp.com/itic-2024-hourly-cost-of-downtime-part-2/). Industry-specific costs are even more dramatic. The [automotive industry loses \$2.3 million per hour (that's \$600 per second)](https://www.theaemt.com/resource/the-true-cost-of-downtime-2024-a-comprehensive-analysis.html). [Manufacturing loses \$260,000 per hour on average](https://www.pingdom.com/outages/average-cost-of-downtime-per-industry/). [Financial services and banking often see losses exceeding \$5 million per hour](https://www.erwoodgroup.com/blog/the-true-costs-of-downtime-in-2025-a-deep-dive-by-business-size-and-industry/). For smaller businesses, the numbers are smaller but still significant. A [small retail or service business might lose \$50,000 to \$100,000 per hour](https://www.erwoodgroup.com/blog/the-true-costs-of-downtime-in-2025-a-deep-dive-by-business-size-and-industry/), while even [micro businesses can face losses around \$1,600 per minute](https://www.encomputers.com/2024/03/small-business-cost-of-downtime/).
 
 #### The Hidden Costs
 
@@ -171,6 +175,8 @@ Imagine you have a room lit by a single light bulb. If that bulb burns out, the 
 #### What is a Single Point of Failure?
 
 A SPOF is any component in your system that, if it fails, causes everything to stop working. SPOFs are dangerous because they're often invisible until they actually fail. Your system runs fine for months, everything seems great, and then one day that critical component breaks and suddenly users can't access your service.
+
+![[Pasted image 20251027010921.png]]
 
 We can use the AI API server deployed in [[cloud-deployment|Cloud Deployment]] as an example to identify the potential SPOFs. If you're running everything on one virtual machine and it crashes (out of memory, hardware failure, data center issue), your entire service goes down. Users get connection errors and can't make any requests. If the database file gets corrupted (disk failure, power outage during write, software bug), you lose all your request history and any user data. The API might crash or return errors because it can't access the database. If the model file is deleted or corrupted, your API can still accept requests but can't make predictions. Every classification request fails. If the internet connection to your VM fails (ISP issue, data center network problem), users can't reach your service even though it's running perfectly. If your API calls another service (maybe for extra features) and that service goes down, your API might become unusable even though your own code is working fine.
 
@@ -215,6 +221,8 @@ Both are valuable. Redundancy keeps your service running when components fail. B
 #### Hardware-Level: Multiple Servers
 
 Instead of running your AI API on a single cloud VM, you run it on two or more VMs simultaneously. A [load balancer](https://aws.amazon.com/what-is/load-balancing/) sits in front, distributing incoming requests across all healthy servers. When one server crashes, the load balancer stops sending traffic to it and routes everything to the remaining servers, and your API keeps responding to requests. Users might not even notice the problem. That's the beauty of redundancy, that your service keeps running and you can fix the failed server later.
+
+![[Pasted image 20251027011024.png]]
 
 Suppose you currently run your containerized API on one cloud VM. Here's how to add hardware redundancy. Deploy the same Docker container on a second VM, maybe in a different availability zone or even region. Set up a load balancer using [Nginx](https://nginx.org/en/docs/http/load_balancing.html), cloud load balancers (like [AWS ELB](https://nginx.org/en/docs/http/load_balancing.html)), or simple [DNS round-robin](https://en.wikipedia.org/wiki/Round-robin_DNS). Configure health checks so the load balancer pings each server periodically (like `GET /health`). If a server doesn't respond, traffic stops going to it. If your API is stateless (each request independent), this just works. If you store state, you'll need shared storage or session replication.
 
@@ -269,6 +277,8 @@ Set this to run automatically at 2 AM every day, and now if your database corrup
 
 Security experts recommend the 3-2-1 rule for critical data. Keep 3 copies of your data (original plus two backups), on 2 different storage types (like local disk plus cloud storage), with 1 off-site backup (survives building fire, flood, or local disaster). For your AI API, this might look like keeping your original SQLite database on your cloud VM (`/app/data/ai_api.db`), a daily snapshot on the same VM but different disk/partition, and another daily snapshot uploaded to cloud storage (like AWS S3 or Google Cloud Storage). This protects against several scenarios. If you accidentally delete something, restore from Backup 1 on the same VM (very fast). If a disk fails, restore from Backup 2 in cloud storage (a bit slower). If your VM is terminated, restore from Backup 2 and rebuild the VM. If an entire data center fails, Backup 2 is in a different region and remains accessible. The cloud storage backup is particularly important. If your entire VM is deleted (you accidentally terminate it, cloud provider has issues, account compromised), your local backups disappear too. Cloud storage in a different region survives these disasters.
 
+![[Pasted image-1.png]]
+
 Backups enable recovery (they reduce MTTR). But [replication](https://www.geeksforgeeks.org/system-design/database-replication-and-their-types-in-system-design/) prevents downtime in the first place (it increases MTBF). With replication, you maintain two or more copies of your database that stay continuously synchronized. How does it work? The primary database handles all write operations (create, update, delete). Replica databases continuously receive updates from the primary and stay in sync. Replicas can handle read operations, spreading the load. If the primary fails, you promote a replica to become the new primary.
 
 For your AI API, you might upgrade from SQLite (single-file database) to PostgreSQL with replication:
@@ -281,11 +291,11 @@ Primary PostgreSQL (VM 1)  ←→  Replica PostgreSQL (VM 2)
 
 When the primary fails, your application detects the failure (connection timeout), switches to the replica (either manually or automatically), promotes the replica to primary, and service continues with minimal disruption. For this setup, recovery time is seconds to minutes with automatic [failover](https://learn.microsoft.com/en-us/azure/reliability/concept-failover-failback), instead of the 15-30 minutes needed to restore from backups. Data loss is minimal, only transactions in the last few seconds before failure. As you can tell, compared to backups, replication has much better MTTR, but more complex to set up and maintain, higher cost (need to run multiple database servers), and requires application changes (connection pooling, failover logic).
 
-| Approach | MTTR | Data Loss | Complexity | Cost | Best For |
-|----------|------|-----------|------------|------|----------|
-| Daily backups | Hours | Up to 24h | Low | Very low | 99% uptime |
-| Hourly backups | 30-60 min | Up to 1h | Low | Low | 99% uptime |
-| Replication | Seconds-minutes | Minimal | High | Medium-high | 99.9%+ uptime |
+| Approach       | MTTR            | Data Loss | Complexity | Cost        | Best For      |
+| -------------- | --------------- | --------- | ---------- | ----------- | ------------- |
+| Daily backups  | Hours           | Up to 24h | Low        | Very low    | 99% uptime    |
+| Hourly backups | 30-60 min       | Up to 1h  | Low        | Low         | 99% uptime    |
+| Replication    | Seconds-minutes | Minimal   | High       | Medium-high | 99.9%+ uptime |
 
 > [!tip] Videos
 > - [What is a load balancer?](https://www.youtube.com/watch?v=sCR3SAVdyCc)
@@ -301,4 +311,3 @@ When the primary fails, your application detects the failure (connection timeout
 > Popular backup tools to implement the strategies discussed:
 > - [Litestream](https://litestream.io/) for SQLite and [pgBackRest](https://pgbackrest.org/) for PostgreSQL offer database-specific backup with cloud storage support
 > - [Restic](https://restic.net/) and [BorgBackup](https://borgbackup.readthedocs.io/) provide general-purpose backup with deduplication and encryption
-

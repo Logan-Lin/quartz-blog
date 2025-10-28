@@ -112,6 +112,9 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
             const published = coalesceAliases(data, ["published", "publishDate", "date"])
             if (published) data.published = published
 
+            const inProgress = coalesceAliases(data, ["inProgress", "in-progress"])
+            if (inProgress) data.inProgress = inProgress
+
             if (socialImage) data.socialImage = socialImage
 
             // Remove duplicate slugs
@@ -147,6 +150,7 @@ declare module "vfile" {
         cssclasses: string[]
         socialImage: string
         comments: boolean | string
+        inProgress: boolean | string
       }>
   }
 }

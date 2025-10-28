@@ -2,6 +2,7 @@
 title: AI Agent for Material Science
 draft: true
 created: 2025-10-27
+in-progress: true
 ---
 Material science involves many different tasks, and many of them do not involve entering the lab or handling the oven. In other words, some research procedures in material science are like the computer science experiments we do every day: staring at the computer screen for the entire day.
 

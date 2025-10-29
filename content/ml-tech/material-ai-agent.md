@@ -111,6 +111,12 @@ The execution (relaxation) also reports that the final force is 0 eV/Å, which t
 Great! The simulation has been executed successfully and I have a visualization of the three-element structure. The structure contains Cu, Au, and Pt atoms arranged in an FCC lattice. The visualization shows the structure with different colored atoms representing the three different elements. The relaxation was successful even though the initial forces were already zero (meaning the initial structure was already at a local minimum for the EMT potential).
 ```
 
-We end up getting a structure shown below.
+We end up getting a structure shown below. By the way, this single test run cost \$ 0.1, even though I am using the smaller model from Anthropic.
 
 ![[Pasted image 20251028111659.png]]
+
+### Try to Break It
+
+For the first version I will say this proof-of-concept system works better than I expected. Of course the input request used above is overly simple and far from typical material simulation challenges in real world. Yet my lack of experience in material science prevents me from coming up with test examples with higher complexity.
+
+Thus, I turn to my friend who is experienced in simulation and he provides me a list of input requests with varying difficulties.

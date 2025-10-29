@@ -37,7 +37,6 @@ Note that the questions listed below are examples and may be formulated differen
 - Explain the difference between GET and POST methods. When would you use each for AI API interactions?
 - What are the key components of interacting with APIs using Python's requests library? Explain the principles of proper error handling and API key management
 - What is rate limiting and why is it important for AI APIs? Compare different rate limiting strategies
-- Explain API versioning strategies (URL path, header-based, query parameter, model-specific). How do you handle backwards compatibility when updating AI models?
 - Compare traditional request-response APIs and streaming APIs. Why is streaming preferred for conversational AI applications?
 
 **Wrap AI Models with APIs**
@@ -53,52 +52,50 @@ Note that the questions listed below are examples and may be formulated differen
 
 **Computer architecture fundamentals**
 
-- Explain the Von Neumann architecture and its components. How does this relate to modern AI computers?
-- Describe the role of bus systems in computer architecture. How do they affect AI computing performance?
-- What are the differences in roles between processing units, memory, and storage in the context of AI workloads?
-- How does memory hierarchy (cache, RAM, storage) affect AI model performance? What are the implications for model design?
-- Explain the concept of memory bandwidth vs memory latency. Which is more critical for AI applications?
-- How do different storage types (SSD, HDD, NVMe) affect AI model loading and inference times?
+- Explain the Von Neumann architecture and its main components. How do modern computers (including "AI computers") relate to this 80-year-old architecture?
+- What is the difference between instructions and data in a computer system? Why does the Von Neumann architecture store both in the same memory?
+- Explain the roles of the Control Unit (CU) and Arithmetic Logic Unit (ALU) in a CPU. Use an analogy to illustrate their relationship
+- Describe the role of bus systems in computer architecture. What are the three main types of buses and what does each carry?
 
 **AI computing hardware**
 
-- Why are GPUs particularly well-suited for AI computing compared to traditional CPUs?
-- Compare different types of AI hardware: GPUs, TPUs, and NPUs. What are their respective strengths?
-- What are the trade-offs between using dedicated AI accelerators (TPUs, NPUs) vs general-purpose GPUs?
-- What factors should you consider when choosing hardware for AI inference and training?
-- How do different specs of AI computing hardware (core count, memory size, memory bandwidth, etc.) affect AI model performance? What are the implications for hardware selection?
+- Why are CPUs designed for sequential processing? What makes this approach less suitable for AI workloads?
+- Explain the difference between sequential and parallel processing using an analogy. Why do AI models (especially neural networks) benefit from parallel processing?
+- What is the memory bus bottleneck for AI workloads? Why is memory bandwidth more critical than latency for AI computing?
+- Why are GPUs particularly well-suited for AI computing? Explain in terms of core architecture and memory design
+- Compare GPUs, TPUs, and NPUs in terms of their design goals, strengths, and typical use cases
+- How does specialized AI hardware (GPU, TPU, NPU) relate to the Von Neumann architecture at the system level? Does it fundamentally replace the Von Neumann architecture?
+- What factors should you consider when choosing hardware for different AI applications (training vs inference, data center vs edge device)?
 
 ### 3. Containerization
 
 **Container fundamentals**
 
-- Explain what containerization is and how it differs from traditional virtualization. What are the benefits of containers over traditional deployment?
-- Describe the layered structure of container images. How does this contribute to efficiency and reusability?
-- What are the security implications of containers sharing the host's operating system kernel? How does this compare to virtual machines?
-- What is the purpose of a Dockerfile? How does it relate to the layered structure of container images?
-- What is the purpose of container registries, and how do you manage image distribution? Compare different registry options
-- What is Docker Compose and when is it useful? How does it simplify managing multi-container applications?
+- What deployment problem do containers solve? Explain the "it works on my machine" syndrome and how containerization addresses it
+- What is a container and how does it achieve isolation? Explain the benefits of containers over traditional deployment approaches
+- Describe the layered structure of container images using an analogy. How does this contribute to efficiency and reusability?
+- What is a Dockerfile and why is it the preferred approach for building container images? How does it relate to the layered structure and reproducibility?
+- What are the main components of the Docker ecosystem? Explain the roles of Docker Engine, CLI, Dockerfile, and registries like Docker Hub
+- What is the purpose of container registries, and how do they enable image distribution? Compare different registry options
 
 **Practical implementation**
 
+- Explain how containers handle port mapping. Why is this important for deploying web applications and API servers?
 - How do you manage persistent storage in containerized applications? Why is this important for AI applications with databases or model files?
-- How do you implement container networking for multi-container applications?
-- What are the security considerations when working with containers? How should you handle sensitive configuration in containerized applications?
-- What are the key steps involved in containerizing an AI API server? What considerations are important when packaging AI models in containers?
+- How should you handle configuration and sensitive information in containerized applications? What approaches are available?
+- What are the key steps and considerations when containerizing an AI API server? How does the Dockerfile structure reflect the application's needs?
 - How would you handle large AI models in containers? Discuss the trade-offs between bundling models in container images vs mounting them as volumes
-- What are CPU architecture considerations when deploying containers to different hardware? How does this affect deployment to edge devices?
 
 ### 4. Deployment on diverse infrastructures
 
 **Cloud deployment**
 
-- What is cloud computing and how does virtualization enable cloud infrastructure? Explain the three-layer architecture (physical, virtualization, management)
-- Compare virtual/dedicated machines, container services, GPU instances, managed AI services, and object storage for AI deployment. What are the trade-offs?
+- What is cloud computing and how does virtualization enable cloud infrastructure?
+- Compare virtual machines, container services, GPU instances, and managed AI services. What are the trade-offs?
 - What are the main steps and considerations when deploying a containerized AI service on a cloud virtual machine?
 - How would you choose between different cloud providers for your AI deployment? Consider factors like pricing models, service offerings, and vendor lock-in
-- What is SSH and why is it important for cloud deployment? Explain the concept of remote server access
 - What are the advantages and pitfalls of usage-based pricing vs fixed monthly pricing for cloud services?
-- Why is HTTPS necessary for production AI APIs? Explain the mixed content problem and security implications
+- Why is HTTPS necessary for production AI APIs? Explain the user experience and security implications
 - How do you obtain a domain name for your service? Compare free and paid options
 
 **Edge and self-hosted deployment**
@@ -109,5 +106,4 @@ Note that the questions listed below are examples and may be formulated differen
 - What are CPU architecture considerations when deploying containers to edge devices? Explain the ARM vs x86 challenge
 - How do you access services on your local network vs making them publicly accessible? What is NAT and why does it matter?
 - What are the different approaches for making self-hosted services publicly accessible? What are the trade-offs to consider when choosing an approach?
-- What security responsibilities come with exposing self-hosted services to the internet?
 

@@ -73,9 +73,9 @@ Note that the questions listed below are examples and may be formulated differen
 - Practical implementation
     - Explain how containers handle port mapping. Why is this important for deploying web applications and API servers?
     - How do you manage persistent storage in containerized applications? Why is this important for AI applications with databases or model files?
-    - How should you handle configuration and sensitive information in containerized applications? What approaches are available?
-    - What are the key steps and considerations when containerizing an AI API server? How does the Dockerfile structure reflect the application's needs?
-    - How would you handle large AI models in containers? Discuss the trade-offs between bundling models in container images vs mounting them as volumes
+    - How should you handle configuration in containerized applications to avoid hardcoding them in the code?  What approaches are available?
+    - How does the order of instructions in a Dockerfile relate to the layered structure of images? What are the important layers you will consider when containerizing an AI API server?
+    - What is the difference between data stored in container image layers versus data stored in volumes? Why does this distinction matter for large files like AI models or databases?
 
 ### 4. Deployment on diverse infrastructures
 

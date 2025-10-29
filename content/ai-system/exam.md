@@ -29,7 +29,7 @@ Note that the questions listed below are examples and may be formulated differen
 
 ### 1. Interacting with & building APIs
 
-**API Fundamentals**
+**API Fundamentals and Advanced APIs**
 
 - What is the primary purpose of APIs in software development? How do they enable standardized communication between applications?
 - Explain the three pillars of APIs: network fundamentals (IP addresses, domains, ports), HTTP protocol & methods, and standards & design principles
@@ -37,14 +37,9 @@ Note that the questions listed below are examples and may be formulated differen
 - What are HTTP status codes and what do they communicate? Provide examples for successful AI inference, authentication errors, and server errors
 - Explain the difference between GET and POST methods. When would you use each for AI API interactions?
 - What are the key components of interacting with APIs using Python's requests library? Explain the principles of proper error handling and API key management
-
-**Advanced APIs in the Era of AI**
-
 - What is rate limiting and why is it important for AI APIs? Compare different rate limiting strategies
 - Explain API versioning strategies (URL path, header-based, query parameter, model-specific). How do you handle backwards compatibility when updating AI models?
 - Compare traditional request-response APIs and streaming APIs. Why is streaming preferred for conversational AI applications?
-- Explain Server-Sent Events (SSE) and how it enables word-by-word streaming in AI chatbots. How does it differ from regular HTTP requests?
-- What is the Model Context Protocol (MCP) and how does it standardize AI model integration with external resources and tools? Explain the architecture of hosts, servers, and clients
 
 **Wrap AI Models with APIs**
 

@@ -34,7 +34,6 @@ Note that the questions listed below are examples and may be formulated differen
 - What is the primary purpose of APIs in software development? How do they enable standardized communication between applications?
 - Explain the three pillars of APIs: network fundamentals (IP addresses, domains, ports), HTTP protocol & methods, and standards & design principles
 - Walk through the components of an HTTP request (request line, headers, body) and response (status line, headers, body). What are the key headers required for API authentication and content specification?
-- What are HTTP status codes and what do they communicate? Provide examples for successful AI inference, authentication errors, and server errors
 - Explain the difference between GET and POST methods. When would you use each for AI API interactions?
 - What are the key components of interacting with APIs using Python's requests library? Explain the principles of proper error handling and API key management
 - What is rate limiting and why is it important for AI APIs? Compare different rate limiting strategies

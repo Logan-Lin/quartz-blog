@@ -115,8 +115,28 @@ We end up getting a structure shown below. By the way, this single test run cost
 
 ![[Pasted image 20251028111659.png]]
 
-### Try to Break It
+### Try to Improve It
 
 For the first version I will say this proof-of-concept system works better than I expected. Of course the input request used above is overly simple and far from typical material simulation challenges in real world. Yet my lack of experience in material science prevents me from coming up with test examples with higher complexity.
 
-Thus, I turn to my friend who is experienced in simulation and he provides me a list of input requests with varying difficulties.
+Thus, I turn to my friend who is experienced in simulation and he provides me a list of input requests with varying difficulties. Based on the results, we can see what improvement we can introduce to the system without fully refactor it.
+
+#### Relieve Hard-coded Restrictions
+
+One aspect that can be improved by just looking at the code is the restriction imposed by the system prompt. Right now parts of the system prompt include very specific suggestions like:
+
+```
+Important guidelines:
+- Always create an 'atoms' variable in your code (it will be auto-saved)
+- Use EMT calculator for energy calculations (fast, suitable for testing)
+```
+
+Which in the above example, the EMT calculator actually doesn't support the elements in the sample, thus a false "relaxed" conclusion. We can revise the system prompt to use more general instructions like:
+
+```
+Core Principles:
+- Query documentation when uncertain about available modules, functions, or best practices
+- Choose appropriate simulation methods, calculators, and parameters based on the specific problem (consider accuracy, computational cost, and material type)
+```
+
+Later we can even introduce more external calculators to handle more complex systems.

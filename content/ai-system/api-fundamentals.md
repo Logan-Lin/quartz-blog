@@ -136,7 +136,7 @@ Again, the format of this JSON object is specific to API providers and functions
 > - [HTTP request explained](https://www.youtube.com/watch?v=DBhEFG7zjFU)
 
 > [!note] 
-> You might have noticed that we've been saying HTTP protocol throughout the above section, but the URLs we are calling start with HTTPS. HTTPS is an extension of HTTP that additionally encrypts messages. Think of it as writing letters in a way that only you and the recipient can understand. Nowadays, almost all public APIs use HTTPS and most software blocks all non-secure HTTP communications. We will come back to HTTP and HTTPS when we are deploying and serving our own APIs in Module 3: [[wrap-ai-with-api|Wrap AI Models with APIs]] and Module 6: [[cloud-deployment|Cloud Deployment]].
+> You might have noticed that we've been saying HTTP protocol throughout the above section, but the URLs we are calling start with HTTPS. HTTPS is an extension of HTTP that additionally encrypts messages. Think of it as writing letters in a way that only you and the recipient can understand. Nowadays, almost all public APIs use HTTPS and most software blocks all non-secure HTTP communications. We will come back to HTTP and HTTPS when we are deploying our own APIs in Module 6: [[cloud-deployment|Cloud Deployment]].
 
 ### Standards & Design Principles
 

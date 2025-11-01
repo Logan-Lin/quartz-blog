@@ -204,7 +204,10 @@ Feel free to explore other functionalities of Postman yourself. Apart from being
 
 To interact with APIs in a Python program, a universal method is to use the [`requests` package](https://docs.python-requests.org/en/latest/index.html). It is not a built-in package and you will have to install it with a package manager of your choice.
 
+#### Sending `GET` Request
+
 Below is an example of sending a `GET` request:
+
 ```python
 import os
 import requests
@@ -228,7 +231,45 @@ except requests.exceptions.RequestException as e:
     print(f"GET request failed: {e}")
 ```
 
+Let's break down each part and see how it connects to the concepts covered earlier.
+
+The URL:
+
+```python
+url = "https://api.anthropic.com/v1/messages"
+```
+
+This maps directly to [[#Network Fundamentals]]. The domain `api.anthropic.com` identifies where the API server is located, and the path `/v1/messages` specifies which specific endpoint (function) we want to access. This is like addressing a letter to a specific department in a building.
+
+The headers:
+
+```python
+headers = {
+    "x-api-key": os.getenv("API_KEY"),
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "User-Agent": "SomeAIApp/1.0",
+    "anthropic-version": "2023-06-01"
+}
+```
+
+These are the [[#HTTP Request]] headers, metadata about the request. The `x-api-key` handles authorization (proving who you are), `Content-Type` and `Accept` specify we're working with JSON format, `User-Agent` identifies our application, and `anthropic-version` specifies the API version. Note the security best practice: using `os.getenv("API_KEY")` to retrieve the API key from environment variables rather than hardcoding it in your code.
+
+The response:
+
+```python
+response = requests.get(url, headers=headers)
+print(f"Status Code: {response.status_code}")
+print(f"Response Headers: {response.headers}")
+print(f"Response Body: {response.text}")
+```
+
+The response object contains all three components of an [[#HTTP Response]]: `response.status_code` gives us the status code (e.g., 200 means success), `response.headers` provides the response headers with metadata about the response, and `response.text` contains the response body with the actual data the API returned.
+
+#### Sending `POST` Request
+
 And an example of sending a `POST` request:
+
 ```python
 import os
 import requests
@@ -281,7 +322,63 @@ except json.JSONDecodeError:
     print("Failed to decode JSON response")
 ```
 
-Note the HTTP request and response components, management of API keys, and handling of HTTP errors in both examples.
+Let's break down each part to understand how `POST` requests differ from `GET` requests and how they map to HTTP concepts.
+
+The request body:
+
+```python
+json_body = {
+    "model": "claude-sonnet-4-20250514",
+    "max_tokens": 2048,
+    "temperature": 0.7,
+    "messages": [
+        {
+            "role": "user",
+            "content": "Explain the concept of APIs."
+        }
+    ]
+}
+```
+
+This is the [[#HTTP Request]] body, the actual data we're sending to the API. Unlike `GET` requests which only have headers, `POST` requests include a body with the information needed to process the request. Notice how we include the full `messages` array, following the [[#Standards & Design Principles|statelessness principle]] where each request contains all necessary information.
+
+Sending the request:
+
+```python
+response = requests.post(
+    url,
+    headers=headers,
+    json=json_body,
+    timeout=30
+)
+```
+
+The `requests.post()` function combines all the [[#HTTP Request]] components: the URL specifies where to send it, `headers` provides the metadata, and `json=json_body` automatically converts our Python dictionary to JSON format and sets it as the request body. The `timeout` parameter ensures we don't wait forever if something goes wrong.
+
+Response handling and error management:
+
+```python
+response.raise_for_status()
+result = response.json()
+print(f"Content: {result.get('content', [{}])[0].get('text', 'No content')}")
+```
+
+The `raise_for_status()` method checks the [[#HTTP Response]] status code and raises an exception for error codes (4xx or 5xx). The `response.json()` parses the response body from JSON format into a Python dictionary, making it easy to extract specific fields.
+
+Different error types:
+
+```python
+except requests.exceptions.Timeout:
+    print("Request timed out")
+except requests.exceptions.HTTPError as e:
+    print(f"HTTP error occurred: {e}")
+except requests.exceptions.RequestException as e:
+    print(f"Request failed: {e}")
+except json.JSONDecodeError:
+    print("Failed to decode JSON response")
+```
+
+Different exceptions handle different failure scenarios: `Timeout` for when requests take too long, `HTTPError` for bad [[#HTTP Response]] status codes (caught by `raise_for_status()`), `RequestException` for general network problems, and `JSONDecodeError` for malformed response bodies. This demonstrates robust error handling practices for API interactions.
 
 > [!tip] Videos
 > - [Python `requests` library tutorial](https://www.youtube.com/watch?v=tb8gHvYlCFs)

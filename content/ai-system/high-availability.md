@@ -64,7 +64,7 @@ Why does MTTR matter so much? Because modern research shows that downtime is ver
 
 For your AI API server, MTTR includes several steps. First, you notice something is wrong (through monitoring alerts or user complaints). Then you remote into your server and check logs. Next, you identify the root cause. Then you add the fix and check that it works. Finally, you confirm that users can access the service again. The faster you can complete this cycle, the lower your MTTR and the better your availability.
 
-![[Pasted image 20251027010728.png]]
+![[Pasted image 20251101191406.png]]
 
 #### The Availability Formula
 

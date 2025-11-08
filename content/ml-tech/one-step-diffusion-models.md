@@ -1,5 +1,6 @@
 ---
 title: One Step Diffusion Models
+created: 2025-05-12
 ---
 > [!tldr]
 >  Despite the promising performance of diffusion models on continuous modality generation, one deficiency that is holding them back is their requirement for multi-step denoising processes, which can be computationally expensive. In this article, we examine recent works that aim to build diffusion models capable of performing sampling in one or a few steps.

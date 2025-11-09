@@ -11,6 +11,8 @@ Imagine you've trained a new version of your AI model that should be faster and 
 
 Simply replacing your old system with the new one is risky. In July 2024, a [routine software update from cybersecurity firm CrowdStrike](https://en.wikipedia.org/wiki/2024_CrowdStrike-related_IT_outages) caused widespread system crashes, grounding flights and disrupting hospitals worldwide. While AI deployments might not have such dramatic impacts, pushing an untested model update to all users simultaneously can lead to degraded user experience, complete service outages, or lost trust if users encounter errors.
 
+![[Pasted image 20251109130013.png]]
+
 This is where deployment strategies come in. These are industry-proven patterns that major tech companies use to update their systems safely. They let you roll out updates gradually to minimize impact, test new versions without affecting real users, compare performance between versions, and switch back quickly if something goes wrong.
 
 Throughout this course, we've built up the knowledge to deploy AI systems professionally, from [[api-fundamentals|understanding APIs]] to [[cloud-deployment|deploying to the cloud]] to [[high-availability|ensuring reliability]]. These deployment strategies represent the final piece of how companies keep their services running smoothly while continuously improving them.

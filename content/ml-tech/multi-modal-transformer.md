@@ -19,7 +19,7 @@ In this article, we will briefly explore techniques for unifying multiple modali
 
 Since images and language modalities represent continuous and discrete data respectively, we will use them as examples throughout this article. Keep in mind that the techniques introduced can be readily extended to other modalities, including spatiotemporal data.
 
-# General Goal
+## General Goal
 
 The goal of a multi-modal Transformer is to create a model that can accept multi-modal inputs and produce multi-modal outputs. For example, instead of using a CNN-based image encoder and a Transformer-based language encoder to map image and language modalities to the latent space separately, a multi-modal Transformer would be able to process the combination of image and language (sentence) as a single sequence.
 
@@ -33,7 +33,7 @@ The goal of a multi-modal Transformer is to create a model that can accept mult
 
 Beyond multi-modal processing, a multi-function Transformer can, for example, function as both a language model (auto-regressive generation) and diffusion denoiser (score-matching generation) simultaneously, supporting two of the most common generation schemes used today.
 
-# Modality Embedding
+## Modality Embedding
 
 A fundamental challenge in unifying multiple modalities within a single Transformer is how to represent different modalities in the same embedding space. For the "QKV" self-attention mechanism to work properly, each item in the input sequence must be represented by an embedding vector of the same dimension, matching the "model dimension" of the Transformer.
 
@@ -47,7 +47,7 @@ The most common method for mapping language into the embedding space is through 
 
 > Visualization of tokenizer and index-fetching embedding layer. [Source](https://medium.com/@hunter-j-phillips/the-embedding-layer-27d9c980d124)
 
-## Vector Quantization
+### Vector Quantization
 
 For continuous features, one intuitive approach is to first tokenize them into discrete tokens, thereby unifying the embedding process across both discrete and continuous features. **Vector quantization**, introduced in VQ-VAE, is one of the most common methods for this purpose.
 
@@ -59,7 +59,7 @@ i = \arg\min_j ||\boldsymbol z - \boldsymbol C_j||_2
 $$
 ![[Screen_Shot_2020-06-28_at_4.26.40_PM.png]]
 
-## Lookup-Free Quantization
+### Lookup-Free Quantization
 
 A significant limitation of vector quantization is that it requires calculating distances between the given continuous vectors and the entire codebook, which becomes computationally expensive for large-scale codebooks. This creates tension with the need for expanded codebooks to represent complex modalities such as images and videos. Research has shown that simply increasing the number of unique tokens doesn't always improve codebook performance.
 
@@ -76,7 +76,7 @@ However, this approach introduces another challenge: we still need an index-fetc
 
 Note that this section doesn't extensively explain how to map raw continuous features into the vector $\boldsymbol{z}$, as these techniques are relatively straightforward and depend on the specific feature type—for example, fully-connected layers for numerical features, or CNN/GNN with feature flattening for structured data.
 
-## Quantization over Linear Projection
+### Quantization over Linear Projection
 
 You might be asking—why can't we simply use linear projections to map the raw continuous features into the embedding space? What are the benefits of quantizing continuous features into discrete tokens?
 
@@ -90,7 +90,7 @@ On the other hand, unifying different modalities into tokens is especially benef
 
 > For example, by quantizing videos into discrete tokens and combining the token space of videos and language, one can create a unified Transformer model that generates both videos and language in one sequence. The start and end points of video and language sub-sequences are fully determined by the model, based on the specific input prompt. This structure would be difficult to replicate if we used tokenization for language but linear projection for videos.
 
-# Transformer Backbone
+## Transformer Backbone
 
 After different modalities are mapped into the same embedding space, they can be arranged into a sequence of embedding vectors and input into a Transformer backbone. We don't discuss the variations of Transformer structure and improvement techniques here, as they are numerous, and ultimately function similarly as sequential models.
 
@@ -110,11 +110,11 @@ Nevertheless, representation learning is still a relevant topic. The general und
 
 > Zhang, Jie, Dongrui Liu, Chen Qian, Linfeng Zhang, Yong Liu, Yu Qiao, and Jing Shao. “REEF: Representation Encoding Fingerprints for Large Language Models,” 2024. [Link](https://openreview.net/forum?id=SnDmPkOJ0T)
 
-# Output Layer
+## Output Layer
 
 For language generation, Transformers typically use classifier output layers, mapping the latent vector of each item in the output sequence back to tokens. As we've established in the "modality embedding" section, the optimal method to embed continuous features is to quantize them into discrete tokens. Correspondingly, an intuitive method to output continuous features is to map these discrete tokens back to the continuous feature space, essentially reversing the vector quantization process.
 
-## Reverse Vector Quantization
+### Reverse Vector Quantization
 
 One approach to reverse vector quantization is readily available in VQ-VAE, since it is an auto-encoder. Given a token $i$, we can look up its embedding in the codebook as $\boldsymbol C_i$, then apply a decoder network to map $\boldsymbol C_i$ back to the continuous feature vector $\boldsymbol z$. The decoder network can be pre-trained in the VQ-VAE framework—pre-train the VQ-VAE tokenizer, encoder, and decoder using auto-encoding loss functions, or end-to-end trained along with the whole Transformer. In the NLP and CV communities, the pre-training approach is more popular, since there are many large-scale pre-trained auto-encoders available.
 
@@ -122,7 +122,7 @@ One approach to reverse vector quantization is readily available in VQ-VAE, sinc
 
 > The encoder-decoder structure of MAGVIT (*Yu et al., “MAGVIT”*), a visual VQ-VAE model. A 3D-VQ encoder quantizes a video into discrete tokens, and a 3D-VQ decoder maps them back to the pixel space.
 
-## Efficiency Enhancement
+### Efficiency Enhancement
 
 For continuous feature generation, unlike language generation where the output tokens are the final output, we are essentially representing the final output with a limited size token space. Thus, for complicated continuous features like images and videos, we have to expand the token space or use more tokens to represent one image or one video frame to improve generation quality, which can result in efficiency challenges.
 
@@ -134,7 +134,7 @@ Another workaround follows the idea of compression. Take video generation as an 
 
 > Keys frames and motion vectors used in *Jin et al., “Video-LaVIT.”*
 
-# Fuse with Diffusion Models
+## Fuse with Diffusion Models
 
 Despite continuous efforts to enable representation and generation of images and videos with a language model structure (auto-regressive), current research indicates that diffusion models (more broadly speaking, score-matching generative models) outperform language models on continuous feature generation. Score-matching generative models have their own separate and substantial community, with strong theoretical foundations and numerous variations emerging each year, such as stochastic differential equations, bayesian flow, and rectified flow. In conclusion, score-matching generative models are clearly here to stay alongside language models.
 
@@ -144,7 +144,7 @@ An intriguing question arises: why not integrate the structures of language mode
 
 > A Transformer capable of function as a language model and a diffusion denoiser at the same time. Source: *Zhou, Chunting, Lili Yu, et al. “Transfusion: Predict the Next Token and Diffuse Images with One Multi-Modal Model,” ICLR, 2025.*
 
-# Conclusion
+## Conclusion
 
 In conclusion, the evolution of Transformers into versatile foundation models capable of handling multiple modalities and functionalities represents a significant advancement in AI research. By enabling a single architecture to process diverse data types through techniques like vector quantization and lookup-free quantization, researchers have created models that can seamlessly integrate language, images, and other modalities within the same embedding space.
 

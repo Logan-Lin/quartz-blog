@@ -6,7 +6,7 @@ created: 2025-07-01
 >[!TLDR]
 >In the context of generative modeling, we examine ODEs, SDEs, and two recent works that share the idea of learning shortcuts that traverse through vector fields defined by ODEs faster. We then discuss the generalization of this idea to both ODE- and SDE-based models.
 
-# Differential Equations
+## Differential Equations
 
 Let's start with a general scenario of **generative modeling**: suppose you want to generate data $x$ that follows a distribution $p(x)$. In many cases, the exact form of $p(x)$ is unknown. What you can do is follow the idea of *normalizing flow*[^1]: start from a very simple, closed-form distribution $p(x_0)$ (for example, a standard normal distribution), transform this distribution through time $t\in [0, 1]$ with intermediate distributions $p(x_t)$, and finally obtain the estimated distribution $p(x_1)$. By doing this, you are essentially trying to solve a *differential equation (DE)*[^2] that depends on time:
 
@@ -35,9 +35,9 @@ Or more intuitively, moving $x_0$ towards $x_1$ along time in the vector field:
 ![[Untitled-2025-06-11-1554-2 1.png]]
 > A flow of data point moving from $x_0$ towards $x_1$ in the vector field.
 
-# ODE and Flow Matching
+## ODE and Flow Matching
 
-## ODE in Generative Modeling
+### ODE in Generative Modeling
 
 For now, let's focus on the ODE formulation since it is notationally simpler compared to SDE. Recall the ODE of our generative model:
 
@@ -62,7 +62,7 @@ In other words, we discretize the time span $[0, 1]$ into $N$ time steps, and fo
 > [!note]
 > There are other methods to calculate the integral, of course. For example, one can use the solvers in the `torchdiffeq` Python package[^9].
 
-## Flow Matching
+### Flow Matching
 
 In many scenarios, the exact form of the vector field $\mu$ is unknown. The general idea of *flow matching*[^10] is to find a ground truth vector field that defines the *flow* transporting $p(x_0)$ to $p(x_1)$, and build a neural network $\mu_\theta$ that is trained to *match* the ground truth vector field, hence the name. In practice, this is usually done by independently sampling $x_0$ from the noise and $x_1$ from the training data, calculating the intermediate data point $x_t$ and the ground truth velocity $\mu(x_t,t)$, and minimizing the deviation between $\mu_\theta(x_t,t)$ and $\mu(x_t,t)$.
 
@@ -78,7 +78,7 @@ $$
 \mathcal L=\mathbb E_{x_0,x_1,t}\| \mu_\theta(x_t,t)-(x_1-x_0)\|^2
 $$
 
-## Curvy Vector Field
+### Curvy Vector Field
 
 Although the ground truth vector field is designed to be straight, in practice it usually is not. When the data space is high-dimensional and the target distribution $p(x_1)$ is complex, there will be multiple pairs of $(x_0, x_1)$ that result in the same intermediate data point $x_t$, thus multiple velocities $x_1-x_0$. At the end of the day, the actual ground truth velocity at $x_t$ will be the average of all possible velocities $x_1-x_0$ that pass through $x_t$. This will lead to a "curvy" vector field, illustrated as follows:
 
@@ -90,11 +90,11 @@ As we discussed, when you calculate the ODE integral, you are using the instanta
 ![[Pasted image 20250616093805.png]]
 > Native flow matching models fail at few-step sampling. *Source: Frans, Kevin, et al. "One step diffusion via shortcut models."*
 
-## Shortcut Vector Field
+### Shortcut Vector Field
 
 If we cannot straighten the ground truth vector field, can we tackle the problem of few-step sampling by learning velocities that properly jump across long time steps instead of learning the instantaneous velocities? Yes, we can.
 
-### Shortcut Models
+#### Shortcut Models
 
 Shortcut models[^11] implement the above idea by training a network $u_\theta(x_t,t,\Delta t)$ to match the *velocities that jump across long time steps* (termed *shortcuts* in the paper). A ground truth shortcut $u(x_t,t,\Delta t)$ will be the velocity pointing from $x_t$ to $x_{t+\Delta t}$, formally:
 
@@ -135,7 +135,7 @@ Where $\text{sg}$ is stop gradient, i.e., detach $\mathbf{u}_\text{target}$ from
 ![[Pasted image 20250616100336.png]]
 > Training of the shortcut models with self-consistency loss.
 
-### Mean Flow
+#### Mean Flow
 
 Mean flow[^12] is another work sharing the idea of learning velocities that take large step size shortcuts but with a stronger theoretical foundation and a different approach to training.
 
@@ -183,7 +183,7 @@ Notice that the JVP computation inside $\text{sg}$ is performed with the network
 > $$
 > When $n\rightarrow +\infty$ we essentially get the integral definition.
 
-### Extended Reading: Rectified Flow
+#### Extended Reading: Rectified Flow
 
 Both shortcut models and mean flow are built on top of the ground truth curvy ODE field. They don't modify the field $\mu$, but rather try to learn shortcut velocities that can traverse the field with fewer Euler steps. This is reflected in their loss function design: shortcut models' loss function specifically includes a standard flow matching component, and mean flow's loss function is derived from the relationship between vector fields $\mu$ and $u$.
 
@@ -191,9 +191,9 @@ Rectified flow[^13], another family of flow matching models that aims to achieve
 
 We won't discuss rectified flow in further detail in this post, but it's worth pointing out its difference from shortcut models and mean flow.
 
-# SDE and Score Matching
+## SDE and Score Matching
 
-## SDE in Generative Modeling
+### SDE in Generative Modeling
 
 SDE, as its name suggests, is a differential equation with a stochastic component. Recall the general differential equation we introduced at the beginning:
 
@@ -219,7 +219,7 @@ $$
 
 In other words, we move the data point guided by the velocity $\mu(x_t,t)$ plus a bit of Gaussian noise scaled by $\sqrt{t_{k+1}-t_k}\sigma(t)$.
 
-## Score Matching
+### Score Matching
 
 In SDE, the exact form of the vector field $\mu$ is still (quite likely) unknown. To solve this, the general idea is consistent with flow matching: we want to find the ground truth $\mu(x_t,t)$ and build a neural network $\mu_\theta(x_t,t)$ to match it.
 
@@ -250,7 +250,7 @@ $$
 
 Some works[^14] also propose to re-parameterize the score function with noise $\epsilon$ sampled from a standard normal distribution, so that the neural network can be a learnable denoiser $\epsilon_\theta(x_t,t)$ that matches the noise rather than the score. Since $s_\theta=-\epsilon_\theta / \sigma(t)$, both approaches are equivalent.
 
-## Shortcuts in SDE
+### Shortcuts in SDE
 
 Most existing efforts sharing the idea of shortcut vector fields are grounded in ODEs. However, given the correlations between SDE and ODE, learning an SDE that follows the same idea should be straightforward. Generally speaking, SDE training, similar to ODE, focuses on the deterministic drift component $\mu$. One should be able to, for example, use the same mean flow loss function to train a score function for solving an SDE.
 

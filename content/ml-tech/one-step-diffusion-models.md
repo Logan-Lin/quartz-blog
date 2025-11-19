@@ -5,7 +5,7 @@ created: 2025-05-12
 > [!tldr]
 >  Despite the promising performance of diffusion models on continuous modality generation, one deficiency that is holding them back is their requirement for multi-step denoising processes, which can be computationally expensive. In this article, we examine recent works that aim to build diffusion models capable of performing sampling in one or a few steps.
 
-# Background
+## Background
 
 Diffusion models (DMs), or more broadly speaking, score-matching generative models, have become the de facto framework for building deep generation models. They demonstrate exceptional generation performance, especially on continuous modalities including images, videos, audios, and spatiotemporal data.
 
@@ -15,7 +15,7 @@ Most diffusion models work by coupling a forward diffusion process and a reverse
 
 > The two processes in a typical diffusion model. *Source: Ho, Jain, and Abbeel, “Denoising Diffusion Probabilistic Models.”*
 
-## Understanding DMs
+### Understanding DMs
 
 There are many ways to understand how Diffusion Models (DMs) work. One of the most common and intuitive approaches is that a DM learns an ordinary differential equation (ODE) or a stochastic differential equation (SDE) that transforms noise into data. Imagine an vector field between the noise $X_T$ and clean data $X_0$. By training on sufficiently large numbers of timesteps $t\in [0,T]$, a DM is able to learn the vector (tangent) towards the cleaner data $X_{t-\Delta t}$, given any specific timestep $t$ and the corresponding noisy data $X_t$. This idea is easy to illustrate in a simplified 1-dimensional data scenario.
 
@@ -23,7 +23,7 @@ There are many ways to understand how Diffusion Models (DMs) work. One of the mo
 
 > Illustrated ODE and SDE flow of a diffusion model on 1-dimensional data. *Source: Song et al., “Score-Based Generative Modeling through Stochastic Differential Equations.”*
 
-## DMs Scale Poorly with Few Steps
+### DMs Scale Poorly with Few Steps
 
 Vanilla DDPM, which is essentially a discrete-timestep DM, can only perform the reverse process using the same number of steps it is trained on, typically thousands. DDIM introduces a reparameterization scheme that enables skipping steps during the reverse process of DDPM. Continuous-timestep DMs like Stochastic Differential Equations (SDE) naturally possess the capability of using fewer steps in the reverse process compared to the forward process/training.
 
@@ -45,7 +45,7 @@ To understand why DMs scale poorly with few reverse process steps, we can return
 
 We will introduce two branches of methods that aim to scale DMs to few or even reverse process steps: **distillation-based**, which distillates a pre-trained DM into a one-step model; and **end-to-end-based**, which trains a one-step DM from scratch.
 
-# Distallation
+## Distallation
 
 Distillation-based methods are also called **rectified flow** methods. Their idea follows the above insight of "curved ODE vector field": if the curved vectors (flows) are hindering the scaling of reverse process steps, can we try to straighten these vectors so that they are easy to approximate with polylines or even straight lines?
 
@@ -74,11 +74,11 @@ This procedure produces increasingly straight flows that can be simulated with v
 
 In practice, distillation-based methods are usually trained in two stages: first train a normal DM, and later distill one-step capabilities into it. This introduces additional computational overhead and complexity.
 
-# End-to-end
+## End-to-end
 
 Compared to distillation-based methods, end-to-end-based methods train a one-step-capable diffusion model (DM) within a single training run. Various techniques are used to implement such methods. We will focus on two of them: **consistency models** and **shortcut models**.
 
-## Consistency Models
+### Consistency Models
 
 In discrete-timestep diffusion models (DMs), three components in the reverse denoising diffusion process are interchangeable through reparameterization: the noise component $\epsilon_t$ to remove, the less noisy previous step $x_{t-1}$, and the predicted clean sample $x_0$. This interchangeability is enabled by the following equation:
 $$
@@ -106,7 +106,7 @@ Similar to continuous-timestep DMs and discrete-timestep DMs, CMs also have cont
 
 For a deeper discussion of the differences between the two variants of CMs, and how to stabilize continuous-time CMs, please refer to *Lu and Song, "Simplifying, Stabilizing and Scaling Continuous-Time Consistency Models."*
 
-## Shortcut Models
+### Shortcut Models
 
 Similar to distillation-based methods, the core idea of shortcut models is inspired by the "curved vector field" problem, but the shortcut models take a different approach to solve it.
 

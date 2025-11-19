@@ -6,11 +6,11 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
+      alias setup="npm ci"
       alias serve="npx quartz build --serve"
-      alias sync="npx quartz build && rsync -avP --delete ./public/ vps:~/www/blog/ && rsync -avP ./nginx.conf vps:~/www/blog-nginx.conf"
-      
+
       echo "Available commands:"
+      echo "  setup      - Install dependencies"
       echo "  serve      - Build and serve the site locally"
-      echo "  sync       - Sync the site with remote production server and commit the changes"
   '';
 }

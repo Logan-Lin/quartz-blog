@@ -122,11 +122,11 @@ Thus, fine-tuning the network is necessary for PI.
 
 ### Yet Another RoPE Extension (YaRN)
 
-YaRN is the result of multiple "informal" techniques proposed on Reddit and GitHub ([NTK-aware interpolation](https://www.reddit.com/r/LocalLLaMA/comments/14lz7j5/ntkaware_scaled_rope_allows_llama_models_to_have/) and [NTK-by-parts interpolation](https://github.com/jquesnelle/yarn/pull/1)) and finally a formal paper.
+YaRN is the result of multiple "informal" techniques proposed on Reddit and GitHub ([NTK-aware interpolation](https://www.reddit.com/r/LocalLLaMA/comments/14lz7j5/ntkaware_scaled_rope_allows_llama_models_to_have/) and [NTK-by-parts interpolation](https://github.com/jquesnelle/yarn/pull/1)) that were later formalized in a research paper.
 
 The intuition is to find a more "intelligent" way to implement positional interpolation.
-In real-world application of large language models, context positioned farther away from the current position (i.e., a larger relative position difference) are usually less important than context positioned closer (i.e., a smaller relative position difference).
-Thus, even if interpolating RoPE will inevitably degrade the Transformer's performance, we should find a way to interpolate RoPE to have less degradation on smaller relative positions.
+In real-world applications of large language models, contexts positioned farther away from the current position (i.e., a larger relative position difference) are usually less important than contexts positioned closer (i.e., a smaller relative position difference).
+Thus, even if interpolating RoPE will inevitably degrade the Transformer's performance, we should minimize degradation to smaller relative positions.
 
 YaRN achieves this by recognizing that different dimensions of RoPE serve different purposes. Remember the odometer analogy where each wheel rotates at different speeds? The fast-rotating wheels (high frequencies) are crucial for distinguishing nearby tokens, while the slow-rotating wheels (low frequencies) encode long-range positions. PI's problem is that it slows down all wheels equally, making even nearby tokens harder to distinguish.
 

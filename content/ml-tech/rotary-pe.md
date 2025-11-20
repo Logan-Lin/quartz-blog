@@ -113,12 +113,12 @@ Ideally we want to extend RoPE without fine-tuning the Transformer, or at least 
 
 ### Positional Interpolation (PI)
 
-PI is a very straight-forward extension of RoPE: if the network can only interpret relative position differences (context) cap at a certain length, then we simply squeeze the target extended context during inference to that cap.
-Formally, if $L$ is the cap and we want to extend it to $L'$ during inference, PI scales every input position index $m$ to $\frac{L}{L'}m$.
+PI is a straightforward extension of RoPE: if the network can only interpret relative position differences (context) up to a certain length, then we simply squeeze the target extended context during inference to fit that length.
+Formally, if $L$ is the training context length and we want to extend it to $L'$ during inference, PI scales every input position index $m$ to $\frac{L}{L'}m$.
 
-You can easily see the limitation of PI: the network is certainly not able to directly understand the stretched relative positions without fine-tuning.
-For example, if $L'=2L$, then relative position of 2 will be interpreted as 1 by the network, and relative position of 1 is uncomprehensible.
-Thus, fine-tuning the network is necessary for PI.
+You can easily see the limitation of PI: the network cannot directly understand the compressed relative positions without fine-tuning.
+For example, if $L'=2L$, then a relative position of 2 will be compressed to 1 by the scaling, and a relative position of 1 becomes 0.5, which the network never encountered during training.
+Thus, fine-tuning is necessary for PI to work effectively.
 
 ### Yet Another RoPE Extension (YaRN)
 
